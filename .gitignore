@@ -1,3 +1,5 @@
 .idea/
-target/
-PintrestUser.iml
+user_application/target/
+user_application/PintrestUser.iml
+post_application/target/
+post_application/PintrestPost.iml
