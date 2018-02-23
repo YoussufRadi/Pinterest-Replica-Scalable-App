@@ -2,4 +2,5 @@
 user_application/target/
 user_application/Pintrest-User.iml
 post_application/target/
-post_application/PintrestPost.iml
+post_application/post_application.iml
+post_application/.idea/
