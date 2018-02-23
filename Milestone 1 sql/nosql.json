@@ -1,0 +1,59 @@
+Post : {
+
+	id : UUID,
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	likes : int ,
+	dislikes : int,
+	comment :[cid],
+	image :[string],
+	filter : filterID
+
+}
+
+Comment :{
+	cid : UUID,
+	body : string,
+	replies : [comment ]
+}
+
+Category : {
+
+	id: UUID,
+	title : string,
+	hashtags :[Tags],
+	posts :[Post]
+}
+
+Chat : {
+	id:UUID,
+	body : string,
+	userSent:User,
+	userRec : User
+}
+
+Tag : {
+	id :UUID,
+	tag:string
+	counter:long
+}
+
+
+Board : {
+
+	boardID : UUID,
+	userID : UUID,
+	title : String,
+	posts : [Post]
+
+}
+
+
+Filter : {
+
+	FilterID : UUID,
+	title : String
+}
+
