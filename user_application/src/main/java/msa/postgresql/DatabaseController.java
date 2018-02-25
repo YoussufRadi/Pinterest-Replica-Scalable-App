@@ -1,6 +1,5 @@
 package msa.postgresql;
 
-import msa.pojo.Category;
 import msa.pojo.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -111,8 +110,8 @@ public class DatabaseController {
         try {
             tx = session.beginTransaction();
             User user = (User)session.get(User.class, userID);
-            Category cat = (Category) session.get(Category.class, categoryID);
-            user.getUserCat().add(cat);
+            //Category cat = (Category) session.get(Category.class, categoryID);
+            user.getUserCat().add(categoryID);
             session.update(user);
             tx.commit();
         } catch (HibernateException e) {

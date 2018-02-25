@@ -1,6 +1,5 @@
 package msa.postgresql;
 
-import msa.pojo.Category;
 import msa.pojo.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,7 +18,7 @@ public class ConfigurationInit {
 
             factory = new org.hibernate.cfg.Configuration().
                     configure().
-                    addAnnotatedClass(User.class).addAnnotatedClass(Category.class).
+                    addAnnotatedClass(User.class).
                     buildSessionFactory();
 
         } catch (Throwable ex) {
