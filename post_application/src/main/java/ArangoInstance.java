@@ -1,7 +1,10 @@
 
+import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.entity.DocumentCreateEntity;
 import com.arangodb.ArangoDBException;
+
+import java.util.ArrayList;
 
 public class ArangoInstance {
 
@@ -56,8 +59,11 @@ public class ArangoInstance {
         return post;
     }
 
-
-
+    public ArrayList<PostDBObject> getPostsLimit(int skip,int limit){
+        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For post In posts Limit "+skip+", "+limit+" Return post",
+                null,null,PostDBObject.class);
+        return new ArrayList<PostDBObject>(cursor.asListRemaining());
+    }
 
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
@@ -67,9 +73,12 @@ public class ArangoInstance {
 //        post.setUser_id("mama");
 //        arango.insertNewPost(post);
 
-        PostDBObject post =arango.getPost("757");
+//        PostDBObject post =arango.getPost("757");
 
-        System.out.println(post);
+//        System.out.println(post);
+
+        ArrayList<PostDBObject> a =arango.getPostsLimit(1,2);
+        System.out.println(a);
     }
 
 
