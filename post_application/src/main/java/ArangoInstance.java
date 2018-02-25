@@ -63,7 +63,7 @@ public class ArangoInstance {
 //        query= "FOR chat IN chats FILTER chat.uuid1 == @uuid1 && chat.uuid2 == @uuid2  RETURN chat";
         cursor = arangoDB.db("Post").query(query,bindVars, null, PostDBObject.class);
 
-        for(; cursor.hasNext();) {
+        for(; cursor.hasNext-+();) {
             PostDBObject post = cursor.next();
             return post;
         }
@@ -75,7 +75,7 @@ public class ArangoInstance {
 //        PostDBObject chat = getChat(from,to);
 //        if(chat == null){
 //            chat = new ChatDBObject(from,to);
-//            insertNewChat(chat);
+//            insertNewPost(post);
 //        }
 //    }
 
@@ -84,7 +84,7 @@ public class ArangoInstance {
         ArangoInstance arangoInstance = new ArangoInstance("root","122195");
        // arangoInstance.initializeChatsDB();
         //arangoInstance.dropChatsDB();
-        //ChatDBObject chatDBObject = new ChatDBObject("Zaher","Souidan");
+        //PostDBObject postDBObject = new PostDBObject("Zaher","Souidan");
 
        // arangoInstance.arangoDB.db("Chat").collection("chats").insertDocument(chatDBObject);
         arangoInstance.sendMessage("Hi","Ahmed","Souidan");

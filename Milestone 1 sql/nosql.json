@@ -8,8 +8,7 @@ Post : {
 	likes : int ,
 	dislikes : int,
 	comment :[cid],
-	image :[string],
-	filter : filterID
+	image :[string]
 
 }
 
@@ -50,10 +49,4 @@ Board : {
 
 }
 
-
-Filter : {
-
-	FilterID : UUID,
-	title : String
-}
 
