@@ -2,6 +2,8 @@ package msa.pojo;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.redisson.api.annotation.REntity;
+import org.redisson.api.annotation.RId;
 
 import java.util.*;
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
+
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name="uuid",
@@ -36,8 +39,7 @@ public class User {
 
 
 
-
-
+    private String redisId;
 
 
     @ManyToMany
@@ -149,8 +151,15 @@ public class User {
 
 
 
+    public String getRedisId() {
+        return redisId;
+    }
 
+    public void setRedisId(UUID id) {
+        this.redisId = id.toString();
+    }
     public UUID getId() {
+
         return id;
     }
 
