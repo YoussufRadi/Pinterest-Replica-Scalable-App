@@ -4,9 +4,12 @@ PintrestUser.iml
 
 user_application/target/
 user_application/Pintrest-User.iml
+user_application/.idea/
+
 post_application/target/
 post_application/post_application.iml
 post_application/.idea/
+
 chat_application/target/
 chat_application/Pinterest.iml
-chat_application/.idea
+chat_application/.idea/
