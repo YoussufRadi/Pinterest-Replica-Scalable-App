@@ -1,0 +1,217 @@
+ Response
+ 1- SignUp
+/api/signup
+ {
+      	"email": "ahmed@gmail.com",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY.",
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+}
+Status Code :200 or 401
+
+2- Login
+
+/api/sigin
+
+ {
+      	"email": "ahmed@gmail.com",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY.",
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+        "id": "fb03167b-c925-40cc-9f93-7782b088e5d4",
+        "createdAt": "2017-05-03T19:03:49.384Z",
+        "updatedAt": "2017-05-03T19:03:49.384Z"
+
+}
+
+Status Code :200 or 401
+
+3- Edit Profile
+
+
+ {
+      	"email": "ahmed@gmail.com",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY.",
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+        "id": "fb03167b-c925-40cc-9f93-7782b088e5d4",
+        "createdAt": "2017-05-03T19:03:49.384Z",
+        "updatedAt": "2017-05-03T19:03:49.384Z"
+
+}
+
+Status Code :200 or 400
+
+4- Search By Category or Hashtag
+
+[
+	Post : {
+
+	id : UUID,
+	userId : User,
+	body: string,
+	hashtags: [Tag],
+	likes : [UUID ],
+	dislikes : [UUID],
+	comment :[cid],
+	image :[string],
+	filter : filterId
+
+
+}
+
+
+]
+
+Status Code :200 or 400
+
+5- Report or Block User
+
+Status Code :200 or 400
+
+6- Pin post 
+/user/{userId}/board/{boardId}/post/{postID}
+
+Status Code :200 or 400
+
+7- Hold realtime Conversations 
+/user/{userId}/chats
+
+Status Code :200 or 400
+
+8- Create Post
+
+Post : {
+
+	id : UUID,
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	likes : [UUID ],
+	dislikes : [UUID],
+	comment :[cid],
+	image :[string],
+	filter : filterId
+
+}
+Status Code :200 or 400
+
+Edit Post
+Post : {
+
+	id : UUID,
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	likes : [UUID ],
+	dislikes : [UUID],
+	comment :[cid],
+	image :[string],
+	filter : filterId
+
+}
+Status Code :200 or 400
+
+Delete Post
+
+Status Code :200 or 400
+
+9- Get Trending Posts or Hashtags
+
+[
+
+Post : {
+
+	id : UUID,
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	likes : [UUID ],
+	dislikes : [UUID],
+	comment :[cid],
+	image :[string],
+	filter : filterId
+
+}
+]
+
+10- Follow users , category , hashtags
+/follow
+/unfollow
+Status Code :200 or 400
+
+11- Comment or reply on Post
+Status Code :200 or 400
+
+12- Like or Dislike post
+Status Code :200 or 400
+
+13- Discover Hashtag 
+ {
+	id :UUID,
+	tag:string
+	counter:long
+}
+Status Code :200 or 400
+
+Discover People
+
+[ {
+      	"email": "ahmed@gmail.com",
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+        "id": "fb03167b-c925-40cc-9f93-7782b088e5d4",
+       
+
+}
+]
+Status Code :200 or 400
+
+14- Suggest User
+{
+	
+[
+"email": "ahmed@gmail.com",
+      	"username":"HanaCherif95",
+       
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+        "id": "fb03167b-c925-40cc-9f93-7782b088e5d4",
+        "createdAt": "2017-05-03T19:03:49.384Z",
+        "updatedAt": "2017-05-03T19:03:49.384Z"
+]
+
+}
+
+Suggest Hashtag
+
+	
+[
+{
+	id :UUID,
+	tag:string
+	counter:long
+}
+]
+
+
+Status Code :200 or 400
+
+
+
+
+
+

@@ -1,0 +1,212 @@
+Request
+1- SignUp
+GET POST
+/api/signup
+
+{
+      	"email": "ahmed@gmail.com",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY.",
+        "firstName":"Dina",
+        "lastName" :"Souidan",
+        "age": 15,
+        "gender" : "Male"
+        "id": "fb03167b-c925-40cc-9f93-7782b088e5d4",
+        "createdAt": "2017-05-03T19:03:49.384Z",
+        "updatedAt": "2017-05-03T19:03:49.384Z"
+}
+
+
+2-SignIn
+POST
+/api/signin
+{
+      	"email": "ahmed@gmail.com",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY."
+       
+}
+
+3-Edit Profile
+ PUT 
+
+/users/{userId}
+
+{
+      	
+      	"username":"sohaila",
+        "password": "qi8H8R7OM4xMUNMPuRAZxlY.",
+        "firstName":"Dina",
+        "lastName" :"Salma",
+        "age": 15,
+        "gender" : false
+       
+}
+
+4- Search By Category 
+GET 
+/users/{userID}/category/{categoryId}
+
+    Search By Hahstag
+GET 
+/users/{userID}/hashtag/{hashtagId}
+
+
+5- Report or Block
+
+GET
+/user/{userId}/block/{userId}
+
+
+GET
+/user/{userId}/report/{userId}
+
+6- Pin post 
+/user/{userId}/board/{boardId}/post/{postID}
+
+Post : {
+
+
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	likes : [UUID ],
+	dislikes : [UUID],
+	comment :[cid],
+	image :[string],
+	filter : filterId
+
+}
+
+7- Hold realtime Conversations 
+GET POST
+
+/user/{userId}/chats
+
+  Chat : {
+	body : string,
+	userRecId : UUID
+}
+
+8- Create Post
+	POST 
+	/user/{userId}/board/{boardId}/post/{postID}
+
+	Post : {
+
+	
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	image :string,
+	filter : filterId
+
+}
+	Edit Post
+	PUT
+	/user/{userId}/board/{boardId}/post/{postID}
+
+
+
+	Post : {
+
+	id :UUID,
+	userId : User,
+	body: string,
+	category : [Category],
+	hashtags: [Tag],
+	filter : filterId
+
+}
+
+Delete Post
+DELETE
+
+Post : {
+
+	id :UUID,
+	userId : User
+
+}
+
+9- View Trending Posts
+
+GET
+/trending/posts
+
+View Trending Hashtags
+
+GET
+/trending/hashtags
+
+10- Follow Users, Category , hashtag
+
+
+
+POST
+/follow
+	{
+		"userId": UUID,
+		"Followedid": UUID,
+		"type":int
+
+	}
+
+
+POST
+/unfollow
+
+{
+		"userId": UUID,
+		"Followedid": UUID,
+		"type":int
+
+	}
+
+11- Comment on Post 
+
+POST
+/user/{userId}/post/{postID}
+
+Comment :{
+	body : string,
+	}
+
+Reply on comment on post 
+	POST
+/user/{userId}/post/{postID}/comment/{commentId}
+
+Comment :{
+	body : string,
+	}
+
+12- Like or dislike Post
+
+GET
+/user/{userId}/post/{postID}/like
+
+GET
+/user/{userId}/post/{postID}/unlike
+
+13- Discover Hashtags 
+
+GET /user/{userId}/discoverHashtags
+
+Discover People
+GET /user/{userId}/discoverPeople 
+
+14- Suggest User
+GET /user/{userId}/suggestedUser
+
+Suggest Hashtag
+GET /user/{userId}/suggestedHashtag
+
+
+
+
+
+
+
+
+
+
