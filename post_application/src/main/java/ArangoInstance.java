@@ -72,20 +72,33 @@ public class ArangoInstance {
         arangoDB.db("Post").collection("posts").deleteDocument(id);
     }
 
+    public void likePost(String user_id,String post_id){
+        PostDBObject post = getPost(post_id);
+        post.getLikes_id().add(user_id);
+        updatePost(post_id,post);
+    }
+
+    public void dislikePost(String user_id,String post_id){
+        PostDBObject post = getPost(post_id);
+        post.getDislikes_id().add(user_id);
+        updatePost(post_id,post);
+    }
+
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
 //        arango.initializeDB();
 
-//        PostDBObject post = new PostDBObject();
-//        post.setUser_id("mama");
+//        PostDBObject post = new PostDBObject("1",null,null,"2");
 //        arango.insertNewPost(post);
+
+        arango.dislikePost("3","16256");
 
 //        PostDBObject post =arango.getPost("757");
 
 //        System.out.println(post);
 
-        ArrayList<PostDBObject> a =arango.getPostsLimit(1,2);
-        System.out.println(a);
+//        ArrayList<PostDBObject> a =arango.getPostsLimit(1,2);
+//        System.out.println(a);
     }
 
 
