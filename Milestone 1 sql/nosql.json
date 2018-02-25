@@ -5,10 +5,10 @@ Post : {
 	body: string,
 	category : [Category],
 	hashtags: [Tag],
-	likes : int ,
-	dislikes : int,
+	likes : [User] ,
+	dislikes : [User],
 	comment :[cid],
-	image :[string]
+	image :[Image]
 
 }
 
@@ -16,6 +16,11 @@ Comment :{
 	cid : UUID,
 	body : string,
 	replies : [comment ]
+}
+
+Image :{
+	id: UUID,
+	content: *actual image*
 }
 
 Category : {
