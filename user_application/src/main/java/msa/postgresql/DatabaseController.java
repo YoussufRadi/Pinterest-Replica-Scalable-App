@@ -1,5 +1,6 @@
 package msa.postgresql;
 
+import msa.pojo.Category;
 import msa.pojo.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -102,6 +103,113 @@ public class DatabaseController {
             session.close();
         }
     }
+
+    public void followCategories(UUID userID, UUID categoryID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Category cat = (Category) session.get(Category.class, categoryID);
+            user.getUserCat().add(cat);
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void blockUser(UUID userID, UUID blocked ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            User block = (User)session.get(User.class, blocked);
+
+            user.getBlock().add(block);
+
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void unblockUser(UUID userID, UUID unblocked ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            User unblock = (User)session.get(User.class, unblocked);
+
+            user.getBlock().remove(unblock);
+
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public void followUser(UUID userID, UUID followingId ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            User following = (User)session.get(User.class,followingId );
+
+            following.getFollowedBy().add(user);
+            user.getFollow().add(following);
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public void unfollowUser(UUID userID, UUID followingId ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            User following = (User)session.get(User.class,followingId );
+            following.getFollowedBy().remove(user);
+            user.getFollow().remove(following);
+            session.update(user);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+
+
 
     /* Method to DELETE a user from the records */
    /* public void deleteUser(UUID UserID){

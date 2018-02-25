@@ -1,5 +1,6 @@
 package msa.postgresql;
 
+import msa.pojo.Category;
 import msa.pojo.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -18,8 +19,9 @@ public class ConfigurationInit {
 
             factory = new org.hibernate.cfg.Configuration().
                     configure().
-                    addAnnotatedClass(User.class).
+                    addAnnotatedClass(User.class).addAnnotatedClass(Category.class).
                     buildSessionFactory();
+
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
