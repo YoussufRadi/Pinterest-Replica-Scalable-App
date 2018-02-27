@@ -1,9 +1,11 @@
 package msa.redis;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import msa.pojo.User;
+import msa.pojo.UserLiveObject;
 import msa.postgresql.DatabaseController;
 import org.redisson.Redisson;
-import org.redisson.api.RBucket;
 import org.redisson.api.RLiveObjectService;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -15,25 +17,33 @@ import java.util.UUID;
 public class RedisConf {
 
     private RedissonClient client;
+
+
+
+    private  RLiveObjectService service;
+
     public RedissonClient getClient() {
         return client;
     }
 
-    public void setClient(RedissonClient client) {
-        this.client = client;
+
+    public RLiveObjectService getService() {
+        return service;
     }
+
+
 
 
     public RedisConf() throws IOException {
        client = Redisson.create();
         Config config = Config.fromJSON(new File("/home/souidan/Desktop/PintrestUser/user_application/src/main/java/msa/redis/singleNodeConfig.json"));
-
+        service = client.getLiveObjectService();
 
     }
 
     public static void main(String[] argv) throws IOException {
 
-        RedisConf conf = new RedisConf();
+        /*RedisConf conf = new RedisConf();
         DatabaseController cont = new DatabaseController();
         RLiveObjectService service = conf.client.getLiveObjectService();
 
@@ -43,10 +53,40 @@ public class RedisConf {
                 "password",false
         );
 
+        UUID category1 = UUID.fromString("795baeca-f012-49ba-91a4-dd0ae0dbba97");
+        UUID category2 = UUID.fromString("d029f932-df07-4ca4-b368-503f5a4e1712");
+
+
         UUID id = cont.addUser(u);
 
-        RBucket<User> bucket = conf.client.getBucket("user");
-        bucket.set(u);
-        System.out.println(bucket.get().getId());
+        cont.followCategories(id,category1);
+        cont.followCategories(id,category1);
+        cont.followCategories(id,category2);
+
+
+        User user = cont.getUserWithProfileById(id);
+
+        String message = new Gson().toJson(user);
+
+        Gson gson = new GsonBuilder().create();
+        UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
+
+        userLive = service.persist(userLive);
+
+        UserLiveObject returnuserLive
+                = service.get(UserLiveObject.class, id.toString());
+
+        System.out.println(returnuserLive.getUserCat().toString());
+*/
+
+       /* UserLiveObject ulo = new UserLiveObject(id.toString(),user);
+
+        ulo = service.persist(ulo);
+
+        UserLiveObject uloOut = service.get(UserLiveObject.class,id.toString());
+
+        System.out.println(uloOut.getUser().getUserCat().toString());
+
+*/
     }
 }
