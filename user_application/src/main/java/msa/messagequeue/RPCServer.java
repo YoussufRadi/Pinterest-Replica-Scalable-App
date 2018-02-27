@@ -10,21 +10,19 @@ import java.io.IOException;
         import com.rabbitmq.client.Envelope;
 
         import java.io.IOException;
-        import java.util.concurrent.TimeoutException;
+import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 public class RPCServer {
 
     private static final String RPC_QUEUE_NAME = "rpc_queue";
 
-    private static int fib(int n) {
-        if (n ==0) return 0;
-        if (n == 1) return 1;
-        return fib(n-1) + fib(n-2);
-    }
 
-    public static void main(String[] argv) {
+
+    public static void main(String[] argv) throws IOException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+        QHandler q = new QHandler();
 
         Connection connection = null;
         try {
@@ -49,10 +47,10 @@ public class RPCServer {
 
                     try {
                         String message = new String(body,"UTF-8");
-                        int n = Integer.parseInt(message);
 
-                        System.out.println(" [.] fib(" + message + ")");
-                        response += fib(n);
+
+                        System.out.println(" [.] UUID(" + message + ")");
+                        response += q.getUserWithProfileById(UUID.fromString(message)).getUserCat().toString();
                     }
                     catch (RuntimeException e){
                         System.out.println(" [.] " + e.toString());
