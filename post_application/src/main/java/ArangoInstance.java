@@ -13,13 +13,6 @@ public class ArangoInstance {
 
     public ArangoInstance(String user, String password){
         String rootPath = "src/main/resources/";
-//
-//        try {
-//            InputStream in = new FileInputStream(rootPath + "arango.properties");
-//        }catch (FileNotFoundException e){
-//            System.err.println("arongo properties file not found "+e.getMessage());
-//        }
-
         arangoDB = new ArangoDB.Builder().user(user).password(password).build();
     }
 
