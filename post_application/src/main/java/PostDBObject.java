@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PostDBObject extends com.arangodb.entity.DocumentEntity {
 
@@ -9,9 +10,30 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
     private ArrayList<String> categories_id;
     private ArrayList<String> tags_id;
     private String image_id;
+    private String created_at;
 
-    public PostDBObject(){
-        super();
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public PostDBObject(){}
+
+    @Override
+    public String toString() {
+        return "PostDBObject{" +
+                "user_id='" + user_id + '\'' +
+                ", likes_id=" + likes_id +
+                ", dislikes_id=" + dislikes_id +
+                ", comments_id=" + comments_id +
+                ", categories_id=" + categories_id +
+                ", tags_id=" + tags_id +
+                ", image_id='" + image_id + '\'' +
+                ", created_at='" + created_at + '\'' +
+                '}';
     }
 
     public PostDBObject(String user_id, ArrayList<String> categories_id, ArrayList<String> tags_id, String image_id) {
@@ -24,6 +46,8 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
         this.likes_id = new ArrayList<String>();
         this.dislikes_id = new ArrayList<String>();
         this.comments_id = new ArrayList<String>();
+        this.created_at = new Date().toString();
+
     }
 
     public String getId() {
@@ -100,17 +124,4 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
         likes_id.add(comment_id);
     }
 
-    @Override
-    public String toString() {
-        return "PostDBObject{" +
-                "id='" + getId() + '\'' +
-                "user_id='" + user_id + '\'' +
-                ", likes_id=" + likes_id +
-                ", dislikes_id=" + dislikes_id +
-                ", comments_id=" + comments_id +
-                ", categories_id=" + categories_id +
-                ", tags_id=" + tags_id +
-                ", image_id='" + image_id + '\'' +
-                '}';
-    }
 }

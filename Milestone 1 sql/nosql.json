@@ -8,7 +8,8 @@ Post : {
 	likes : [User] ,
 	dislikes : [User],
 	comment :[cid],
-	image :[Image]
+	image :[Image],
+	created_at: [Date]
 
 }
 

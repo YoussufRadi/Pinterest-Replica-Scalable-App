@@ -13,13 +13,6 @@ public class ArangoInstance {
 
     public ArangoInstance(String user, String password){
         String rootPath = "src/main/resources/";
-//
-//        try {
-//            InputStream in = new FileInputStream(rootPath + "arango.properties");
-//        }catch (FileNotFoundException e){
-//            System.err.println("arongo properties file not found "+e.getMessage());
-//        }
-
         arangoDB = new ArangoDB.Builder().user(user).password(password).build();
     }
 
@@ -59,7 +52,8 @@ public class ArangoInstance {
     }
 
     public ArrayList<PostDBObject> getPostsLimit(int skip,int limit){
-        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For post In posts Limit "+skip+", "+limit+" Return post",
+        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For post In posts Sort post.created_at Limit" +
+                        " "+skip+", "+limit+" Return post",
                 null,null,PostDBObject.class);
         return new ArrayList<PostDBObject>(cursor.asListRemaining());
     }
@@ -87,18 +81,19 @@ public class ArangoInstance {
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
 //        arango.initializeDB();
+//        arango.dropDB();
 
 //        PostDBObject post = new PostDBObject("1",null,null,"2");
 //        arango.insertNewPost(post);
 
-        arango.dislikePost("3","16256");
+//        arango.dislikePost("3","16256");
 
 //        PostDBObject post =arango.getPost("757");
 
 //        System.out.println(post);
 
-//        ArrayList<PostDBObject> a =arango.getPostsLimit(1,2);
-//        System.out.println(a);
+        ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
+        System.out.println(a);
     }
 
 
