@@ -62,22 +62,24 @@ public class RPCClient {
     public static void main(String[] argv) {
         RPCClient Rpc = null;
         String response = null;
-        try {
-           Rpc = new RPCClient();
+        for (int i = 0; i < 25; i++) {
 
-            System.out.println(" [x] Requesting fib(30)");
-            response = Rpc.call("d6b46579-3ba9-4dc3-971b-0d5f27694d41");
-            System.out.println(" [.] Got '" + response + "'");
-        }
-        catch  (IOException | TimeoutException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            if (Rpc!= null) {
-                try {
-                    Rpc.close();
+
+            try {
+                Rpc = new RPCClient();
+
+                System.out.println(" [x] Requesting fib(30)");
+                response = Rpc.call("d6b46579-3ba9-4dc3-971b-0d5f27694d41");
+                System.out.println(" [.] Got '" + response + "'");
+            } catch (IOException | TimeoutException | InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (Rpc != null) {
+                    try {
+                        Rpc.close();
+                    } catch (IOException _ignore) {
+                    }
                 }
-                catch (IOException _ignore) {}
             }
         }
     }

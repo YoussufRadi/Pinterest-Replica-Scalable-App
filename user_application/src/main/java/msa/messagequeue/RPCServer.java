@@ -11,11 +11,15 @@ import java.io.IOException;
 
         import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 public class RPCServer {
 
     private static final String RPC_QUEUE_NAME = "rpc_queue";
+    static ExecutorService executorService = Executors.newFixedThreadPool(15);
+
+
+
 
 
 
@@ -46,16 +50,27 @@ public class RPCServer {
                     String response = "";
 
                     try {
-                        String message = new String(body,"UTF-8");
+                        Future future = executorService.submit(new Callable() {
+                            public Object call() throws Exception {
+                                String message = new String(body, "UTF-8");
+                                System.out.println(Thread.currentThread().getName());
+                                return q.getUserWithProfileById(UUID.fromString(message)).getUserCat().toString();
+                            }
+                        });
 
 
-                        System.out.println(" [.] UUID(" + message + ")");
-                        response += q.getUserWithProfileById(UUID.fromString(message)).getUserCat().toString();
+                        response += future.get().toString();
                     }
+
+
+
                     catch (RuntimeException e){
                         System.out.println(" [.] " + e.toString());
-                    }
-                    finally {
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } finally {
                         channel.basicPublish( "", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
                         channel.basicAck(envelope.getDeliveryTag(), false);
                         // RabbitMq consumer worker thread notifies the RPC server owner thread
