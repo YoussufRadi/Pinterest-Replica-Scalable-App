@@ -117,11 +117,11 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
     }
 
     public void addDisike(String user_dislike_id){
-        likes_id.add(user_dislike_id);
+        dislikes_id.add(user_dislike_id);
     }
 
     public void addComment(String comment_id){
-        likes_id.add(comment_id);
+        comments_id.add(comment_id);
     }
 
 }

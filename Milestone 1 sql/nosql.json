@@ -16,7 +16,9 @@ Post : {
 Comment :{
 	cid : UUID,
 	body : string,
-	replies : [comment ]
+	replies : [comment ],
+	userid : [User]
+
 }
 
 Image :{
