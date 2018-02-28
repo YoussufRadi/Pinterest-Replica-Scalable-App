@@ -2,6 +2,7 @@
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
+import com.arangodb.entity.DocumentCreateEntity;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,14 @@ public class ArangoInstance {
     public ArangoInstance(String user, String password){
         String rootPath = "src/main/resources/";
         arangoDB = new ArangoDB.Builder().user(user).password(password).build();
+
     }
 
 
     public void initializeDB(){
 
-
         try{
+
             String dbName = "Post";
             arangoDB.createDatabase("Post");
             arangoDB.db(dbName).createCollection("posts");
@@ -44,6 +46,7 @@ public class ArangoInstance {
 
     public void insertNewPost(PostDBObject postDBObject){
         arangoDB.db("Post").collection("posts").insertDocument(postDBObject);
+
     }
 
     public PostDBObject getPost(String id){
@@ -80,11 +83,11 @@ public class ArangoInstance {
 
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
-//        arango.initializeDB();
+        //arango.initializeDB();
 //        arango.dropDB();
 
-//        PostDBObject post = new PostDBObject("1",null,null,"2");
-//        arango.insertNewPost(post);
+        //PostDBObject post = new PostDBObject("1",null,null,"2");
+        //System.out.println(arango.insertNewPost(post));
 
 //        arango.dislikePost("3","16256");
 
@@ -92,8 +95,8 @@ public class ArangoInstance {
 
 //        System.out.println(post);
 
-        ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
-        System.out.println(a);
+    //    ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
+    //    System.out.println(a);
     }
 
 
