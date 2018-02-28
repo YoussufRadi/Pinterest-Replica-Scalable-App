@@ -41,7 +41,51 @@ public class ArangoInstance {
             System.err.println("Failed to drop database: Post");
         }
     }
+    public void insertNewCategory(CategoryDBObject categoryDBObject){
+        arangoDB.db("Post").collection("categories").insertDocument(categoryDBObject);
 
+    }
+    public CategoryDBObject getCategory(String id){
+       // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,CategoryDBObject.class));
+        CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+        return category;
+    }
+    public void updateCategory(String id,CategoryDBObject category){
+        arangoDB.db("Post").collection("categories").updateDocument(id,category);
+    }
+    public void addNewPostToCategory(String id,String postid){
+        PostDBObject post= getPost(postid);
+        if(post!=null){
+            CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+            ArrayList<String> posts=new ArrayList<String>();
+           // System.out.println(category.getTitle());
+            for(int i=0;i<category.getPosts_id().size();i++){
+                posts.add(category.getPosts_id().get(i));
+            }
+            posts.add(postid);
+            category.setPosts_id(posts);
+            arangoDB.db("Post").collection("categories").updateDocument(id,category);
+
+        }
+    }
+    public void RemovePostToCategory(String id,String postid){
+        PostDBObject post= getPost(postid);
+        if(post!=null){
+            CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+            ArrayList<String> posts=new ArrayList<String>();
+            // System.out.println(category.getTitle());
+            for(int i=0;i<category.getPosts_id().size();i++){
+                if(!category.getPosts_id().get(i).equals(postid))
+                posts.add(category.getPosts_id().get(i));
+            }
+            category.setPosts_id(posts);
+            arangoDB.db("Post").collection("categories").updateDocument(id,category);
+
+        }
+    }
+    public void deleteCategory(String id){
+        arangoDB.db("Post").collection("categories").deleteDocument(id);
+    }
     public void insertNewPost(PostDBObject postDBObject){
         arangoDB.db("Post").collection("posts").insertDocument(postDBObject);
     }
@@ -82,18 +126,22 @@ public class ArangoInstance {
         ArangoInstance arango = new ArangoInstance("root","pass");
 //        arango.initializeDB();
 //        arango.dropDB();
+    //arango.deleteCategory("87839");
+       // CategoryDBObject category = new CategoryDBObject("trial",new ArrayList<String>());
+     //  arango.insertNewCategory(category);
+    //    CategoryDBObject category =     arango.getCategory("89047");
+      //  System.out.println(category);
 
-//        PostDBObject post = new PostDBObject("1",null,null,"2");
-//        arango.insertNewPost(post);
 
+        arango.RemovePostToCategory("89047","28839");
 //        arango.dislikePost("3","16256");
 
-//        PostDBObject post =arango.getPost("757");
+     //   PostDBObject post =arango.getPost("28839");
 
-//        System.out.println(post);
+     //   System.out.println(post);
 
-        ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
-        System.out.println(a);
+      //  ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
+      //  System.out.println(a);
     }
 
 
