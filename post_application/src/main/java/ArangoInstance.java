@@ -2,9 +2,9 @@
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
-import com.arangodb.entity.DocumentCreateEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ArangoInstance {
 
@@ -28,6 +28,7 @@ public class ArangoInstance {
             arangoDB.db(dbName).createCollection("posts");
             arangoDB.db(dbName).createCollection("comments");
             arangoDB.db(dbName).createCollection("categories");
+            arangoDB.db(dbName).createCollection("posts_tags");
             System.out.println("Database created: " + dbName);
         } catch (ArangoDBException e) {
             System.err.println("Failed to create database: Post");
@@ -162,6 +163,21 @@ public class ArangoInstance {
         arangoDB.db("Post").collection("comments").updateDocument(id,comment);
     }
 
+    public void insertNewTag(TagDBObject tagDBObject) {
+        arangoDB.db("Post").collection("posts_tags").insertDocument(tagDBObject);
+    }
+
+    public ArrayList<TagDBObject> getPostsOfTagLimit(int skip,int limit, String tag_name){
+        HashMap<String, Object> bindVars = new HashMap<String,Object>();
+        bindVars.put("skip",skip);
+        bindVars.put("limit",limit);
+        bindVars.put("tag_name",tag_name);
+        ArangoCursor<TagDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags For p in posts Filter pt.tag_name == @tag_name "+
+                        "Filter p._key==pt.post_id Limit @skip,@limit Return {pt}",
+                bindVars,null,TagDBObject.class);
+        return new ArrayList<TagDBObject>(cursor.asListRemaining());
+    }
+
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
         //arango.initializeDB();
@@ -181,15 +197,19 @@ public class ArangoInstance {
 
      //   PostDBObject post =arango.getPost("28839");
 
-        PostDBObject post = new PostDBObject("1",null,null,"1");
-        CommentDBObject comment = new CommentDBObject("1","Kareem");
-        CommentDBObject reply = new CommentDBObject("1","Kareem1");
+//        PostDBObject post = new PostDBObject("1",null,null,"1");
+//        CommentDBObject comment = new CommentDBObject("1","Kareem");
+//        CommentDBObject reply = new CommentDBObject("1","Kareem1");
+//
+//        arango.insertNewPost(post);
+//        arango.insertNewComment(comment,post.getId());
+//        arango.insertNewReply(reply,comment.getId());
 
-        arango.insertNewPost(post);
-        arango.insertNewComment(comment,post.getId());
-        arango.insertNewReply(reply,comment.getId());
 
 
+//        TagDBObject tag = new TagDBObject("Kef7a", "14228");
+//        arango.insertNewTag(tag);
+        System.out.println(arango.getPostsOfTagLimit(0,5,"Kef7a"));
      //   System.out.println(post);
 
     //    ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
