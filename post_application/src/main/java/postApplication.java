@@ -5,23 +5,33 @@ import LiveObjects.CategoryLiveObject;
 import LiveObjects.PostLiveObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+
 import org.redisson.api.RLiveObjectService;
 //import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;;
+import java.util.concurrent.*;
+
 
 public class postApplication {
 
     private ArangoInstance arangoInstance;
     private RedisConf redisConf;
     private RLiveObjectService liveObjectService;
-
+    ExecutorService executorService;
 
     public postApplication() throws IOException {
-       arangoInstance = new ArangoInstance("root","pass");
-       redisConf = new RedisConf();
+        arangoInstance = new ArangoInstance("root","pass");
+        redisConf = new RedisConf();
         liveObjectService = redisConf.getService();
+        executorService = Executors.newFixedThreadPool(15);
+
     }
 
     public void addPost(String user_id, ArrayList<String> categories_id, ArrayList<String> tags_id, String image_id) {
