@@ -1,3 +1,5 @@
+package Arango;
+
 import java.util.ArrayList;
 
 public class CategoryDBObject  extends com.arangodb.entity.DocumentEntity {
@@ -21,7 +23,7 @@ public class CategoryDBObject  extends com.arangodb.entity.DocumentEntity {
 
     private ArrayList<String> posts_id;
     public String toString() {
-       return "CategoryDBObject{" +
+       return "Arango.CategoryDBObject{" +
                "id='" + getId() ;
 //                ", likes_id=" + likes_id +
 //                ", dislikes_id=" + dislikes_id +

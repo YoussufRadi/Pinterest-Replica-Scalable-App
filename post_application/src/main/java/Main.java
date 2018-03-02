@@ -1,3 +1,5 @@
+import Arango.ArangoInstance;
+
 import java.util.concurrent.*;
 public class Main {
 

@@ -1,3 +1,5 @@
+package Arango;
+
 import org.redisson.api.annotation.REntity;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class TagDBObject extends com.arangodb.entity.DocumentEntity   {
 
     @Override
     public String toString() {
-        return "TagDBObject{" +
+        return "Arango.TagDBObject{" +
                 "tag_name='" + tag_name + '\'' +
                 ", post_id='" + post_id + '\'' +
                 '}';

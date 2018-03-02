@@ -51,7 +51,7 @@ public class CategoryLiveObject {
 
     @Override
     public String toString() {
-        return "\"CategoryDBObject{" +
+        return "\"Arango.CategoryDBObject{" +
                 "title: '"+getTitle() +'\''+
                 ", post_ids: '"+getPosts_id()+'\''+"}";
     }
