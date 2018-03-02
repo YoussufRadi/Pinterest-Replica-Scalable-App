@@ -1,3 +1,4 @@
+package Arango;
 
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
@@ -49,11 +50,11 @@ public class ArangoInstance {
 
     }
     public CategoryDBObject getCategory(String id){
-       // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,CategoryDBObject.class));
+       // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,Arango.CategoryDBObject.class));
         CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
         return category;
     }
-    public void updateCategory(String id,CategoryDBObject category){
+    public void updateCategory(String id, CategoryDBObject category){
         arangoDB.db("Post").collection("categories").updateDocument(id,category);
     }
     public void addNewPostToCategory(String id,String postid){
@@ -99,14 +100,14 @@ public class ArangoInstance {
         return post;
     }
 
-    public ArrayList<PostDBObject> getPostsLimit(int skip,int limit){
+    public ArrayList<PostDBObject> getPostsLimit(int skip, int limit){
         ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For post In posts Sort post.created_at Limit" +
                         " "+skip+", "+limit+" Return post",
-                null,null,PostDBObject.class);
+                null,null, PostDBObject.class);
         return new ArrayList<PostDBObject>(cursor.asListRemaining());
     }
 
-    public void updatePost(String id,PostDBObject post){
+    public void updatePost(String id, PostDBObject post){
         arangoDB.db("Post").collection("posts").updateDocument(id,post);
     }
 
@@ -159,7 +160,7 @@ public class ArangoInstance {
         updateComment(comment.getId(),comment);
     }
 
-    public void updateComment(String id,CommentDBObject comment){
+    public void updateComment(String id, CommentDBObject comment){
         arangoDB.db("Post").collection("comments").updateDocument(id,comment);
     }
 
@@ -167,55 +168,67 @@ public class ArangoInstance {
         arangoDB.db("Post").collection("posts_tags").insertDocument(tagDBObject);
     }
 
-    public ArrayList<TagDBObject> getPostsOfTagLimit(int skip,int limit, String tag_name){
+    public ArrayList<PostDBObject> getPostsOfTagLimit(int skip, int limit, String tag_name){
         HashMap<String, Object> bindVars = new HashMap<String,Object>();
         bindVars.put("skip",skip);
         bindVars.put("limit",limit);
         bindVars.put("tag_name",tag_name);
-        ArangoCursor<TagDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags For p in posts Filter pt.tag_name == @tag_name "+
-                        "Filter p._key==pt.post_id Limit @skip,@limit Return {pt}",
-                bindVars,null,TagDBObject.class);
+        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags For p in posts Filter pt.tag_name == @tag_name "+
+                        " Filter p._key == pt.post_id Limit @skip,@limit Return p",
+                bindVars,null, PostDBObject.class);
+        return new ArrayList<PostDBObject>(cursor.asListRemaining());
+    }
+
+    public ArrayList<TagDBObject> getTagsOfPostLimit(int skip, int limit, String post_id){
+        HashMap<String, Object> bindVars = new HashMap<String,Object>();
+        bindVars.put("skip",skip);
+        bindVars.put("limit",limit);
+        bindVars.put("post_id",post_id);
+        ArangoCursor<TagDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags Filter pt.post_id == @post_id "+
+                        "  Limit @skip,@limit Return pt",
+                bindVars,null, TagDBObject.class);
         return new ArrayList<TagDBObject>(cursor.asListRemaining());
     }
+
 
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
         //arango.initializeDB();
 //        arango.dropDB();
     //arango.deleteCategory("87839");
-//        CategoryDBObject category = new CategoryDBObject("trial",new ArrayList<String>());
+//        Arango.CategoryDBObject category = new Arango.CategoryDBObject("trial",new ArrayList<String>());
 //       arango.insertNewCategory(category);
-//        CategoryDBObject category =     arango.getCategory("89047");
+//        Arango.CategoryDBObject category =     arango.getCategory("89047");
        // System.out.println(category);
 
-        //PostDBObject post = new PostDBObject("1",null,null,"2");
+        //Arango.PostDBObject post = new Arango.PostDBObject("1",null,null,"2");
         //System.out.println(arango.insertNewPost(post));
 
 
 //        arango.RemovePostToCategory("89047","28839");
 //        arango.dislikePost("3","16256");
 
-     //   PostDBObject post =arango.getPost("28839");
+     //   Arango.PostDBObject post =arango.getPost("28839");
 
-//        PostDBObject post = new PostDBObject("1",null,null,"1");
-//        CommentDBObject comment = new CommentDBObject("1","Kareem");
-//        CommentDBObject reply = new CommentDBObject("1","Kareem1");
+//        Arango.PostDBObject post = new Arango.PostDBObject("1",null,null,"1");
+//        Arango.CommentDBObject comment = new Arango.CommentDBObject("1","Kareem");
+//        Arango.CommentDBObject reply = new Arango.CommentDBObject("1","Kareem1");
 //
 //        arango.insertNewPost(post);
 //        arango.insertNewComment(comment,post.getId());
 //        arango.insertNewReply(reply,comment.getId());
 
+        //   System.out.println(post);
 
-
-//        TagDBObject tag = new TagDBObject("Kef7a", "14228");
+//        Arango.TagDBObject tag = new Arango.TagDBObject("Kef7a", "28839");
 //        arango.insertNewTag(tag);
 //        System.out.println(arango.getPostsOfTagLimit(0,5,"Kef7a"));
-     //   System.out.println(post);
+        System.out.println(arango.getTagsOfPostLimit(0,5,"28839"));
 
-    //    ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
+        //    ArrayList<Arango.PostDBObject> a =arango.getPostsLimit(0,2);
     //    System.out.println(a);
 
-      //  ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);
+      //  ArrayList<Arango.PostDBObject> a =arango.getPostsLimit(0,2);
       //  System.out.println(a);
     }
 

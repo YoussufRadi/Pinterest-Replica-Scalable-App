@@ -1,3 +1,6 @@
+import Arango.ArangoInstance;
+import Arango.CategoryDBObject;
+import Arango.PostDBObject;
 import LiveObjects.CategoryLiveObject;
 import LiveObjects.PostLiveObject;
 import com.google.gson.Gson;
@@ -6,15 +9,15 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import org.redisson.api.RBucket;
+
 import org.redisson.api.RLiveObjectService;
 //import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
+import java.util.Set;;
 import java.util.concurrent.*;
+
 
 public class postApplication {
 

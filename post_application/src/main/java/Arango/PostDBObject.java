@@ -1,3 +1,5 @@
+package Arango;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,7 +26,7 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
 
     @Override
     public String toString() {
-        return "PostDBObject{" +
+        return "Arango.PostDBObject{" +
                 "user_id='" + user_id + '\'' +
                 ", likes_id=" + likes_id +
                 ", dislikes_id=" + dislikes_id +

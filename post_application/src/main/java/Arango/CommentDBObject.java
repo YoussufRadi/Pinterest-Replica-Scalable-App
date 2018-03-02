@@ -1,3 +1,5 @@
+package Arango;
+
 import java.util.ArrayList;
 
 public class CommentDBObject extends com.arangodb.entity.DocumentEntity {
