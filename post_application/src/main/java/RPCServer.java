@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-import LiveObjects.PostLiveObject;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -10,9 +9,6 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
 import java.util.concurrent.*;
 
-import java.io.IOException;
-import java.util.concurrent.*;
-
 public class RPCServer {
 
     private static final String RPC_QUEUE_NAME = "rpc_queue";
@@ -20,7 +16,7 @@ public class RPCServer {
 
     public static void main(String[] argv) throws IOException {
         ConnectionFactory factory = new ConnectionFactory();
-        final QHandler qHandler = new QHandler();
+        final postApplication postApplication = new postApplication();
         factory.setHost("localhost");
 
         Connection connection = null;
@@ -50,7 +46,7 @@ public class RPCServer {
                             public Object call() throws Exception {
                                 String message = new String(b,"UTF-8");
                                 System.out.println(Thread.currentThread().getName());
-                                return qHandler.getCategory(message);
+                                return postApplication.getCategory(message);
                             }
                         });
 

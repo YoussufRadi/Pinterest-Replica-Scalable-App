@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
-public class QHandler {
+public class postApplication {
 
     private ArangoInstance arangoInstance;
     private RedisConf redisConf;
     private RLiveObjectService liveObjectService;
 
 
-    public QHandler() throws IOException {
+    public postApplication() throws IOException {
        arangoInstance = new ArangoInstance("root","pass");
        redisConf = new RedisConf();
         liveObjectService = redisConf.getService();
