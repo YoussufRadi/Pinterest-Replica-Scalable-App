@@ -30,6 +30,7 @@ public class ArangoInstance {
             arangoDB.db(dbName).createCollection("comments");
             arangoDB.db(dbName).createCollection("categories");
             arangoDB.db(dbName).createCollection("posts_tags");
+            arangoDB.db(dbName).createCollection("boards");
             System.out.println("Database created: " + dbName);
         } catch (ArangoDBException e) {
             System.err.println("Failed to create database: Post");
@@ -129,8 +130,6 @@ public class ArangoInstance {
     }
 
 
-
-
     public CommentDBObject getComment(String id){
         CommentDBObject comment =arangoDB.db("Post").collection("comments").getDocument(id, CommentDBObject.class);
         return comment;
@@ -190,6 +189,30 @@ public class ArangoInstance {
         return new ArrayList<TagDBObject>(cursor.asListRemaining());
     }
 
+    public void insertNewBoard(BoardDBObject boardDBObject){
+        arangoDB.db("Post").collection("boards").insertDocument(boardDBObject);
+
+    }
+    public BoardDBObject getBoard(String id){
+        // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,Arango.CategoryDBObject.class));
+        BoardDBObject board =arangoDB.db("Post").collection("boards").getDocument(id, BoardDBObject.class);
+        return board;
+    }
+    public void updateBoard(String id, BoardDBObject board){
+        arangoDB.db("Post").collection("boards").updateDocument(id,board);
+    }
+
+    public void insertPostToBoard(String board_id, String post_id){
+        BoardDBObject board = getBoard(board_id);
+        board.addPost(post_id);
+        updateBoard(board_id,board);
+    }
+
+    public void removePostFromBoard(String board_id, String post_id){
+        BoardDBObject board = getBoard(board_id);
+        board.removePost(post_id);
+        updateBoard(board_id,board);
+    }
 
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
@@ -223,13 +246,19 @@ public class ArangoInstance {
 //        Arango.TagDBObject tag = new Arango.TagDBObject("Kef7a", "28839");
 //        arango.insertNewTag(tag);
 //        System.out.println(arango.getPostsOfTagLimit(0,5,"Kef7a"));
-        System.out.println(arango.getTagsOfPostLimit(0,5,"28839"));
+//        System.out.println(arango.getTagsOfPostLimit(0,5,"28839"));
 
         //    ArrayList<Arango.PostDBObject> a =arango.getPostsLimit(0,2);
     //    System.out.println(a);
 
       //  ArrayList<Arango.PostDBObject> a =arango.getPostsLimit(0,2);
       //  System.out.println(a);
+
+//        BoardDBObject board = new BoardDBObject("1","boardeeno" );
+//        arango.insertNewBoard(board);
+//        arango.insertPostToBoard("192649","15");
+//        arango.removePostFromBoard("192649","15");
+//        System.out.println(arango.getBoard("192649"));
     }
 
 
