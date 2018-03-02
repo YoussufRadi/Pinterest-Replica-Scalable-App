@@ -31,17 +31,28 @@ public class DatabaseController {
             User user = new User(fname, lname,username, email,password,gender, age);
             userID = (UUID) session.save(user);
             tx.commit();
+            return userID;
         } catch (HibernateException e) {
-            if (tx!=null)
+            if (tx!=null) {
                 tx.rollback();
+            }
             e.printStackTrace();
             System.out.println("EROOOOOORRR");
             return null;
 
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            System.out.println("EROOOOOORRR");
+            return null;
+
+        }finally
+         {
             session.close();
+            System.out.println("EROOOOOORRR");
+             return null;
+
         }
-        return userID;
     }
 
     public UUID addUser(User user){

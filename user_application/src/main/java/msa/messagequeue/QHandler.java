@@ -38,7 +38,8 @@ public class QHandler {
 
         //call the method from the database
         UUID id = dbcont.addUser(fname,lname,username,email,password,gender,age);
-        System.out.println(id +"         terfeirguigegutegtugqutgqgjgt");
+        if(id == null)
+            return null;
         try {
             //make a live object which is explained in the UserLiveObject.class
             UserLiveObject userLive = new UserLiveObject(id.toString(),

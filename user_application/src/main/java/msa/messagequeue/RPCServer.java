@@ -22,13 +22,13 @@ public class RPCServer {
 
     private static final String RPC_QUEUE_NAME = "rpc_queue";
     static ExecutorService executorService = Executors.newFixedThreadPool(15);
-    QHandler qHandler ;
+    msa.messagequeue.QHandler qHandler ;
 
     public RPCServer() throws IOException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
-        qHandler = new QHandler();
+        qHandler = new msa.messagequeue.QHandler();
 
         Connection connection = null;
         try {
@@ -131,11 +131,18 @@ public class RPCServer {
             case "signUp" :
                 UUID id  = qHandler.addUser(payload.getFirstName(),payload.getLastName(),payload.getUsername(),
                         payload.getEmail(),payload.getPassword(),payload.isGender(),payload.getAge());
-
+                System.out.println("ID FROM SERVER");
+                System.out.println(id);
                 if(id == null)
                     return "User Already Exists";
 
                 return id;
+
+            case "updateUser" :
+                qHandler.updateUser(payload.getId(),payload.getFirstName(),
+                        payload.getLastName(),payload.getPassword(),
+                        payload.getUsername(),payload.getAge(),payload.isGender());
+
 
 
                 // return message;

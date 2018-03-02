@@ -20,8 +20,13 @@ public class Main {
         RedisConf conf = new RedisConf();
         QHandler q =new QHandler();
 
-        UserLiveObject userLiveObjec=q.signIn("ahmedsouidan@gmail.com","password");
-        System.out.println(userLiveObjec.getId());
+        //UserLiveObject userLiveObjec=q.signIn("ahmedsouidan@gmail.com","password");
+        //System.out.println(userLiveObjec.getId());
+        UUID id = q.addUser("zaher","tarek",
+                "jojihiqh","jojo@gmail.com",
+                "password",true,22);
+
+        System.out.println(id);
         //UUID uid = UUID.fromString("85c05c80-564a-425e-9a5b-aec519a9f655");
         //UUID uid2 = UUID.fromString("85c05c80-564a-425e-9a5b-aec519a9f778");
         //UUID uid3 = UUID.fromString("882bbd03-915b-4eda-88cd-a7f0dd04a612");

@@ -8,6 +8,13 @@ public class Message {
     @SerializedName("payload")
     private User payload;
 
+    private String id;
+    private String pinId;
+    private String boardId;
+    private String userId;
+
+
+
     public String getMethod() {
         return method;
     }
