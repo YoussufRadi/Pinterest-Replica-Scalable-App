@@ -1,5 +1,6 @@
 package msa.pojo;
 
+import com.google.gson.annotations.SerializedName;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
 
@@ -11,7 +12,20 @@ import java.util.UUID;
 public class UserLiveObject {
 
     @RId
+
     private String id;
+
+    public String getUserId() {
+        userId = id;
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = id;
+    }
+
+    private String userId;
+
 
     private String firstName;
 
@@ -190,9 +204,12 @@ public class UserLiveObject {
     public UserLiveObject(){
 
     }
-    public UserLiveObject( String id,String firstName, String lastName, String username,String email, String password, boolean gender,int age) {
+    public UserLiveObject( String userId,String firstName, String lastName,
+                           String username,String email,
+                           String password, boolean gender,
+                           int age) {
 
-        this.id = id;
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username=username;

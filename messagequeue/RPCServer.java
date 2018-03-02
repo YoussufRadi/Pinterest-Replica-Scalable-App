@@ -1,15 +1,20 @@
 package msa.messagequeue;
 
 import java.io.IOException;
-        import com.rabbitmq.client.ConnectionFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.rabbitmq.client.ConnectionFactory;
         import com.rabbitmq.client.Connection;
         import com.rabbitmq.client.Channel;
         import com.rabbitmq.client.Consumer;
         import com.rabbitmq.client.DefaultConsumer;
         import com.rabbitmq.client.AMQP;
         import com.rabbitmq.client.Envelope;
+import msa.pojo.Message;
+import msa.pojo.User;
+import msa.pojo.UserLiveObject;
 
-        import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.*;
 
@@ -17,16 +22,13 @@ public class RPCServer {
 
     private static final String RPC_QUEUE_NAME = "rpc_queue";
     static ExecutorService executorService = Executors.newFixedThreadPool(15);
+    QHandler qHandler ;
 
+    public RPCServer() throws IOException {
 
-
-
-
-
-    public static void main(String[] argv) throws IOException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
-        QHandler q = new QHandler();
+        qHandler = new QHandler();
 
         Connection connection = null;
         try {
@@ -54,7 +56,12 @@ public class RPCServer {
                             public Object call() throws Exception {
                                 String message = new String(body, "UTF-8");
                                 System.out.println(Thread.currentThread().getName());
-                                return q.getUserWithProfileById(UUID.fromString(message)).getUserCat().toString();
+
+                                Gson gson = new GsonBuilder().create();
+                                Message msg = gson.fromJson(message, Message.class);
+
+                                return handleMessage(msg);
+
                             }
                         });
 
@@ -102,6 +109,54 @@ public class RPCServer {
                 } catch (IOException _ignore) {}
         }
     }
+
+
+
+    public  Object handleMessage(Message msg){
+
+        String method = msg.getMethod();
+        User payload = msg.getPayload();
+        UserLiveObject live;
+
+
+
+        switch (method){
+            case "signIn" :
+                 live = qHandler.signIn(msg.getPayload().getEmail(),
+                        msg.getPayload().getPassword());
+                System.out.println(live.getId());
+                String message = new Gson().toJson(live);
+                return message;
+
+            case "signUp" :
+                UUID id  = qHandler.addUser(payload.getFirstName(),payload.getLastName(),payload.getUsername(),
+                        payload.getEmail(),payload.getPassword(),payload.isGender(),payload.getAge());
+
+                if(id == null)
+                    return "User Already Exists";
+
+                return id;
+
+
+                // return message;
+
+
+
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+    public static void main(String[] argv) throws IOException {
+    RPCServer rpcServer = new RPCServer();
+
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -61,15 +62,34 @@ public class RPCClient {
 
     public static void main(String[] argv) {
         RPCClient Rpc = null;
-        String response = null;
+        String response = "";
         for (int i = 0; i < 25; i++) {
 
 
             try {
                 Rpc = new RPCClient();
 
-                System.out.println(" [x] Requesting fib(30)");
-                response = Rpc.call("d6b46579-3ba9-4dc3-971b-0d5f27694d41");
+                System.out.println(" [x] Requesting JSON");
+
+                JSONObject jsonString = new JSONObject();
+                JSONObject jsonStringInner = new JSONObject();
+
+                jsonStringInner.put("email","jojo@gmail.com");
+                jsonStringInner.put("password","password");
+                jsonStringInner.put("14","age");
+                jsonStringInner.put("firstName","Moe");
+                jsonStringInner.put("lastName","Moe");
+                jsonStringInner.put("gender","true");
+                jsonStringInner.put("username","MoeUserName");
+
+
+
+
+                jsonString.put("method", "signUp");
+                        jsonString.put("payload" ,jsonStringInner);
+
+
+                response = Rpc.call(jsonString.toString());
                 System.out.println(" [.] Got '" + response + "'");
             } catch (IOException | TimeoutException | InterruptedException e) {
                 e.printStackTrace();

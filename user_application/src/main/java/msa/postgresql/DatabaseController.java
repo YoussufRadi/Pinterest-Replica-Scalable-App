@@ -32,8 +32,12 @@ public class DatabaseController {
             userID = (UUID) session.save(user);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx!=null)
+                tx.rollback();
             e.printStackTrace();
+            System.out.println("EROOOOOORRR");
+            return null;
+
         } finally {
             session.close();
         }
@@ -67,6 +71,10 @@ public class DatabaseController {
     public User signIn (String email, String password ){
         Session session = factory.openSession();
         Transaction tx = null;
+
+        System.out.println(email);
+        System.out.println(password);
+
         User user = null;
 
         try {
@@ -76,16 +84,28 @@ public class DatabaseController {
             if (user==null){
                 return null;
             }
-            if(user.getPassword() == password)
+            if(user.getPassword().equals(password)){
+
+
+                session.update(user);
+                tx.commit();
+
+
                 return user;
+
+
+            }
 
             session.update(user);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return null;
+
         } finally {
             session.close();
+
         }
         return user;
     }
