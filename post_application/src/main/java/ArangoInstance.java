@@ -209,7 +209,7 @@ public class ArangoInstance {
 
 //        TagDBObject tag = new TagDBObject("Kef7a", "14228");
 //        arango.insertNewTag(tag);
-        System.out.println(arango.getPostsOfTagLimit(0,5,"Kef7a"));
+//        System.out.println(arango.getPostsOfTagLimit(0,5,"Kef7a"));
      //   System.out.println(post);
 
     //    ArrayList<PostDBObject> a =arango.getPostsLimit(0,2);

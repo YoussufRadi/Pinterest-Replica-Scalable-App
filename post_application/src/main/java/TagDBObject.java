@@ -1,4 +1,7 @@
+import org.redisson.api.annotation.REntity;
+
 import java.util.ArrayList;
+
 
 public class TagDBObject extends com.arangodb.entity.DocumentEntity   {
 

@@ -1,4 +1,6 @@
 import java.io.IOException;
+
+import LiveObjects.PostLiveObject;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -48,11 +50,11 @@ public class RPCServer {
                             public Object call() throws Exception {
                                 String message = new String(b,"UTF-8");
                                 System.out.println(Thread.currentThread().getName());
-                                return qHandler.getPost(message);
+                                return qHandler.getCategory(message);
                             }
                         });
 
-
+                        System.out.println(future.get());
                         response +=future.get().toString();
 
                     }

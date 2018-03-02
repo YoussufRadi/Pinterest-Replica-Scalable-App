@@ -61,12 +61,12 @@ public class RPCClient {
     public static void main(String[] argv) {
             RPCClient fibonacciRpc = null;
             String response = null;
-            for (int i = 0;i<15;i++) {
+
                 try {
                     fibonacciRpc = new RPCClient();
 
                     System.out.println(" [x] Requesting post by id");
-                    response = fibonacciRpc.call("46625");
+                    response = fibonacciRpc.call("70348");
                     System.out.println(" [.] Got '" + response + "'");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -80,7 +80,5 @@ public class RPCClient {
                 }
             }
 
-
-    }
 }
 
