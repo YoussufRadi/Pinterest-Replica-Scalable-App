@@ -19,14 +19,14 @@ import java.util.Set;;
 import java.util.concurrent.*;
 
 
-public class postApplication {
+public class QHandler {
 
     private ArangoInstance arangoInstance;
     private RedisConf redisConf;
     private RLiveObjectService liveObjectService;
     ExecutorService executorService;
 
-    public postApplication() throws IOException {
+    public QHandler() throws IOException {
         arangoInstance = new ArangoInstance("root","pass");
         redisConf = new RedisConf();
         liveObjectService = redisConf.getService();

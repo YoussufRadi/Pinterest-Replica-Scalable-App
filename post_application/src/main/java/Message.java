@@ -1,4 +1,4 @@
-
+import Arango.*;
 import com.arangodb.velocypack.annotations.SerializedName;
 
 public class Message {
