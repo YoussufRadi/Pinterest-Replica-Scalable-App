@@ -16,7 +16,7 @@ public class RPCServer {
 
     public static void main(String[] argv) throws IOException {
         ConnectionFactory factory = new ConnectionFactory();
-        final postApplication postApplication = new postApplication();
+        final QHandler QHandler = new QHandler();
         factory.setHost("localhost");
 
         Connection connection = null;
@@ -46,7 +46,7 @@ public class RPCServer {
                             public Object call() throws Exception {
                                 String message = new String(b,"UTF-8");
                                 System.out.println(Thread.currentThread().getName());
-                                return postApplication.getCategory(message);
+                                return QHandler.getCategory(message);
                             }
                         });
 
