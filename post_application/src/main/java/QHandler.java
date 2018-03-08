@@ -34,8 +34,7 @@ public class QHandler {
 
     }
 
-    public void addPost(String user_id, ArrayList<String> categories_id, ArrayList<String> tags_id, String image_id) {
-        PostDBObject postDBObject = new PostDBObject(user_id,categories_id,tags_id,image_id);
+    public void addPost(PostDBObject postDBObject) {
         arangoInstance.insertNewPost(postDBObject);
     }
 

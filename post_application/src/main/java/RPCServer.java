@@ -1,5 +1,8 @@
 import java.io.IOException;
 
+import Arango.PostDBObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -11,10 +14,12 @@ import java.util.concurrent.*;
 
 public class RPCServer {
 
-    private static final String RPC_QUEUE_NAME = "rpc_queue";
+    private static final String RPC_QUEUE_NAME = "post_queue";
     static ExecutorService executorService = Executors.newFixedThreadPool(15);
+    QHandler qHandler;
 
-    public static void main(String[] argv) throws IOException {
+    public RPCServer() throws IOException{
+        qHandler = new QHandler();
         ConnectionFactory factory = new ConnectionFactory();
         final QHandler QHandler = new QHandler();
         factory.setHost("localhost");
@@ -46,7 +51,11 @@ public class RPCServer {
                             public Object call() throws Exception {
                                 String message = new String(b,"UTF-8");
                                 System.out.println(Thread.currentThread().getName());
-                                return QHandler.getCategory(message);
+                                Gson gson = new GsonBuilder().create();
+                                Message msg = gson.fromJson(message, Message.class);
+
+                                return handleMessage(msg);
+
                             }
                         });
 
@@ -93,5 +102,22 @@ public class RPCServer {
         }
     }
 
+    public  Object handleMessage(Message msg){
+
+        String method = msg.getMethod();
+        PostDBObject payload = msg.getPayload();
+
+        switch (method){
+            case "insert_post":
+                qHandler.addPost(payload);
+                break;
+        }
+        return null;
+    }
+
+
+    public static void main(String[] argv) throws IOException {
+        RPCServer rpcServer = new RPCServer();
+    }
 
 }

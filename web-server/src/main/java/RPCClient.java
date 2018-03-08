@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -61,49 +62,50 @@ public class RPCClient {
     }
 
     public static void main(String[] argv) {
-            RPCClient rpcClient = null;
-            String response = null;
+        RPCClient rpcClient = null;
+        String response = null;
 
+        try {
+            rpcClient = new RPCClient();
+            JSONObject jsonString = new JSONObject();
+            JSONObject jsonStringInner = new JSONObject();
+            JSONArray likes_id = new JSONArray();
+            likes_id.add("1");
+            JSONArray dislikes_id = new JSONArray();
+            dislikes_id.add("1");
+            JSONArray comments_id = new JSONArray();
+            comments_id.add("1");
+            JSONArray categories_id = new JSONArray();
+            categories_id.add("1");
+            JSONArray tags_id = new JSONArray();
+            tags_id.add("1");
+
+            jsonStringInner.put("user_id","jojo@gmail.com");
+            jsonStringInner.put("likes_id",likes_id);
+            jsonStringInner.put("dislikes_id",dislikes_id);
+            jsonStringInner.put("comments_id",comments_id);
+            jsonStringInner.put("categories_id",categories_id);
+            jsonStringInner.put("tags_id",tags_id);
+            jsonStringInner.put("image_id","4");
+
+            jsonString.put("method", "insert_post");
+            jsonString.put("payload" ,jsonStringInner);
+
+            System.out.println(" [x] add post ");
+            response = rpcClient.call(jsonString.toString());
+            System.out.println(" [.] Got '" + response + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rpcClient != null) {
                 try {
-                    rpcClient = new RPCClient();
-                    JSONObject jsonString = new JSONObject();
-                    JSONObject jsonStringInner = new JSONObject();
-                    JSONArray likes_id = new JSONArray();
-                    likes_id.add("1");
-                    JSONArray dislikes_id = new JSONArray();
-                    dislikes_id.add("1");
-                    JSONArray comments_id = new JSONArray();
-                    comments_id.add("1");
-                    JSONArray categories_id = new JSONArray();
-                    categories_id.add("1");
-                    JSONArray tags_id = new JSONArray();
-                    tags_id.add("1");
-
-                    jsonStringInner.put("user_id","jojo@gmail.com");
-                    jsonStringInner.put("likes_id",likes_id);
-                    jsonStringInner.put("dislikes_id",dislikes_id);
-                    jsonStringInner.put("comments_id",comments_id);
-                    jsonStringInner.put("categories_id",categories_id);
-                    jsonStringInner.put("tags_id",tags_id);
-                    jsonStringInner.put("image_id","4");
-
-                    jsonString.put("method", "insert_post");
-                    jsonString.put("payload" ,jsonStringInner);
-                    System.out.println(jsonString);
-                    System.out.println(" [x] add post ");
-                    response = rpcClient.call(jsonString.toString());
-                    System.out.println(" [.] Got '" + response + "'");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (rpcClient != null) {
-                        try {
-                            rpcClient.close();
-                        } catch (IOException _ignore) {
-                        }
-                    }
+                    rpcClient.close();
+                } catch (IOException _ignore) {
                 }
             }
+        }
+    }
 
 }
+
 

@@ -47,8 +47,8 @@ public class HttpServer extends AllDirectives {
     }
 
     // (fake) async database query api
-    private CompletionStage<Optional<Item>> fetchItem(long itemId) {
-        return CompletableFuture.completedFuture(Optional.of(new Item("foo", itemId)));
+    private CompletionStage<Optional<Item>> getPost(long postId) {
+        return CompletableFuture.completedFuture(Optional.of(new Item("foo", postId)));
     }
 
     // (fake) async database query api
@@ -60,9 +60,9 @@ public class HttpServer extends AllDirectives {
 
         return route(
                 get(() ->
-                        pathPrefix("item", () ->
+                        pathPrefix("post", () ->
                                 path(longSegment(), (Long id) ->     {
-                                    final CompletionStage<Optional<Item>> futureMaybeItem = fetchItem(id);
+                                    final CompletionStage<Optional<Item>> futureMaybeItem = getPost(id);
                                     return onSuccess(futureMaybeItem, maybeItem ->
                                             maybeItem.map(item -> completeOK(item, Jackson.marshaller()))
                                                     .orElseGet(() -> complete(StatusCodes.NOT_FOUND, "Not Found"))
