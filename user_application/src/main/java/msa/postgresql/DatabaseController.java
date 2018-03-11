@@ -49,8 +49,7 @@ public class DatabaseController {
         }finally
          {
             session.close();
-            System.out.println("EROOOOOORRR");
-             return null;
+             return userID;
 
         }
     }
@@ -270,7 +269,7 @@ public class DatabaseController {
     }
 
 
-    public void addPin (UUID userID, UUID pinID ){
+    public boolean addPin (UUID userID, UUID pinID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -280,15 +279,17 @@ public class DatabaseController {
             user.getPinnedPosts().add(pinID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
-    public void removePin (UUID userID, UUID pinID ){
+    public boolean removePin (UUID userID, UUID pinID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -298,9 +299,11 @@ public class DatabaseController {
             user.getPinnedPosts().remove(pinID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -346,7 +349,7 @@ public class DatabaseController {
 
 
 
-    public void likePhotos(UUID userID, UUID likedPhotoID ){
+    public boolean likePhotos(UUID userID, UUID likedPhotoID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -356,16 +359,18 @@ public class DatabaseController {
             user.getUserLikedPhotos().add(likedPhotoID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
 
-    public void unlikePhotos(UUID userID, UUID unlikedPhotoID ){
+    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -375,16 +380,18 @@ public class DatabaseController {
             user.getUserLikedPhotos().remove(unlikedPhotoID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
 
-    public void dislikePhotos(UUID userID, UUID dislikedPhotoID ){
+    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -394,15 +401,18 @@ public class DatabaseController {
             user.getUserDislikedPhotos().add(dislikedPhotoID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
+
     }
 
-    public void undislikePhotos(UUID userID, UUID undislikedPhotoID ){
+    public boolean undislikePhotos(UUID userID, UUID undislikedPhotoID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -412,9 +422,11 @@ public class DatabaseController {
             user.getUserDislikedPhotos().remove(undislikedPhotoID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -464,7 +476,7 @@ public class DatabaseController {
         return user;
     }
 
-    public void blockUser(UUID userID, UUID blocked ){
+    public boolean blockUser(UUID userID, UUID blocked ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -477,9 +489,11 @@ public class DatabaseController {
 
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -507,7 +521,7 @@ public class DatabaseController {
     }
 
 
-    public void followUser(UUID userID, UUID followingId ){
+    public boolean followUser(UUID userID, UUID followingId ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -520,16 +534,18 @@ public class DatabaseController {
             user.getFollow().add(following);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
 
-    public void unfollowUser(UUID userID, UUID followingId ){
+    public boolean unfollowUser(UUID userID, UUID followingId ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -541,9 +557,11 @@ public class DatabaseController {
             user.getFollow().remove(following);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }

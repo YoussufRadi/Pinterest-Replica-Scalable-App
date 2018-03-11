@@ -1,17 +1,50 @@
 package msa.pojo;
 
 import com.google.gson.annotations.SerializedName;
+import msa.pojo.User;
 
 public class Message {
     private String method;
 
     @SerializedName("payload")
     private User payload;
-
-    private String id;
+    private String otherUserId;
     private String pinId;
     private String boardId;
-    private String userId;
+
+    public String getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
+    }
+    private String photoId;
+
+    public String getOtherUserId() {
+        return otherUserId;
+    }
+
+    public void setOtherUserId(String otherUserId) {
+        this.otherUserId = otherUserId;
+    }
+
+    public String getPinId() {
+        return pinId;
+    }
+
+    public void setPinId(String pinId) {
+        this.pinId = pinId;
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+    }
+    // private String userId;
 
 
 

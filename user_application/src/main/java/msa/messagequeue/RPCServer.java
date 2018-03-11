@@ -129,6 +129,9 @@ public class RPCServer {
                 return message;
 
             case "signUp" :
+                System.out.println(payload.getEmail());
+                System.out.println(payload.getAge());
+
                 UUID id  = qHandler.addUser(payload.getFirstName(),payload.getLastName(),payload.getUsername(),
                         payload.getEmail(),payload.getPassword(),payload.isGender(),payload.getAge());
                 System.out.println("ID FROM SERVER");
@@ -143,12 +146,63 @@ public class RPCServer {
                         payload.getLastName(),payload.getPassword(),
                         payload.getUsername(),payload.getAge(),payload.isGender());
 
-
-
+            case "likePhoto" :
+                System.out.println(UUID.fromString(msg.getPhotoId()));
+                boolean liveFlag= qHandler.likePhotos(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPhotoId()));
                 // return message;
 
+                return  liveFlag;
 
+            case "unlikePhoto" :
+                System.out.println(UUID.fromString(msg.getPhotoId()));
+                boolean unlikePhotoFlag= qHandler.unlikePhotos(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPhotoId()));
+                // return message;
 
+                return  unlikePhotoFlag;
+
+            case "dislikePhoto" :
+                System.out.println(UUID.fromString(msg.getPhotoId()));
+                boolean dislikePhotoFlag= qHandler.dislikePhotos(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPhotoId()));
+                // return message;
+
+                return  dislikePhotoFlag;
+
+            case "undislikePhoto" :
+                System.out.println(UUID.fromString(msg.getPhotoId()));
+                boolean undislikePhotoFlag= qHandler.undislikePhotos(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPhotoId()));
+                // return message;
+
+                return  undislikePhotoFlag;
+            case "addPin" :
+                boolean addPinFlag= qHandler.addPin(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPinId()));
+                // return message;
+
+                return  addPinFlag;
+            case "removePin" :
+                boolean removePinFlag= qHandler.removePin(msg.getPayload().getId(),
+                        UUID.fromString(msg.getPinId()));
+                // return message;
+
+                return  removePinFlag;
+
+            case "followUser" :
+                boolean followUserFlag= qHandler.followUser(msg.getPayload().getId(),
+                        UUID.fromString(msg.getOtherUserId()));
+                // return message;
+
+                return  followUserFlag;
+
+            case "unfollowUser" :
+                boolean unFollowUserFlag= qHandler.unfollowUser(msg.getPayload().getId(),
+                        UUID.fromString(msg.getOtherUserId()));
+                // return message;
+
+                return  unFollowUserFlag;
         }
 
         return null;

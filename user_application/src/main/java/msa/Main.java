@@ -1,14 +1,9 @@
 package msa;
 
 import msa.messagequeue.QHandler;
-import msa.pojo.UserLiveObject;
 import msa.postgresql.DatabaseController;
 import msa.redis.RedisConf;
-import org.redisson.Redisson;
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.util.UUID;
 

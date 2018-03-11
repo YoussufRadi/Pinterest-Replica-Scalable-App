@@ -12,7 +12,6 @@ import java.util.UUID;
 public class UserLiveObject {
 
     @RId
-
     private String id;
 
     public String getUserId() {
