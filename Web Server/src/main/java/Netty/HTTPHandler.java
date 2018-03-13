@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static io.netty.buffer.Unpooled.copiedBuffer;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
@@ -27,12 +28,14 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg)
             throws Exception {
+        System.out.println("HTTP Handler");
         if (msg instanceof HttpRequest) {
             HttpRequest request = this.request = (HttpRequest) msg;
             if (HttpHeaders.is100ContinueExpected(request)) {
                 send100Continue(ctx);
             }
 
+            System.out.println(request);
         }
         if (msg instanceof HttpContent) {
             HttpContent httpContent = (HttpContent) msg;
@@ -57,7 +60,11 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        ctx.close();
+        ctx.writeAndFlush(new DefaultFullHttpResponse(
+                HttpVersion.HTTP_1_1,
+                HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                copiedBuffer(cause.getMessage().getBytes())
+        ));
     }
 
 }
