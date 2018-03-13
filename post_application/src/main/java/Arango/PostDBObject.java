@@ -1,9 +1,11 @@
 package Arango;
 
+import com.arangodb.entity.DocumentEntity;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PostDBObject extends com.arangodb.entity.DocumentEntity {
+public class PostDBObject extends DocumentEntity {
 
     private String user_id;
     private ArrayList<String> likes_id;
@@ -22,7 +24,9 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
         this.created_at = created_at;
     }
 
-    public PostDBObject(){}
+    public PostDBObject(){
+        super();
+    }
 
     @Override
     public String toString() {
@@ -44,7 +48,6 @@ public class PostDBObject extends com.arangodb.entity.DocumentEntity {
         this.categories_id = categories_id;
         this.tags_id = tags_id;
         this.image_id = image_id;
-
         this.likes_id = new ArrayList<String>();
         this.dislikes_id = new ArrayList<String>();
         this.comments_id = new ArrayList<String>();

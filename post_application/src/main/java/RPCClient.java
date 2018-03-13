@@ -1,4 +1,6 @@
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -68,27 +70,40 @@ public class RPCClient {
                     rpcClient = new RPCClient();
                     JSONObject jsonString = new JSONObject();
                     JSONObject jsonStringInner = new JSONObject();
+//                    JSONObject jsonObject = new JSONObject();
+//                    jsonObject.put("method","get_category");
+//                    jsonObject.put("category_id","61316");
+//                    jsonStringInner.put("title","cars");
+//                    JsonArray post_ids = new JsonArray();
+//                    post_ids.add("43551");
+//                    jsonStringInner.put("posts_id",post_ids);
+//                    jsonObject.put("category_object",jsonStringInner);
+//                    response = rpcClient.call(jsonObject.toString());
+
+
+
+//
+
                     JSONArray likes_id = new JSONArray();
                     likes_id.add("1");
                     JSONArray dislikes_id = new JSONArray();
                     dislikes_id.add("1");
                     JSONArray comments_id = new JSONArray();
                     comments_id.add("1");
-                    JSONArray categories_id = new JSONArray();
-                    categories_id.add("1");
+
                     JSONArray tags_id = new JSONArray();
                     tags_id.add("1");
 
-                    jsonStringInner.put("user_id","jojo@gmail.com");
+                    jsonStringInner.put("user_id","15");
                     jsonStringInner.put("likes_id",likes_id);
                     jsonStringInner.put("dislikes_id",dislikes_id);
                     jsonStringInner.put("comments_id",comments_id);
-                    jsonStringInner.put("categories_id",categories_id);
                     jsonStringInner.put("tags_id",tags_id);
                     jsonStringInner.put("image_id","4");
 
-                    jsonString.put("method", "insert_post");
-                    jsonString.put("payload" ,jsonStringInner);
+                    jsonString.put("method", "update_post");
+                    jsonString.put("post_object" ,jsonStringInner);
+                    jsonString.put("post_id","32035");
                     System.out.println(jsonString);
                     System.out.println(" [x] add post ");
                     response = rpcClient.call(jsonString.toString());
