@@ -63,7 +63,7 @@ public class RPCClient {
     public static void main(String[] argv) {
         RPCClient Rpc = null;
         String response = "";
-
+        for (int i = 0; i < 25; i++) {
 
 
             try {
@@ -74,20 +74,20 @@ public class RPCClient {
                 JSONObject jsonString = new JSONObject();
                 JSONObject jsonStringInner = new JSONObject();
 
-                jsonStringInner.put("id","b935d19e-7725-4c64-9fe6-8f432a8e226b");
-                //jsonStringInner.put("password","password");
-               /* jsonStringInner.put("age","14");
+                jsonStringInner.put("email","jojo@gmail.com");
+                jsonStringInner.put("password","password");
+                jsonStringInner.put("14","age");
                 jsonStringInner.put("firstName","Moe");
                 jsonStringInner.put("lastName","Moe");
                 jsonStringInner.put("gender","true");
-                jsonStringInner.put("username","MoeUserName");*/
+                jsonStringInner.put("username","MoeUserName");
 
 
 
 
-                jsonString.put("method", "unfollowUser");
+                jsonString.put("method", "signUp");
                         jsonString.put("payload" ,jsonStringInner);
-                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
 
                 response = Rpc.call(jsonString.toString());
                 System.out.println(" [.] Got '" + response + "'");
@@ -102,6 +102,6 @@ public class RPCClient {
                 }
             }
         }
-
+    }
 }
 
