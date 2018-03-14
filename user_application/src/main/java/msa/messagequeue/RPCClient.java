@@ -66,16 +66,18 @@ public class RPCClient {
 
 
 
-            try {
-                Rpc = new RPCClient();
+        try {
+            Rpc = new RPCClient();
 
-                System.out.println(" [x] Requesting JSON");
+            System.out.println(" [x] Requesting JSON");
 
-                JSONObject jsonString = new JSONObject();
-                JSONObject jsonStringInner = new JSONObject();
+            JSONObject jsonString = new JSONObject();
+            JSONObject jsonStringInner = new JSONObject();
 
-                jsonStringInner.put("id","b935d19e-7725-4c64-9fe6-8f432a8e226b");
-                //jsonStringInner.put("password","password");
+            //jsonStringInner.put("id","8d86fbfa-b98c-47d0-aeef-ee7a3450a06d");
+            jsonStringInner.put("password","password");
+            jsonStringInner.put("email","jojo@gmail.com");
+
                /* jsonStringInner.put("age","14");
                 jsonStringInner.put("firstName","Moe");
                 jsonStringInner.put("lastName","Moe");
@@ -83,25 +85,55 @@ public class RPCClient {
                 jsonStringInner.put("username","MoeUserName");*/
 
 
+            //////   ******Blocking/Unblocking users Test*****
+//                jsonString.put("method", "blockUser");
+//                        jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+//                jsonString.put("method", "unblockUser");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+            //////   ****** Follow/Unfollow Hashtag Test*****
+              jsonString.put("method", "signIn");
+                jsonString.put("payload" ,jsonStringInner);
+                //jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+//                jsonString.put("method", "unfollowHashtags");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+            ////////****** Follow/Unfollow Category test **********
+                //jsonString.put("method", "followCategories");
+               // jsonString.put("payload" ,jsonStringInner);
+                //jsonString.put("categoryId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+//                jsonString.put("method", "unfollowCategories");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("categoryId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
 
 
-                jsonString.put("method", "unfollowUser");
-                        jsonString.put("payload" ,jsonStringInner);
-                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+            ///////////////////// ***** Add board test *****************
+//                jsonString.put("method", "addBoard");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("boardId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//                jsonString.put("method", "removeBoard");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("boardId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
 
-                response = Rpc.call(jsonString.toString());
-                System.out.println(" [.] Got '" + response + "'");
-            } catch (IOException | TimeoutException | InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                if (Rpc != null) {
-                    try {
-                        Rpc.close();
-                    } catch (IOException _ignore) {
-                    }
+            response = Rpc.call(jsonString.toString());
+            System.out.println(" [.] Got '" + response + "'");
+        } catch (IOException | TimeoutException | InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (Rpc != null) {
+                try {
+                    Rpc.close();
+                } catch (IOException _ignore) {
                 }
             }
         }
+    }
 
 }
 

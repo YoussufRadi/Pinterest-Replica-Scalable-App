@@ -203,7 +203,64 @@ public class RPCServer {
                 // return message;
 
                 return  unFollowUserFlag;
-        }
+
+
+        case "blockUser" :
+        boolean blockUserFlag= qHandler.blockUser(msg.getPayload().getId(),
+                UUID.fromString(msg.getOtherUserId()));
+        // return message;
+
+        return  blockUserFlag;
+
+        case "unblockUser" :
+        boolean unblockUserFlag= qHandler.UnblockUser(msg.getPayload().getId(),
+                UUID.fromString(msg.getOtherUserId()));
+        // return message;
+
+        return  unblockUserFlag;
+
+        case "followHashtags" :
+        boolean followHashtagFlag= qHandler.followHashtags(msg.getPayload().getId(),
+                UUID.fromString(msg.getHashtagId()));
+        // return message;
+
+        return  followHashtagFlag;
+
+        case "unfollowHashtags" :
+        boolean unfollowHashtagFlag= qHandler.unfollowHashtags(msg.getPayload().getId(),
+                UUID.fromString(msg.getHashtagId()));
+        // return message;
+
+        return  unfollowHashtagFlag;
+
+        case "followCategories" :
+        boolean followCategoriesFlag= qHandler.followCategories(msg.getPayload().getId(),
+                UUID.fromString(msg.getCategoryId()));
+        // return message;
+
+        return  followCategoriesFlag;
+
+        case "unfollowCategories" :
+        boolean unfollowCategoriesFlag= qHandler.unfollowCategories(msg.getPayload().getId(),
+                UUID.fromString(msg.getCategoryId()));
+        // return message;
+
+        return  unfollowCategoriesFlag;
+        case "addBoard" :
+        boolean addBoardId= qHandler.addBoard(msg.getPayload().getId(),
+                UUID.fromString(msg.getBoardId()));
+        // return message;
+
+        return  addBoardId;
+
+        case "removeBoard" :
+        boolean removeBoardFlag= qHandler.removeBoard(msg.getPayload().getId(),
+                UUID.fromString(msg.getBoardId()));
+        // return message;
+
+        return  removeBoardFlag;
+
+    }
 
         return null;
     }
