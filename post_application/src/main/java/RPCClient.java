@@ -20,8 +20,8 @@ public class RPCClient {
 
     private Connection connection;
     private Channel channel;
-    private String requestQueueName = "post_queue";
-    private String replyQueueName;
+    private String requestQueueName = "post-request";
+    private String replyQueueName = "post-response";
 
     public RPCClient() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
@@ -30,7 +30,7 @@ public class RPCClient {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
-        replyQueueName = channel.queueDeclare().getQueue();
+        //replyQueueName = channel.queueDeclare().getQueue();
     }
 
     public String call(String message) throws IOException, InterruptedException {
@@ -70,43 +70,43 @@ public class RPCClient {
                     rpcClient = new RPCClient();
                     JSONObject jsonString = new JSONObject();
                     JSONObject jsonStringInner = new JSONObject();
-//                    JSONObject jsonObject = new JSONObject();
-//                    jsonObject.put("method","get_category");
-//                    jsonObject.put("category_id","61316");
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("method","get_category");
+                    jsonObject.put("category_id","61316");
 //                    jsonStringInner.put("title","cars");
 //                    JsonArray post_ids = new JsonArray();
 //                    post_ids.add("43551");
 //                    jsonStringInner.put("posts_id",post_ids);
 //                    jsonObject.put("category_object",jsonStringInner);
-//                    response = rpcClient.call(jsonObject.toString());
+                    response = rpcClient.call("{\"command\" : \"getPost\",\"post_id\" : \"32035\"}");
 
 
 
 //
 
-                    JSONArray likes_id = new JSONArray();
-                    likes_id.add("1");
-                    JSONArray dislikes_id = new JSONArray();
-                    dislikes_id.add("1");
-                    JSONArray comments_id = new JSONArray();
-                    comments_id.add("1");
-
-                    JSONArray tags_id = new JSONArray();
-                    tags_id.add("1");
-
-                    jsonStringInner.put("user_id","15");
-                    jsonStringInner.put("likes_id",likes_id);
-                    jsonStringInner.put("dislikes_id",dislikes_id);
-                    jsonStringInner.put("comments_id",comments_id);
-                    jsonStringInner.put("tags_id",tags_id);
-                    jsonStringInner.put("image_id","4");
-
-                    jsonString.put("method", "update_post");
-                    jsonString.put("post_object" ,jsonStringInner);
-                    jsonString.put("post_id","32035");
-                    System.out.println(jsonString);
-                    System.out.println(" [x] add post ");
-                    response = rpcClient.call(jsonString.toString());
+//                    JSONArray likes_id = new JSONArray();
+//                    likes_id.add("1");
+//                    JSONArray dislikes_id = new JSONArray();
+//                    dislikes_id.add("1");
+//                    JSONArray comments_id = new JSONArray();
+//                    comments_id.add("1");
+//
+//                    JSONArray tags_id = new JSONArray();
+//                    tags_id.add("1");
+//
+//                    jsonStringInner.put("user_id","15");
+//                    jsonStringInner.put("likes_id",likes_id);
+//                    jsonStringInner.put("dislikes_id",dislikes_id);
+//                    jsonStringInner.put("comments_id",comments_id);
+//                    jsonStringInner.put("tags_id",tags_id);
+//                    jsonStringInner.put("image_id","4");
+//
+//                    jsonString.put("method", "update_post");
+//                    jsonString.put("post_object" ,jsonStringInner);
+//                    jsonString.put("post_id","32035");
+//                    System.out.println(jsonString.toString());
+//                    System.out.println(" [x] add post ");
+//                    response = rpcClient.call(jsonString.toString());
                     System.out.println(" [.] Got '" + response + "'");
                 } catch (Exception e) {
                     e.printStackTrace();

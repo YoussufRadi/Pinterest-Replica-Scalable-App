@@ -112,9 +112,9 @@ public class RPCServer {
 
         switch (method){
             case "insert_post":
-                    PostDBObject postDBObject = msg.getPost_object();
-                    returned = qHandler.insert_post(postDBObject);
-                     break;
+                PostDBObject postDBObject = msg.getPost_object();
+                returned = qHandler.insert_post(postDBObject);
+                break;
             case "get_post":
                 PostLiveObject post= qHandler.getPost(msg.getPost_id());
                 returned = post;

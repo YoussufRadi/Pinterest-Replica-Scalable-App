@@ -4,6 +4,9 @@ import com.arangodb.velocypack.annotations.SerializedName;
 
 public class Message {
     private String method;
+    private String command;
+
+
 
     @SerializedName("post_object")
     private PostDBObject post_object;
@@ -16,6 +19,15 @@ public class Message {
 
     @SerializedName("category_object")
     private CategoryDBObject category_object;
+
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
 
     public CategoryDBObject getCategory_object() {
         return category_object;
