@@ -24,6 +24,8 @@ public class JSONHandler extends SimpleChannelInboundHandler<Object> {
             System.out.println(jsonObject.toString());
         } catch (JSONException e) {
             System.out.println("No JSON");
+            System.out.println("String");
+            System.out.println((String) buffer.toString(CharsetUtil.UTF_8));
         }
 
 
