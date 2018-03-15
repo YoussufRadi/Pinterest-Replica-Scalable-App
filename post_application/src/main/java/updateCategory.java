@@ -35,9 +35,10 @@ public class updateCategory extends Command {
         System.out.println(properties.getReplyTo());
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+        System.out.println(jsonObject);
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-        String category = gson.toJson(updateCategoty(message.getCategory_id(),message.getCategory_object()));
+        String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object()));
         String response = category;
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
@@ -48,7 +49,7 @@ public class updateCategory extends Command {
         }
 
     }
-    public CategoryDBObject updateCategoty(String category_id, CategoryDBObject categoryDBObject){
+    public CategoryDBObject updateCategory(String category_id, CategoryDBObject categoryDBObject){
         arangoInstance.updateCategory(category_id,categoryDBObject);
         CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
         if(categoryLiveObject != null){
@@ -57,5 +58,4 @@ public class updateCategory extends Command {
         }
         return arangoInstance.getCategory(category_id);
     }
-
 }

@@ -35,7 +35,8 @@ public class insertPost extends Command {
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-        arangoInstance.insertNewPost(message.getPost_object());
+
+       arangoInstance.insertNewPost(message.getPost_object());;
         String post = gson.toJson(message.getPost_object());
         String response = post;
         try {

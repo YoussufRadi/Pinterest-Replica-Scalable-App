@@ -71,19 +71,11 @@ public class RPCClient {
                     JSONObject jsonString = new JSONObject();
                     JSONObject jsonStringInner = new JSONObject();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("method","get_category");
-                    jsonObject.put("category_id","61316");
-//                    jsonStringInner.put("title","cars");
-//                    JsonArray post_ids = new JsonArray();
-//                    post_ids.add("43551");
-//                    jsonStringInner.put("posts_id",post_ids);
-//                    jsonObject.put("category_object",jsonStringInner);
-                    response = rpcClient.call("{\"command\" : \"getPost\",\"post_id\" : \"32035\"}");
-
-
-
-//
-
+                    jsonObject.put("command","updateCategory");
+                    jsonStringInner.put("title","dresses");
+                    JsonArray posts_id = new JsonArray();
+                    posts_id.add("2");
+                    jsonStringInner.put("posts_id",posts_id);
 //                    JSONArray likes_id = new JSONArray();
 //                    likes_id.add("1");
 //                    JSONArray dislikes_id = new JSONArray();
@@ -94,12 +86,31 @@ public class RPCClient {
 //                    JSONArray tags_id = new JSONArray();
 //                    tags_id.add("1");
 //
-//                    jsonStringInner.put("user_id","15");
+//                    jsonStringInner.put("user_id","13");
 //                    jsonStringInner.put("likes_id",likes_id);
 //                    jsonStringInner.put("dislikes_id",dislikes_id);
 //                    jsonStringInner.put("comments_id",comments_id);
 //                    jsonStringInner.put("tags_id",tags_id);
-//                    jsonStringInner.put("image_id","4");
+//                    jsonStringInner.put("image_id","12");
+
+                    jsonObject.put("category_object",jsonStringInner);
+                    jsonObject.put("category_id","61316");
+                    //System.out.println(jsonObject);
+                    //System.out.println(jsonObject);
+                    response = rpcClient.call(jsonObject.toString());
+
+//                    jsonStringInner.put("title","cars");
+//                    JsonArray post_ids = new JsonArray();
+//                    post_ids.add("43551");
+//                    jsonStringInner.put("posts_id",post_ids);
+//                    jsonObject.put("category_object",jsonStringInner);
+                    //response = rpcClient.call("{\"command\" : \"getCategory\",\"category_id\" : \"70348\"}");
+
+
+
+//
+
+
 //
 //                    jsonString.put("method", "update_post");
 //                    jsonString.put("post_object" ,jsonStringInner);
