@@ -7,9 +7,7 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,31 +46,27 @@ public class UserService {
                             .build();
                     System.out.println("Responding to corrID: "+ properties.getCorrelationId());
 
-                    String response = "";
 
                     try {
 
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
-                        JSONParser parser = new JSONParser();
-                        JSONObject command = (JSONObject) parser.parse(message);
-                        String className = "UserService." + (String)command.get("command");
+                        JSONObject jsonRequest = new JSONObject(message);
+
+                        String className = "UserService." + (String)jsonRequest.get("command");
                         Class com = Class.forName(className);
                         Command cmd = (Command) com.newInstance();
-
                         HashMap<String, Object> init = new HashMap<String, Object>();
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);
                         init.put("envelope", envelope);
-                        init.put("body", message);
+                        init.put("body", jsonRequest.get("body"));
 
                         cmd.init(init);
                         executor.submit(cmd);
                     } catch (RuntimeException e) {
                         System.out.println(" [.] " + e.toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
@@ -80,9 +74,9 @@ public class UserService {
                     } catch (InstantiationException e) {
                         e.printStackTrace();
                     } finally {
-                        synchronized (this) {
-                            this.notify();
-                        }
+//                        synchronized (this) {
+//                            this.notify();
+//                        }
                     }
                 }
             };

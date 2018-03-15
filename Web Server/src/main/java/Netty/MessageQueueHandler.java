@@ -100,7 +100,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                         .build();
                 System.out.println("Responding to corrID: " + properties.getCorrelationId());
                 String responseMsg = new String(body, "UTF-8");
-                System.out.println(responseMsg);
+                System.out.println("Response   :   " + responseMsg);
                 System.out.println();
                 if (replyProps.getCorrelationId().equals(corrId)) {
 
@@ -127,6 +127,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                     ctx.writeAndFlush(response);
                     ctx.close();
                     try {
+//                        currentChannel.basicAck(envelope.getDeliveryTag(), false);
                         currentChannel.getConnection().close();
                         currentChannel.close();
                     } catch (TimeoutException e) {
