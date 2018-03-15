@@ -1,7 +1,5 @@
 package Netty;
 
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -24,7 +22,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("encoder", new HttpResponseEncoder());
         p.addLast(new CorsHandler(corsConfig));
         p.addLast(new HTTPHandler());
-        p.addLast("JSON",new JSONHandler());
+        p.addLast("MQ",new MessageQueueHandler());
 //        p.addLast("aggregator",
 //                new HttpObjectAggregator(512 * 1024));
 //        p.addLast("request",new CustumHandler());

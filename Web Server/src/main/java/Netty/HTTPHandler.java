@@ -4,27 +4,24 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
-import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static io.netty.buffer.Unpooled.copiedBuffer;
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
+public class HTTPHandler extends ChannelInboundHandlerAdapter {
     private HttpRequest request;
     private String requestBody;
     private long correlationId;
@@ -38,7 +35,7 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg)
+    public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         System.out.println("HTTP Handler");
         JSONObject fullRequest = new JSONObject();
@@ -49,9 +46,9 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
                 send100Continue(ctx);
             }
 
-            fullRequest.put("version",request.protocolVersion());
-            fullRequest.put("hostname",request.headers().get(HttpHeaderNames.HOST, "unknown"));
-            fullRequest.put("uri",request.uri());
+            fullRequest.put("Version",request.protocolVersion());
+            fullRequest.put("Hostname",request.headers().get(HttpHeaderNames.HOST, "unknown"));
+            fullRequest.put("Uri",request.uri());
 
             HttpHeaders headers = request.headers();
             JSONObject headerJson = new JSONObject();
@@ -59,11 +56,11 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
                 for (Map.Entry<String, String> h: headers) {
                     CharSequence key = h.getKey();
                     CharSequence value = h.getValue();
-                    headerJson.put(key, value);
+                    headerJson.put(key.toString(), value.toString());
                 }
             }
 
-            fullRequest.put("headers", headerJson);
+            fullRequest.put("Headers", headerJson);
 
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
             Map<String, List<String>> params = queryStringDecoder.parameters();
@@ -77,13 +74,14 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
                     }
                 }
             }
-            fullRequest.put("parameters",paramJson);
+            fullRequest.put("Parameters",paramJson);
             String requestId = UUID.randomUUID().toString();
 
             ctx.channel().attr(AttributeKey.valueOf("REQUEST")).set(fullRequest);
             ctx.channel().attr(AttributeKey.valueOf("CORRID")).set(requestId);
 
-//            System.out.println(fullRequest.toString());
+            System.out.println(fullRequest.toString());
+            System.out.println();
         }
 
         if (msg instanceof HttpContent) {
@@ -95,10 +93,10 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
         if (msg instanceof LastHttpContent) {
 //            LastHttpContent trailer = (LastHttpContent) msg;
             HttpObject trailer = (HttpObject) msg;
-            if (!writeResponse(trailer, ctx)) {
-                // If keep-alive is off, close the connection once the content is fully written.
-                ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-            }
+//            if (!writeResponse(trailer, ctx)) {
+//                // If keep-alive is off, close the connection once the content is fully written.
+//                ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+//            }
         }
     }
 
