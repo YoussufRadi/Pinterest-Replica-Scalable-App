@@ -25,7 +25,6 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
-        System.out.println("JSON HANDLER");
         ByteBuf buffer = (ByteBuf) o;
 
         //try and catch
@@ -73,6 +72,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                     .replyTo(RPC_QUEUE_NAME + "-response")
                     .build();
             System.out.println("Sent: "+ jsonRequest.toString());
+            System.out.println();
             channel.basicPublish("", RPC_QUEUE_NAME + "-request", props, jsonRequest.toString().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                 System.out.println("Responding to corrID: " + properties.getCorrelationId());
                 String responseMsg = new String(body, "UTF-8");
                 System.out.println(responseMsg);
-
+                System.out.println();
                 if (replyProps.getCorrelationId().equals(corrId)) {
 
                     JSONObject responseJson = new JSONObject(responseMsg);
@@ -112,8 +112,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                             HttpResponseStatus.OK,
                             copiedBuffer(responseJson.toString().getBytes()));
 
-                    JSONObject headers = new JSONObject(jsonRequest.get("Headers"));
-
+                    JSONObject headers = (JSONObject) jsonRequest.get("Headers");
                     Iterator<String> keys = headers.keys();
 
                     while (keys.hasNext()) {
@@ -122,12 +121,11 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                         response.headers().set(key, value);
                     }
 
-                    System.out.println(responseJson.toString());
                     response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json");
                     response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
 
                     ctx.writeAndFlush(response);
-
+                    ctx.close();
                     try {
                         currentChannel.getConnection().close();
                         currentChannel.close();
@@ -140,7 +138,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
 
         };
         try {
-            currentChannel.basicConsume(RPC_QUEUE_NAME, true, consumer);
+            currentChannel.basicConsume(RPC_QUEUE_NAME + "-response", true, consumer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,7 +148,7 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
-        ctx.close();
+//        ctx.close();
     }
 
     @Override

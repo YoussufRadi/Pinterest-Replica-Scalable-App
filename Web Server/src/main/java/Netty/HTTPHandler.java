@@ -37,7 +37,6 @@ public class HTTPHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-        System.out.println("HTTP Handler");
         JSONObject fullRequest = new JSONObject();
 
         if (msg instanceof HttpRequest) {
@@ -80,8 +79,6 @@ public class HTTPHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().attr(AttributeKey.valueOf("REQUEST")).set(fullRequest);
             ctx.channel().attr(AttributeKey.valueOf("CORRID")).set(requestId);
 
-            System.out.println(fullRequest.toString());
-            System.out.println();
         }
 
         if (msg instanceof HttpContent) {
