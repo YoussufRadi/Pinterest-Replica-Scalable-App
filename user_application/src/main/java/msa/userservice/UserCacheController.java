@@ -1,4 +1,4 @@
-package msa.messagequeue;
+package msa.userservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,7 +6,6 @@ import msa.pojo.User;
 import msa.pojo.UserLiveObject;
 import msa.postgresql.DatabaseController;
 import msa.redis.RedisConf;
-import org.hibernate.Hibernate;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLiveObjectService;
 
@@ -14,16 +13,14 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
-public class QHandler {
+public class UserCacheController {
 
-    private DatabaseController dbcont ;
+    private DatabaseController dbcont;
     private RedisConf redisConf;
-    private RLiveObjectService service ;
+    private RLiveObjectService service;
 
 
-
-
-    public QHandler() throws IOException {
+    public  UserCacheController() throws IOException {
 
         //initializations no big issue
         dbcont = new DatabaseController();
@@ -33,12 +30,12 @@ public class QHandler {
     }
 
     public UUID addUser(String fname, String lname,
-                        String username, String email,String password,
+                        String username, String email, String password,
                         boolean gender, int age) {
 
         //call the method from the database
-        UUID id = dbcont.addUser(fname,lname,username,email,password,gender,age);
-        if(id == null)
+        UUID id = dbcont.addUser(fname, lname, username, email, password, gender, age);
+        if (id == null)
             return null;
         try {
             //make a live object which is explained in the UserLiveObject.class
@@ -58,7 +55,7 @@ public class QHandler {
             // set the value to the user id
             bucket.set(id.toString());
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             e.printStackTrace();
             return null;
@@ -73,12 +70,12 @@ public class QHandler {
 
     }
 
-    public void updateUser(UUID userID,
+    public boolean updateUser(UUID userID,
                            String firstName, String lastname, String password,
-                           String username, int age, boolean gender ) {
+                           String username, int age, boolean gender) {
 
         //we update the user in the database easy
-        dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
+       boolean res= dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
 
         //we check if the user is in the cache we update him
         try {
@@ -94,17 +91,20 @@ public class QHandler {
                 user.setUsername(username);
                 user.setAge(age);
                 user.setGender(gender);
+                return res;
 
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return false;
     }
 
-    public boolean addBoard (UUID userID, UUID boardID ){
+    public boolean addBoard(UUID userID, UUID boardID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.addBoard(userID,boardID);
+        boolean flag = dbcont.addBoard(userID, boardID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -120,7 +120,7 @@ public class QHandler {
                 return flag;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -128,10 +128,10 @@ public class QHandler {
         return flag;
     }
 
-    public boolean removeBoard (UUID userID, UUID boardID ){
+    public boolean removeBoard(UUID userID, UUID boardID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.removeBoard(userID,boardID);
+        boolean flag = dbcont.removeBoard(userID, boardID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -148,7 +148,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -158,10 +158,11 @@ public class QHandler {
 
         return flag;
     }
-    public boolean followCategories(UUID userID, UUID categoryID ){
+
+    public boolean followCategories(UUID userID, UUID categoryID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.followCategories(userID,categoryID);
+        boolean flag = dbcont.followCategories(userID, categoryID);
 
         try {
             // if the user is in the cache then update his boards also !!
@@ -177,7 +178,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -185,10 +186,11 @@ public class QHandler {
         return flag;
 
     }
-    public boolean unfollowCategories(UUID userID, UUID categoryID ){
+
+    public boolean unfollowCategories(UUID userID, UUID categoryID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.unfollowCategories(userID,categoryID);
+        boolean flag = dbcont.unfollowCategories(userID, categoryID);
 
         try {
             // if the user is in the cache then update his boards also !!
@@ -204,7 +206,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -213,10 +215,10 @@ public class QHandler {
 
     }
 
-    public boolean addPin (UUID userID, UUID pinID ){
+    public boolean addPin(UUID userID, UUID pinID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.addPin(userID,pinID);
+        boolean flag = dbcont.addPin(userID, pinID);
 
         try {
             // if the user is in the cache then update his boards also !!
@@ -232,7 +234,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -240,11 +242,11 @@ public class QHandler {
 
 
     }
-    public boolean removePin (UUID userID, UUID pinID ){
+
+    public boolean removePin(UUID userID, UUID pinID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.removePin(userID,pinID);
-
+        boolean flag = dbcont.removePin(userID, pinID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -261,7 +263,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -270,10 +272,11 @@ public class QHandler {
 
 
     }
-    public boolean followHashtags(UUID userID, UUID hashtagID ){
+
+    public boolean followHashtags(UUID userID, UUID hashtagID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.followHashtag(userID,hashtagID);
+        boolean flag = dbcont.followHashtag(userID, hashtagID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -290,7 +293,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -299,10 +302,11 @@ public class QHandler {
         return flag;
 
     }
-    public boolean unfollowHashtags (UUID userID, UUID hashtagID ){
+
+    public boolean unfollowHashtags(UUID userID, UUID hashtagID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.unfollowHashtag(userID,hashtagID);
+        boolean flag = dbcont.unfollowHashtag(userID, hashtagID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -319,7 +323,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -328,10 +332,11 @@ public class QHandler {
 
 
     }
-    public boolean likePhotos(UUID userID, UUID likedPhotoID ){
+
+    public boolean likePhotos(UUID userID, UUID likedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean state = dbcont.likePhotos(userID,likedPhotoID);
+        boolean state = dbcont.likePhotos(userID, likedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -348,19 +353,19 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
         return false;
     }
-    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID ){
+
+    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.unlikePhotos(userID,unlikedPhotoID);
+        boolean flag = dbcont.unlikePhotos(userID, unlikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -377,19 +382,19 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
         return flag;
     }
-    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID ){
+
+    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.dislikePhotos(userID,dislikedPhotoID);
+        boolean flag = dbcont.dislikePhotos(userID, dislikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -406,7 +411,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -415,10 +420,11 @@ public class QHandler {
 
 
     }
-    public boolean undislikePhotos(UUID userID, UUID UndislikedPhotoID ){
+
+    public boolean undislikePhotos(UUID userID, UUID UndislikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.undislikePhotos(userID,UndislikedPhotoID);
+        boolean flag = dbcont.undislikePhotos(userID, UndislikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -434,7 +440,7 @@ public class QHandler {
                 return flag;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -443,10 +449,11 @@ public class QHandler {
         return flag;
 
     }
-    public boolean blockUser(UUID userID, UUID blocked ){
+
+    public boolean blockUser(UUID userID, UUID blocked) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.blockUser(userID,blocked);
+        boolean flag = dbcont.blockUser(userID, blocked);
 
 
         // if the user is in the cache then update his boards also !!
@@ -463,20 +470,19 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
         return flag;
     }
 
-    public boolean UnblockUser(UUID userID, UUID unBlocked ){
+    public boolean UnblockUser(UUID userID, UUID unBlocked) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.unblockUser(userID,unBlocked);
+        boolean flag = dbcont.unblockUser(userID, unBlocked);
 
 
         // if the user is in the cache then update his boards also !!
@@ -493,7 +499,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -502,10 +508,11 @@ public class QHandler {
 
 
     }
-    public boolean followUser(UUID userID, UUID followingId ){
+
+    public boolean followUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.followUser(userID,followingId);
+        boolean flag = dbcont.followUser(userID, followingId);
 
 
         // if the user is in the cache then update his boards also !!
@@ -528,7 +535,7 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -537,10 +544,11 @@ public class QHandler {
         return flag;
 
     }
-    public boolean unfollowUser(UUID userID, UUID followingId ){
+
+    public boolean unfollowUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-        boolean flag= dbcont.unfollowUser(userID,followingId);
+        boolean flag = dbcont.unfollowUser(userID, followingId);
 
 
         // if the user is in the cache then update his boards also !!
@@ -562,7 +570,7 @@ public class QHandler {
                 return flag;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -572,7 +580,7 @@ public class QHandler {
 
     }
 
-    public UserLiveObject signIn (String email, String password ) {
+    public UserLiveObject signIn(String email, String password) {
 
 
         try {
@@ -586,7 +594,6 @@ public class QHandler {
                             password.equals(userLiveObject.getPassword())) {
 
                         System.out.println("hereeeeeeeee");
-
 
 
                         return userLiveObject;
@@ -636,7 +643,7 @@ public class QHandler {
                 }
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -700,14 +707,11 @@ public class QHandler {
 */
 
 
-
-
     // gets the user with all collections (Sets)
 
-    public UserLiveObject getUserWithProfileById(UUID userId)
-    {
+    public UserLiveObject getUserWithProfileById(UUID userId) {
 
-        if(service.get(UserLiveObject.class, userId.toString())!=null) {
+        if (service.get(UserLiveObject.class, userId.toString()) != null) {
             return service.get(UserLiveObject.class, userId.toString());
         }
 
@@ -723,5 +727,4 @@ public class QHandler {
 
 
     }
-
 }

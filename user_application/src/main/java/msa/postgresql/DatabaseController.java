@@ -188,7 +188,7 @@ public class DatabaseController {
     }
 
     /* Method to UPDATE firstName for an employee */
-    public void updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender ){
+    public boolean updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -203,9 +203,11 @@ public class DatabaseController {
             user.setUsername(username);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -218,6 +220,7 @@ public class DatabaseController {
         try {
             tx = session.beginTransaction();
             User user = (User)session.get(User.class, userID);
+            user.getUserCat().add(categoryID);
             user.getUserCat().add(categoryID);
             session.update(user);
             tx.commit();

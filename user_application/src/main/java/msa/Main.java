@@ -1,6 +1,6 @@
 package msa;
 
-import msa.messagequeue.QHandler;
+import msa.userservice.UserCacheController;
 import msa.postgresql.DatabaseController;
 import msa.redis.RedisConf;
 
@@ -13,9 +13,9 @@ public class Main {
 
         DatabaseController dbcontroller = new DatabaseController();
         RedisConf conf = new RedisConf();
-        QHandler q =new QHandler();
+        UserCacheController q =new UserCacheController();
 
-        //UserLiveObject userLiveObjec=q.signIn("ahmedsouidan@gmail.com","password");
+        //UserLiveObject userLiveObjec=q.SignIn("ahmedsouidan@gmail.com","password");
         //System.out.println(userLiveObjec.getId());
         UUID id = q.addUser("zaher","tarek",
                 "jojihiqh","jojo@gmail.com",

@@ -18,7 +18,7 @@ public class RPCClient {
 
     private Connection connection;
     private Channel channel;
-    private String requestQueueName = "rpc_queue";
+    private String requestQueueName = "user-request";
     private String replyQueueName;
 
     public RPCClient() throws IOException, TimeoutException {
@@ -28,7 +28,7 @@ public class RPCClient {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
-        replyQueueName = channel.queueDeclare().getQueue();
+        replyQueueName = "user-response";
     }
 
     public String call(String message) throws IOException, InterruptedException {
@@ -95,7 +95,7 @@ public class RPCClient {
 //                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
 
             //////   ****** Follow/Unfollow Hashtag Test*****
-              jsonString.put("method", "signIn");
+              jsonString.put("command", "SignIn");
                 jsonString.put("payload" ,jsonStringInner);
                 //jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
 //
