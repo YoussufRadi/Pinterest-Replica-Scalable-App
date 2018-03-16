@@ -18,11 +18,12 @@ import java.util.concurrent.TimeoutException;
 public class UserService {
 
     private static final String RPC_QUEUE_NAME = "user-request";
+    private static int threadCount = 5;
 
     public static void main(String [] argv) {
 
         //initialize thread pool of fixed size
-        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threadCount);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -33,7 +34,7 @@ public class UserService {
 
             channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
 
-            channel.basicQos(1);
+            channel.basicQos(threadCount);
 
             System.out.println(" [x] Awaiting RPC requests");
 
@@ -60,28 +61,19 @@ public class UserService {
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);
-                        init.put("body", jsonRequest.get("body"));
-
+                        init.put("request", jsonRequest);
+                        init.put("envelope", envelope);
                         cmd.init(init);
                         executor.submit(cmd);
 
-                        channel.basicAck(envelope.getDeliveryTag(), false);
-
-
                     } catch (RuntimeException e) {
                         System.out.println(" [.] " + e.toString());
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    }  catch (IOException e) {
+                    }  catch (IOException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
                         e.printStackTrace();
                     } finally {
-//                        synchronized (this) {
-//                            this.notify();
-//                        }
+                        synchronized (this) {
+                            this.notify();
+                        }
                     }
                 }
             };

@@ -18,16 +18,20 @@ public class GetUser extends Command {
 
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
+        Envelope envelope = (Envelope) parameters.get("envelope");
 
 
         System.out.println("CorrelationID :  " + replyProps.getCorrelationId());
-        JSONObject body = (JSONObject) data.get("body");
+        JSONObject request = (JSONObject) data.get("request");
+        JSONObject body = (JSONObject) request.get("body");
         System.out.println("Body :  " + body);
         String response = User.getUser((String) body.get("text"));
         System.out.println("Response :  " + response);
         System.out.println();
+        request.put("response", response);
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, request.toString().getBytes("UTF-8"));
+            channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (IOException e) {
             e.printStackTrace();
         }
