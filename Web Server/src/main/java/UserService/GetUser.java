@@ -20,8 +20,6 @@ public class GetUser extends Command {
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
 
-
-        System.out.println("CorrelationID :  " + replyProps.getCorrelationId());
         JSONObject request = (JSONObject) data.get("request");
         JSONObject body = (JSONObject) request.get("body");
         System.out.println("Body :  " + body);

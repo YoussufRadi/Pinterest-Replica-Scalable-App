@@ -63,7 +63,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
             factory.setHost("localhost");
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
-            channel.queueDeclare(RPC_QUEUE_NAME + "-request", false, false, false, null);
+            channel.queueDeclare("load_balancer", false, false, false, null);
             AMQP.BasicProperties props = new AMQP.BasicProperties
                     .Builder()
                     .correlationId(corrId)
@@ -71,7 +71,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
                     .build();
             System.out.println("Sent: "+ jsonRequest.toString());
             System.out.println();
-            channel.basicPublish("", RPC_QUEUE_NAME + "-request", props, jsonRequest.toString().getBytes());
+            channel.basicPublish("", "load_balancer", props, jsonRequest.toString().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }

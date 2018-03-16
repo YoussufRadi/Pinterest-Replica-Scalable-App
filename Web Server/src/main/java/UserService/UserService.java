@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 
 public class UserService {
 
-    private static final String RPC_QUEUE_NAME = "user-request";
+    private static final String RPC_QUEUE_NAME = "user";
     private static int threadCount = 5;
 
     public static void main(String [] argv) {
@@ -32,7 +32,7 @@ public class UserService {
             connection = factory.newConnection();
             final Channel channel = connection.createChannel();
 
-            channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
 
             channel.basicQos(threadCount);
 
