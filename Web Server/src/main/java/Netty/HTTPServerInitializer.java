@@ -23,10 +23,12 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
     HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
     ConnectionFactory factory;
     Channel channel;
-    private String RPC_QUEUE = "server-response";
+    private String RPC_QUEUE;
 
     @Override
     protected void initChannel(SocketChannel arg0) {
+        RPC_QUEUE = arg0.remoteAddress() + "" + arg0.localAddress();
+
         establishConnection();
         serverQueue();
 
@@ -39,7 +41,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("encoder", new HttpResponseEncoder());
         p.addLast(new CorsHandler(corsConfig));
         p.addLast(new HTTPHandler());
-        p.addLast("MQ", new RequestHandler(uuid));
+        p.addLast("MQ", new RequestHandler(uuid, RPC_QUEUE));
 //        p.addLast("aggregator",
 //                new HttpObjectAggregator(512 * 1024));
 //        p.addLast("request",new CustumHandler());

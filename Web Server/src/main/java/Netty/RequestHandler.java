@@ -9,12 +9,7 @@ import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 import static io.netty.buffer.Unpooled.copiedBuffer;
 
@@ -23,9 +18,11 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
 
     ConnectionFactory factory = new ConnectionFactory();
     HashMap<String, ChannelHandlerContext> uuid;
+    String RPC_QUEUE;
 
-    public RequestHandler(HashMap<String, ChannelHandlerContext> uuid) {
+    public RequestHandler(HashMap<String, ChannelHandlerContext> uuid, String RPC_QUEUE) {
         this.uuid = uuid;
+        this.RPC_QUEUE = RPC_QUEUE;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
             AMQP.BasicProperties props = new AMQP.BasicProperties
                     .Builder()
                     .correlationId(corrId)
-                    .replyTo("server-response")
+                    .replyTo(RPC_QUEUE)
                     .build();
             System.out.println("Sent: "+ jsonRequest.toString());
             System.out.println();
