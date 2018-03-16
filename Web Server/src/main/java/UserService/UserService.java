@@ -60,11 +60,14 @@ public class UserService {
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);
-                        init.put("envelope", envelope);
                         init.put("body", jsonRequest.get("body"));
 
                         cmd.init(init);
                         executor.submit(cmd);
+
+                        channel.basicAck(envelope.getDeliveryTag(), false);
+
+
                     } catch (RuntimeException e) {
                         System.out.println(" [.] " + e.toString());
                     } catch (ClassNotFoundException e) {
@@ -72,6 +75,8 @@ public class UserService {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    }  catch (IOException e) {
                         e.printStackTrace();
                     } finally {
 //                        synchronized (this) {

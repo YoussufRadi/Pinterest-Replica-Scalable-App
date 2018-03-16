@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
@@ -22,6 +23,11 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
 
     ConnectionFactory factory;
     Channel channel;
+    HashMap<String, ChannelHandlerContext> uuid;
+
+    public MessageQueueHandler(HashMap<String, ChannelHandlerContext> uuid) {
+        this.uuid = uuid;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
@@ -83,11 +89,11 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
     public void establishChannel(String RPC_QUEUE_NAME, ChannelHandlerContext ctx, String corrId, JSONObject jsonRequest) {
         establishConnection(RPC_QUEUE_NAME);
         Channel currentChannel = channel;
-
+        uuid.put(corrId,ctx);
         transmitRequest(RPC_QUEUE_NAME,corrId,jsonRequest);
         try {
-            channel.queueDeclare(RPC_QUEUE_NAME + "-response", false, false, false, null);
-            channel.basicQos(1);
+            currentChannel.queueDeclare(RPC_QUEUE_NAME + "-response", false, false, false, null);
+            currentChannel.basicQos(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,40 +108,40 @@ public class MessageQueueHandler extends ChannelInboundHandlerAdapter {
                 String responseMsg = new String(body, "UTF-8");
                 System.out.println("Response   :   " + responseMsg);
                 System.out.println();
-                if (replyProps.getCorrelationId().equals(corrId)) {
-
-                    JSONObject responseJson = new JSONObject(responseMsg);
 
 
-                    FullHttpResponse response = new DefaultFullHttpResponse(
-                            HttpVersion.HTTP_1_1,
-                            HttpResponseStatus.OK,
-                            copiedBuffer(responseJson.toString().getBytes()));
+                JSONObject responseJson = new JSONObject(responseMsg);
 
-                    JSONObject headers = (JSONObject) jsonRequest.get("Headers");
-                    Iterator<String> keys = headers.keys();
 
-                    while (keys.hasNext()) {
-                        String key = (String) keys.next();
-                        String value = (String) headers.get(key);
-                        response.headers().set(key, value);
-                    }
+                FullHttpResponse response = new DefaultFullHttpResponse(
+                        HttpVersion.HTTP_1_1,
+                        HttpResponseStatus.OK,
+                        copiedBuffer(responseJson.toString().getBytes()));
 
-                    response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json");
-                    response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+                JSONObject headers = (JSONObject) jsonRequest.get("Headers");
+                Iterator<String> keys = headers.keys();
 
-                    ctx.writeAndFlush(response);
-                    ctx.close();
-                    try {
-//                        currentChannel.basicAck(envelope.getDeliveryTag(), false);
-                        currentChannel.getConnection().close();
-                        currentChannel.close();
-                    } catch (TimeoutException e) {
-                        e.printStackTrace();
-                    }
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    String value = (String) headers.get(key);
+                    response.headers().set(key, value);
                 }
 
+                response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json");
+                response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+
+
+                ChannelHandlerContext ctxRec = uuid.remove(properties.getCorrelationId());
+                ctxRec.writeAndFlush(response);
+                ctxRec.close();
+                try {
+                    currentChannel.getConnection().close();
+                    currentChannel.close();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
+                }
             }
+
 
         };
         try {

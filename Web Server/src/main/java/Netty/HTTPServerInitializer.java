@@ -1,5 +1,6 @@
 package Netty;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -8,9 +9,14 @@ import io.netty.handler.codec.http.cors.CorsConfig;
 import io.netty.handler.codec.http.cors.CorsConfigBuilder;
 import io.netty.handler.codec.http.cors.CorsHandler;
 
+import java.util.HashMap;
+
 import static io.netty.buffer.Unpooled.copiedBuffer;
 
 public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
+
+    HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
+
     @Override
     protected void initChannel(SocketChannel arg0) {
         CorsConfig corsConfig = CorsConfigBuilder.forAnyOrigin()
@@ -22,7 +28,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("encoder", new HttpResponseEncoder());
         p.addLast(new CorsHandler(corsConfig));
         p.addLast(new HTTPHandler());
-        p.addLast("MQ",new MessageQueueHandler());
+        p.addLast("MQ",new MessageQueueHandler(uuid));
 //        p.addLast("aggregator",
 //                new HttpObjectAggregator(512 * 1024));
 //        p.addLast("request",new CustumHandler());
