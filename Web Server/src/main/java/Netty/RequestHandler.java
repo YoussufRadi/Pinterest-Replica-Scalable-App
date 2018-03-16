@@ -15,14 +15,16 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 
 public class RequestHandler extends ChannelInboundHandlerAdapter {
 
+    private HashMap<String, ChannelHandlerContext> uuid;
+    private String RPC_QUEUE_REPLY_TO;
+    private String RPC_QUEUE_SEND_TO;
+    private Channel senderChannel;
 
-    ConnectionFactory factory = new ConnectionFactory();
-    HashMap<String, ChannelHandlerContext> uuid;
-    String RPC_QUEUE;
-
-    public RequestHandler(HashMap<String, ChannelHandlerContext> uuid, String RPC_QUEUE) {
+    protected RequestHandler(Channel channel,HashMap<String, ChannelHandlerContext> uuid, String RPC_QUEUE_REPLY_TO, String RPC_QUEUE_SEND_TO) {
         this.uuid = uuid;
-        this.RPC_QUEUE = RPC_QUEUE;
+        this.RPC_QUEUE_REPLY_TO = RPC_QUEUE_REPLY_TO;
+        this.RPC_QUEUE_SEND_TO = RPC_QUEUE_SEND_TO;
+        this.senderChannel = channel;
     }
 
     @Override
@@ -57,18 +59,14 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
     private void transmitRequest(String RPC_QUEUE_NAME, String corrId, JSONObject jsonRequest, ChannelHandlerContext ctx){
         try {
             uuid.put(corrId,ctx);
-            factory.setHost("localhost");
-            Connection connection = factory.newConnection();
-            Channel channel = connection.createChannel();
-            channel.queueDeclare("load_balancer", false, false, false, null);
             AMQP.BasicProperties props = new AMQP.BasicProperties
                     .Builder()
                     .correlationId(corrId)
-                    .replyTo(RPC_QUEUE)
+                    .replyTo(RPC_QUEUE_REPLY_TO)
                     .build();
-            System.out.println("Sent: "+ jsonRequest.toString());
+            System.out.println("Sent   : "+ jsonRequest.toString());
             System.out.println();
-            channel.basicPublish("", "load_balancer", props, jsonRequest.toString().getBytes());
+            senderChannel.basicPublish("", RPC_QUEUE_SEND_TO, props, jsonRequest.toString().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }

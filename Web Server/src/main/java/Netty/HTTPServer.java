@@ -22,7 +22,7 @@ public class HTTPServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
 //                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new HTTPServerInitializer());
+                    .childHandler(new HTTPServerInitializer(port));
 //            b.option(ChannelOption.SO_KEEPALIVE, true);
             Channel ch = b.bind(port).sync().channel();
 
@@ -40,6 +40,6 @@ public class HTTPServer {
     }
 
     public static void main(String[] args) throws Exception {
-        HTTPServer.start(8081);
+        HTTPServer.start(8080);
     }
 }

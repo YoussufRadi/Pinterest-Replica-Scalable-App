@@ -25,6 +25,7 @@ public class GetUser extends Command {
         System.out.println("Body :  " + body);
         String response = User.getUser((String) body.get("text"));
         System.out.println("Response :  " + response);
+        System.out.println(properties.getReplyTo());
         System.out.println();
         request.put("response", response);
         try {

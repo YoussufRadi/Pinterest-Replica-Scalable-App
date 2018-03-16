@@ -14,23 +14,29 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 import static io.netty.buffer.Unpooled.copiedBuffer;
 
 public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
 
-    HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
-    ConnectionFactory factory;
-    Channel channel;
-    private String RPC_QUEUE;
+    private HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
+    private ConnectionFactory factory;
+    private Channel receiverChannel;
+    private Channel senderChannel;
+    private String FACTORY_HOST;
+    private String RPC_QUEUE_REPLY_TO;
+    private String RPC_QUEUE_SEND_TO = "load_balancer";
+
+    public HTTPServerInitializer(int port) {
+        RPC_QUEUE_REPLY_TO = port+"";
+        establishConnection();
+        serverQueue();
+    }
 
     @Override
     protected void initChannel(SocketChannel arg0) {
-        RPC_QUEUE = arg0.remoteAddress() + "" + arg0.localAddress();
-
-        establishConnection();
-        serverQueue();
 
         CorsConfig corsConfig = CorsConfigBuilder.forAnyOrigin()
                 .allowedRequestHeaders("X-Requested-With", "Content-Type", "Content-Length")
@@ -41,7 +47,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("encoder", new HttpResponseEncoder());
         p.addLast(new CorsHandler(corsConfig));
         p.addLast(new HTTPHandler());
-        p.addLast("MQ", new RequestHandler(uuid, RPC_QUEUE));
+        p.addLast("MQ", new RequestHandler(senderChannel, uuid, RPC_QUEUE_REPLY_TO, RPC_QUEUE_SEND_TO));
 //        p.addLast("aggregator",
 //                new HttpObjectAggregator(512 * 1024));
 //        p.addLast("request",new CustumHandler());
@@ -50,11 +56,13 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private void establishConnection() {
         factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost(FACTORY_HOST);
         Connection connection = null;
         try {
             connection = factory.newConnection();
-            channel = connection.createChannel();
+            receiverChannel = connection.createChannel();
+            senderChannel = connection.createChannel();
+            senderChannel.queueDeclare(RPC_QUEUE_SEND_TO, false, false, false, null);
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
@@ -62,9 +70,9 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private void serverQueue() {
         try {
-            channel.queueDeclare(RPC_QUEUE, false, false, false, null);
-            channel.basicQos(1);
-            Consumer consumer = new DefaultConsumer(channel) {
+            receiverChannel.queueDeclare(RPC_QUEUE_REPLY_TO, false, false, false, null);
+            receiverChannel.basicQos(1);
+            Consumer consumer = new DefaultConsumer(receiverChannel) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                     AMQP.BasicProperties replyProps = new AMQP.BasicProperties
@@ -101,9 +109,12 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
                     ChannelHandlerContext ctxRec = uuid.remove(properties.getCorrelationId());
                     ctxRec.writeAndFlush(response);
                     ctxRec.close();
+
+                    receiverChannel.basicAck(envelope.getDeliveryTag(), false);
+
                 }
             };
-            channel.basicConsume(RPC_QUEUE, true, consumer);
+            receiverChannel.basicConsume(RPC_QUEUE_REPLY_TO, false, consumer);
 
         } catch (Exception e) {
             e.printStackTrace();
