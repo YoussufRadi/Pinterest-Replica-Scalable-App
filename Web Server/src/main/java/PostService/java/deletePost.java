@@ -1,17 +1,16 @@
+package PostService.java;
 
-import LiveObjects.PostLiveObject;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.IOException;
-import java.util.HashMap;
-
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 
+import java.io.IOException;
+import java.util.HashMap;
 
 
 public class deletePost extends Command {

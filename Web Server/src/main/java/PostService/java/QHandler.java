@@ -1,18 +1,17 @@
-import Arango.ArangoInstance;
-import Arango.CategoryDBObject;
-import Arango.PostDBObject;
-//import RedisConf;
-import LiveObjects.CategoryLiveObject;
-import LiveObjects.PostLiveObject;
+package PostService.java;
+
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import org.redisson.api.RLiveObjectService;
-//import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+//import RedisConf;
+//import org.redisson.api.RLiveObjectService;
 ;
-import java.util.concurrent.*;
 
 
 public class QHandler {

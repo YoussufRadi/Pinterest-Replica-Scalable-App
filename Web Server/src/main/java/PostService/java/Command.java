@@ -1,5 +1,5 @@
+package PostService.java;
 
-import Arango.ArangoInstance;
 import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;

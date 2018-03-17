@@ -33,13 +33,16 @@ public class deleteCategory extends Command {
         JsonParser jsonParser = new JsonParser();
         System.out.println(properties.getReplyTo());
 
-        JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+        JsonObject jsonResponse = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
+        Message message = gson.fromJson((String) jsonResponse.get("body").toString(), Message.class);
+
         deleteCategory(message.getCategory_id());
-        String response = "deleted";
+        System.out.println("Ready to send   :   "  + jsonResponse);
+        jsonResponse.add("response", new JsonObject());
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonResponse.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
         } catch (IOException e) {
