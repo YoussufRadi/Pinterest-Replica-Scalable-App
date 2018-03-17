@@ -24,7 +24,7 @@ public class postService {
     public static void main(String [] argv) {
 
         //initialize thread pool of fixed size
-        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(15);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -71,6 +71,7 @@ public class postService {
 
                         cmd.init(init);
                         executor.submit(cmd);
+
                     } catch (RuntimeException e) {
                         System.out.println(" [.] " + e.toString());
                     } catch (ParseException e) {

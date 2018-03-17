@@ -38,6 +38,7 @@ public class getCategory extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) parameters.get("body"),Message.class);
         String category = gson.toJson(getCategory(message.getCategory_id()));
+        System.out.println(Thread.currentThread().getName());
         String response = category;
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));

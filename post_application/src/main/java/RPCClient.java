@@ -63,19 +63,21 @@ public class RPCClient {
     }
 
     public static void main(String[] argv) {
+        for(int i = 0;i<14;i++) {
             RPCClient rpcClient = null;
             String response = null;
 
-                try {
-                    rpcClient = new RPCClient();
-                    JSONObject jsonString = new JSONObject();
-                    JSONObject jsonStringInner = new JSONObject();
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("command","updateCategory");
-                    jsonStringInner.put("title","dresses");
-                    JsonArray posts_id = new JsonArray();
-                    posts_id.add("2");
-                    jsonStringInner.put("posts_id",posts_id);
+            try {
+
+                rpcClient = new RPCClient();
+                JSONObject jsonString = new JSONObject();
+                JSONObject jsonStringInner = new JSONObject();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("command", "updateCategory");
+                jsonStringInner.put("title", "dresses");
+                JsonArray posts_id = new JsonArray();
+                posts_id.add("2");
+                jsonStringInner.put("posts_id", posts_id);
 //                    JSONArray likes_id = new JSONArray();
 //                    likes_id.add("1");
 //                    JSONArray dislikes_id = new JSONArray();
@@ -93,43 +95,32 @@ public class RPCClient {
 //                    jsonStringInner.put("tags_id",tags_id);
 //                    jsonStringInner.put("image_id","12");
 
-                    jsonObject.put("category_object",jsonStringInner);
-                    jsonObject.put("category_id","61316");
-                    //System.out.println(jsonObject);
-                    //System.out.println(jsonObject);
-                    response = rpcClient.call(jsonObject.toString());
+                jsonObject.put("category_object", jsonStringInner);
+                jsonObject.put("category_id", "61316");
+                //System.out.println(jsonObject);
+                //System.out.println(jsonObject);
+                //response = rpcClient.call(jsonObject.toString());
 
 //                    jsonStringInner.put("title","cars");
 //                    JsonArray post_ids = new JsonArray();
 //                    post_ids.add("43551");
 //                    jsonStringInner.put("posts_id",post_ids);
 //                    jsonObject.put("category_object",jsonStringInner);
-                    //response = rpcClient.call("{\"command\" : \"getCategory\",\"category_id\" : \"70348\"}");
 
+                response = rpcClient.call("{\"command\" : \"getCategory\",\"category_id\" : \"61316\"}");
+                System.out.println(" [.] Got '" + response + "'");
 
-
-//
-
-
-//
-//                    jsonString.put("method", "update_post");
-//                    jsonString.put("post_object" ,jsonStringInner);
-//                    jsonString.put("post_id","32035");
-//                    System.out.println(jsonString.toString());
-//                    System.out.println(" [x] add post ");
-//                    response = rpcClient.call(jsonString.toString());
-                    System.out.println(" [.] Got '" + response + "'");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (rpcClient != null) {
-                        try {
-                            rpcClient.close();
-                        } catch (IOException _ignore) {
-                        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (rpcClient != null) {
+                    try {
+                        rpcClient.close();
+                    } catch (IOException _ignore) {
                     }
                 }
             }
+        } }
 
 }
 
