@@ -1,5 +1,4 @@
-package PostService.java;
-
+package PostService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class updateCategory extends Command {
+public class insertPost extends Command {
 
     @Override
     protected void execute() {
@@ -29,11 +28,12 @@ public class updateCategory extends Command {
         System.out.println(properties.getReplyTo());
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
-        System.out.println(jsonObject);
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-        String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object()));
-        String response = category;
+
+       arangoInstance.insertNewPost(message.getPost_object());;
+        String post = gson.toJson(message.getPost_object());
+        String response = post;
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
@@ -42,14 +42,5 @@ public class updateCategory extends Command {
             e.printStackTrace();
         }
 
-    }
-    public CategoryDBObject updateCategory(String category_id, CategoryDBObject categoryDBObject){
-        arangoInstance.updateCategory(category_id,categoryDBObject);
-        CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
-        if(categoryLiveObject != null){
-            categoryLiveObject.setTitle(categoryDBObject.getTitle());
-            categoryLiveObject.setPosts_id(categoryDBObject.getPosts_id());
-        }
-        return arangoInstance.getCategory(category_id);
     }
 }

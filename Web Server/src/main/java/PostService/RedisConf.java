@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 import org.redisson.Redisson;
 import org.redisson.api.RLiveObjectService;

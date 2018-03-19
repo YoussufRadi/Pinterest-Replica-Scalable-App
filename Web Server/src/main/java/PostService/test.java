@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 import com.rabbitmq.client.*;
 

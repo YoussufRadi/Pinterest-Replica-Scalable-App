@@ -1,4 +1,5 @@
-package PostService.java;
+package PostService;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class insertCategory extends Command {
+public class updateCategory extends Command {
 
     @Override
     protected void execute() {
@@ -28,18 +29,28 @@ public class insertCategory extends Command {
         System.out.println(properties.getReplyTo());
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+        System.out.println(jsonObject);
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-        arangoInstance.insertNewCategory(message.getCategory_object());
-        String category = gson.toJson(message.getCategory_object());
-        String response = category;
+        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+        System.out.println("here");
+        String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object()));
+        jsonObject.add("response",jsonParser.parse(category));
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+    public CategoryDBObject updateCategory(String category_id, CategoryDBObject categoryDBObject){
+        arangoInstance.updateCategory(category_id,categoryDBObject);
+        CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
+        if(categoryLiveObject != null){
+            categoryLiveObject.setTitle(categoryDBObject.getTitle());
+            categoryLiveObject.setPosts_id(categoryDBObject.getPosts_id());
+        }
+        return arangoInstance.getCategory(category_id);
     }
 }

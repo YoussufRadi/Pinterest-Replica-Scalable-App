@@ -1,5 +1,4 @@
-package PostService.java;
-
+package PostService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class getCategory extends Command {
+public class getPost extends Command {
 
     @Override
     protected void execute() {
@@ -30,10 +29,9 @@ public class getCategory extends Command {
 
         JsonObject jsonObject = (JsonObject)jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"),Message.class);
-        String category = gson.toJson(getCategory(message.getCategory_id()));
-        System.out.println(Thread.currentThread().getName());
-        String response = category;
+        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
+        String post = gson.toJson(getPost(message.getPost_id()));
+        String response = post;
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
@@ -43,20 +41,22 @@ public class getCategory extends Command {
         }
 
     }
-    public CategoryLiveObject getCategory(String category_id ){
-        CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
-        System.out.println(categoryLiveObject);
-        if(categoryLiveObject==null){
-            CategoryDBObject categoryDBObject= arangoInstance.getCategory(category_id);
-            if(categoryDBObject!=null) {
-                String message = new Gson().toJson(categoryDBObject);
+    public PostLiveObject getPost(String post_id){
+        PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
+        System.out.println(postLiveObject);
+        if(postLiveObject==null){
+            PostDBObject postDBObject= arangoInstance.getPost(post_id);
+            if(postDBObject!=null) {
+                String message = new Gson().toJson(postDBObject);
                 Gson gson = new GsonBuilder().create();
-                categoryLiveObject = gson.fromJson(message, CategoryLiveObject.class);
-                categoryLiveObject = liveObjectService.merge(categoryLiveObject);
-                //return categoryLiveObject;
+                System.out.println(message);
+                postLiveObject = gson.fromJson(message, PostLiveObject.class);
+                postLiveObject = liveObjectService.merge(postLiveObject);
+
             }
         }
-        return categoryLiveObject;
+        return postLiveObject;
+
     }
 
 }

@@ -1,7 +1,8 @@
-package PostService.java;
+package PostService;
 
 
-import org.redisson.api.annotation.*;
+import org.redisson.api.annotation.REntity;
+import org.redisson.api.annotation.RId;
 
 import java.util.List;
 

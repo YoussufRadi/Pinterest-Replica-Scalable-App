@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class insertPost extends Command {
+public class insertCategory extends Command {
 
     @Override
     protected void execute() {
@@ -29,13 +29,12 @@ public class insertPost extends Command {
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-
-       arangoInstance.insertNewPost(message.getPost_object());;
-        String post = gson.toJson(message.getPost_object());
-        String response = post;
+        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+        arangoInstance.insertNewCategory(message.getCategory_object());
+        String category = gson.toJson(message.getCategory_object());
+        jsonObject.add("response",jsonParser.parse(category));
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
         } catch (IOException e) {

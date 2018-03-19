@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 public class TagDBObject extends com.arangodb.entity.DocumentEntity   {
 

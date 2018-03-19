@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
@@ -54,7 +54,7 @@ public class postService {
                         JSONObject command = (JSONObject) parser.parse(message);
                         String className = (String)command.get("command");
                         System.out.println(className);
-                        Class com = Class.forName(className);
+                        Class com = Class.forName("PostService."+className);
                         Command cmd = (Command) com.newInstance();
 
                         HashMap<String, Object> init = new HashMap<String, Object>();

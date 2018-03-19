@@ -1,4 +1,4 @@
-package PostService.java;
+package PostService;
 
 
 import com.google.gson.Gson;
@@ -34,7 +34,7 @@ public class deleteCategory extends Command {
         Message message = gson.fromJson((String) jsonResponse.get("body").toString(), Message.class);
 
         deleteCategory(message.getCategory_id());
-        System.out.println("Ready to send   :   "  + jsonResponse);
+        //System.out.println("Ready to send   :   "  + jsonResponse);
         jsonResponse.add("response", new JsonObject());
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonResponse.toString().getBytes("UTF-8"));
