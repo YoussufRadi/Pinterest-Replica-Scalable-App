@@ -32,8 +32,13 @@ public class getCategory extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(),Message.class);
         String category = gson.toJson(getCategory(message.getCategory_id()));
-
-        jsonObject.add("response",jsonParser.parse(category));
+        System.out.println(category);
+        if(category != null) {
+            jsonObject.add("response", jsonParser.parse(category));
+        }else {
+            jsonObject.add("response",  new JsonObject());
+        }
+        //System.out.println(jsonObject);
 
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
@@ -47,7 +52,6 @@ public class getCategory extends Command {
     public CategoryLiveObject getCategory(String category_id ){
         CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
         System.out.println(categoryLiveObject);
-        System.out.println(arangoInstance.getCategory(category_id).getPosts_id());
         if(categoryLiveObject==null){
             CategoryDBObject categoryDBObject= arangoInstance.getCategory(category_id);
             if(categoryDBObject!=null) {

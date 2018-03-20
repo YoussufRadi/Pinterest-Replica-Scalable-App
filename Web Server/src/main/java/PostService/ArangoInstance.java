@@ -56,7 +56,10 @@ public class ArangoInstance {
         return category;
     }
     public void updateCategory(String id, CategoryDBObject category){
-        arangoDB.db("Post").collection("categories").updateDocument(id,category);
+        if(getCategory(id)!=null) {
+            arangoDB.db("Post").collection("categories").updateDocument(id, category);
+        }
+
     }
     public void addNewPostToCategory(String id,String postid){
         PostDBObject post= getPost(postid);
@@ -108,7 +111,9 @@ public class ArangoInstance {
     }
 
     public void updatePost(String id, PostDBObject post){
-        arangoDB.db("Post").collection("posts").updateDocument(id,post);
+        if(getPost(id)!=null) {
+            arangoDB.db("Post").collection("posts").updateDocument(id, post);
+        }
     }
 
     public void deletePost(String id){

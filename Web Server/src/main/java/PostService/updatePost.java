@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,11 +31,27 @@ public class updatePost extends Command {
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
-        String post = gson.toJson(update_post(message.getPost_id(),message.getPost_object()));
-        String response = post;
+        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+
+        String s  = "";
+        if(message.getPost_id() == null){
+            s+= "post_id is missing";
+        }
+        if(message.getPost_object()==null){
+            s+= "post_object is missing";
+        }
+        if(s.isEmpty()) {
+            String post = gson.toJson(update_post(message.getPost_id(), message.getPost_object()));
+            jsonObject.add("response",jsonParser.parse(post));
+        }else {
+            System.out.println(s);
+            JSONObject err = new JSONObject();
+            err.put("error",s);
+            jsonObject.add("response",jsonParser.parse(err.toString()));
+        }
+
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
         } catch (IOException e) {

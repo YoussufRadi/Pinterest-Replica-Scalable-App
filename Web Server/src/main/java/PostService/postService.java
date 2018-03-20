@@ -14,13 +14,19 @@ import java.util.concurrent.TimeoutException;
 public class postService {
 
     private static final String RPC_QUEUE_NAME = "post";
-    private static final String RPC_RESPONSE_QUEUE = "post-response";
+    private ThreadPoolExecutor executor;
 
-    public static void main(String [] argv) {
+    public postService(int threadsNo){
+         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
+    }
 
-        //initialize thread pool of fixed size
-        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(15);
+    public void setMaxThreadsSize(int size){
+        executor.setMaximumPoolSize(size);
+    }
 
+
+
+    public void Start(){
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = null;
@@ -31,7 +37,7 @@ public class postService {
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
 //            channel.queueDeclare(RPC_RESPONSE_QUEUE, false, false, false, null);
 
-            channel.basicQos(2);
+            channel.basicQos(1);
 
             System.out.println(" [x] Awaiting RPC requests");
 
@@ -89,14 +95,12 @@ public class postService {
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
-//        finally {
-//            if (connection != null)
-//                try {
-//                    connection.close();
-//                } catch (IOException _ignore) {
-//                }
-//        }
+    }
 
+
+    public static void main(String [] argv) {
+            postService postApp = new postService(15);
+            postApp.Start();
     }
 
 

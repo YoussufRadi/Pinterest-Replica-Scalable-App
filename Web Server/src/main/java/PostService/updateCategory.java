@@ -34,7 +34,11 @@ public class updateCategory extends Command {
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
         System.out.println("here");
         String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object()));
-        jsonObject.add("response",jsonParser.parse(category));
+        if(category != null) {
+            jsonObject.add("response", jsonParser.parse(category));
+        }else {
+            jsonObject.add("response", new JsonObject());
+        }
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);

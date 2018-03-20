@@ -30,11 +30,11 @@ public class deletePost extends Command {
 
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) parameters.get("body"), Message.class);
+        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
         deletePost(message.getPost_id());
-        String response = "deleted";
+        jsonObject.add("response",new JsonObject());
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
         } catch (IOException e) {
