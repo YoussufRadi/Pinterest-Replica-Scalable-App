@@ -1,5 +1,7 @@
 package msa.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
@@ -79,6 +81,8 @@ public class User {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
 
     @JoinTable(name="block",
             joinColumns=@JoinColumn(name="blockedId"),
@@ -109,6 +113,8 @@ public class User {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followingId")
@@ -123,6 +129,8 @@ public class User {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="followingId"),
             inverseJoinColumns=@JoinColumn(name="userId")
@@ -139,6 +147,8 @@ public class User {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followerId")
@@ -151,6 +161,8 @@ public class User {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="followerId"),
             inverseJoinColumns=@JoinColumn(name="userId")

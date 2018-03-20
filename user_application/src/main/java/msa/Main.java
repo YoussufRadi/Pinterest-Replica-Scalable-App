@@ -1,5 +1,7 @@
 package msa;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import msa.pojo.User;
 import msa.pojo.UserLiveObject;
@@ -26,9 +28,10 @@ public class Main {
 
               System.out.println(live.getId());
 
-              String msg = new Gson ().toJson(live);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(live);
 
-              System.out.println(msg);
+              System.out.println(json);
 
        /* for (User myVal : set) {
             System.out.println(myVal.getFirstName());
