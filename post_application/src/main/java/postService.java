@@ -1,4 +1,3 @@
-package UserService;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -7,7 +6,9 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,15 +16,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
-public class UserService {
+public class postService {
 
-    private static final String RPC_QUEUE_NAME = "user";
-    private static int threadCount = 5;
+    private static final String RPC_QUEUE_NAME = "post";
+    private static final String RPC_RESPONSE_QUEUE = "post-response";
 
     public static void main(String [] argv) {
 
         //initialize thread pool of fixed size
-        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threadCount);
+        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(15);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -33,8 +34,9 @@ public class UserService {
             final Channel channel = connection.createChannel();
 
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
+//            channel.queueDeclare(RPC_RESPONSE_QUEUE, false, false, false, null);
 
-            channel.basicQos(threadCount);
+            channel.basicQos(2);
 
             System.out.println(" [x] Awaiting RPC requests");
 
@@ -47,28 +49,38 @@ public class UserService {
                             .build();
                     System.out.println("Responding to corrID: "+ properties.getCorrelationId());
 
+                    String response = "";
 
                     try {
 
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
-                        JSONObject jsonRequest = new JSONObject(message);
-
-                        String className = "UserService." + (String)jsonRequest.get("command");
+                        JSONParser parser = new JSONParser();
+                        JSONObject command = (JSONObject) parser.parse(message);
+                        String className = (String)command.get("command");
+                        System.out.println(className);
                         Class com = Class.forName(className);
                         Command cmd = (Command) com.newInstance();
+
                         HashMap<String, Object> init = new HashMap<String, Object>();
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);
-                        init.put("request", jsonRequest);
                         init.put("envelope", envelope);
+                        init.put("body", message);
+
                         cmd.init(init);
                         executor.submit(cmd);
 
                     } catch (RuntimeException e) {
                         System.out.println(" [.] " + e.toString());
-                    }  catch (IOException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
                         e.printStackTrace();
                     } finally {
                         synchronized (this) {
