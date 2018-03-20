@@ -124,12 +124,18 @@ public class ArangoInstance {
     public void likePost(String user_id,String post_id){
         PostDBObject post = getPost(post_id);
         post.getLikes_id().add(user_id);
+        if(post.getDislikes_id().contains(user_id)){
+            post.getDislikes_id().remove(user_id);
+        }
         updatePost(post_id,post);
     }
 
     public void dislikePost(String user_id,String post_id){
         PostDBObject post = getPost(post_id);
         post.getDislikes_id().add(user_id);
+        if(post.getLikes_id().contains(user_id)){
+            post.getLikes_id().remove(user_id);
+        }
         updatePost(post_id,post);
     }
 
@@ -202,6 +208,9 @@ public class ArangoInstance {
         BoardDBObject board =arangoDB.db("Post").collection("boards").getDocument(id, BoardDBObject.class);
         return board;
     }
+    public void deleteBoard(String board_id){
+        arangoDB.db("Post").collection("boards").deleteDocument(board_id);
+    }
     public void updateBoard(String id, BoardDBObject board){
         arangoDB.db("Post").collection("boards").updateDocument(id,board);
     }
@@ -220,9 +229,11 @@ public class ArangoInstance {
 
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
+        String s = "Post";
+        arango.arangoDB.db(s).createCollection("boards");
         //arango.initializeDB();
 //        arango.dropDB();
-    //arango.deleteCategory("87839");
+       //arango.insertNewBoard(new BoardDBObject("1","horses"));
 //        Arango.CategoryDBObject category = new Arango.CategoryDBObject("trial",new ArrayList<String>());
 //       arango.insertNewCategory(category);
 //        Arango.CategoryDBObject category =     arango.getCategory("89047");

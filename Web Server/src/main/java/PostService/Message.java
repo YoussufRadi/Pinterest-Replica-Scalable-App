@@ -20,6 +20,17 @@ public class Message {
     @SerializedName("category_object")
     private CategoryDBObject category_object;
 
+    @SerializedName("board_object")
+    private BoardDBObject board_object;
+
+    @SerializedName("board_id")
+    private String board_id;
+
+    @SerializedName("user_id")
+    private String user_id;
+
+
+
 
     public String getCommand() {
         return command;
@@ -67,6 +78,30 @@ public class Message {
 
     public void setPost_object(PostDBObject post_object) {
         this.post_object = post_object;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public BoardDBObject getBoard_object() {
+        return board_object;
+    }
+
+    public void setBoard_object(BoardDBObject board_object) {
+        this.board_object = board_object;
+    }
+
+    public String getBoard_id() {
+        return board_id;
+    }
+
+    public void setBoard_id(String board_id) {
+        this.board_id = board_id;
     }
 
     public Message() {
