@@ -1,5 +1,7 @@
 package msa.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,6 +12,7 @@ import org.redisson.api.annotation.RId;
 
 import java.util.*;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "users")
@@ -61,11 +64,14 @@ public class User {
         this.username = username;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+
     @JoinTable(name="block",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="blockedId")
     )
+
     private Set<User> block;
     public Set<User> getBlock() {
         return block;
@@ -74,7 +80,10 @@ public class User {
         this.block = block;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
+
     @JoinTable(name="block",
             joinColumns=@JoinColumn(name="blockedId"),
             inverseJoinColumns=@JoinColumn(name="userId")
@@ -103,7 +112,9 @@ public class User {
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followingId")
@@ -117,7 +128,9 @@ public class User {
     }
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="followingId"),
             inverseJoinColumns=@JoinColumn(name="userId")
@@ -133,7 +146,9 @@ public class User {
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followerId")
@@ -145,7 +160,9 @@ public class User {
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="followerId"),
             inverseJoinColumns=@JoinColumn(name="userId")
@@ -157,7 +174,7 @@ public class User {
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="Categories", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="category")
     private Set<UUID> userCat;
@@ -169,7 +186,7 @@ public class User {
     }
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="liked_photos", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="likedphoto_id")
     private Set<UUID> userLikedPhotos;
@@ -178,7 +195,7 @@ public class User {
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="disliked_photos", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="dislikedphoto_id")
     private Set<UUID> userDislikedPhotos;
@@ -187,7 +204,7 @@ public class User {
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="Pins", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="pin_id")
     private Set<UUID> pinnedPosts;
@@ -195,7 +212,7 @@ public class User {
     public void setPinnedPosts(Set<UUID> pinnedPosts) { this.pinnedPosts = pinnedPosts; }
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="Hashtags", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="hashtag_id")
     private Set<UUID> hashtags;
@@ -204,7 +221,7 @@ public class User {
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="Boards", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="board_id")
     private Set<UUID> boards;
@@ -259,6 +276,7 @@ public class User {
         this.gender = gender;
     }
 
+   
     public User(){
 
     }

@@ -8,6 +8,7 @@ user_application/.idea/
 
 post_application/target/
 post_application/post_application.iml
+post_application/pintrest.iml
 post_application/.idea/
 
 chat_application/target/

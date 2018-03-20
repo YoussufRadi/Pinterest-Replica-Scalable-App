@@ -6,6 +6,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class RPCClient {
 
     private Connection connection;
     private Channel channel;
-    private String requestQueueName = "rpc_queue";
+    private String requestQueueName = "user-request";
     private String replyQueueName;
 
     public RPCClient() throws IOException, TimeoutException {
@@ -27,7 +28,7 @@ public class RPCClient {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
-        replyQueueName = channel.queueDeclare().getQueue();
+        replyQueueName = "user-response";
     }
 
     public String call(String message) throws IOException, InterruptedException {
@@ -61,27 +62,80 @@ public class RPCClient {
 
     public static void main(String[] argv) {
         RPCClient Rpc = null;
-        String response = null;
-        for (int i = 0; i < 25; i++) {
+        String response = "";
 
 
-            try {
-                Rpc = new RPCClient();
 
-                System.out.println(" [x] Requesting fib(30)");
-                response = Rpc.call("d6b46579-3ba9-4dc3-971b-0d5f27694d41");
-                System.out.println(" [.] Got '" + response + "'");
-            } catch (IOException | TimeoutException | InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                if (Rpc != null) {
-                    try {
-                        Rpc.close();
-                    } catch (IOException _ignore) {
-                    }
+        try {
+            Rpc = new RPCClient();
+
+            System.out.println(" [x] Requesting JSON");
+
+            JSONObject jsonString = new JSONObject();
+            JSONObject jsonStringInner = new JSONObject();
+
+            //jsonStringInner.put("id","8d86fbfa-b98c-47d0-aeef-ee7a3450a06d");
+
+            jsonStringInner.put("password","password");
+            jsonStringInner.put("email","jojo@gmail.com");
+
+               /* jsonStringInner.put("age","14");
+                jsonStringInner.put("firstName","Moe");
+                jsonStringInner.put("lastName","Moe");
+                jsonStringInner.put("gender","true");
+                jsonStringInner.put("username","MoeUserName");*/
+
+
+            //////   ******Blocking/Unblocking users Test*****
+//                jsonString.put("method", "blockUser");
+//                        jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+//                jsonString.put("method", "unblockUser");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+            //////   ****** Follow/Unfollow Hashtag Test*****
+              jsonString.put("command", "SignIn");
+                jsonString.put("payload" ,jsonStringInner);
+                jsonString.put("otherUserId","a0e6d54d-6eaf-492b-acd3-789814ae38f1");
+                //jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+//                jsonString.put("method", "unfollowHashtags");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+            ////////****** Follow/Unfollow Category test **********
+                //jsonString.put("method", "followCategories");
+               // jsonString.put("payload" ,jsonStringInner);
+                //jsonString.put("categoryId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//
+//                jsonString.put("method", "unfollowCategories");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("categoryId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+
+            ///////////////////// ***** Add board test *****************
+//                jsonString.put("method", "addBoard");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("boardId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+//                jsonString.put("method", "removeBoard");
+//                jsonString.put("payload" ,jsonStringInner);
+//                jsonString.put("boardId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+            response = Rpc.call(jsonString.toString());
+            System.out.println(" [.] Got '" + response + "'");
+        } catch (IOException | TimeoutException | InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (Rpc != null) {
+                try {
+                    Rpc.close();
+                } catch (IOException _ignore) {
                 }
             }
         }
     }
+
 }
 
