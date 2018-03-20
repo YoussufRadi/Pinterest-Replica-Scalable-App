@@ -11,6 +11,26 @@ public class Message {
     private String otherUserId;
     private String pinId;
     private String boardId;
+    private String hashtagId;
+    private String categoryId;
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getHashtagId() {
+        return hashtagId;
+    }
+
+    public void setHashtagId(String hashtagId) {
+        this.hashtagId = hashtagId;
+    }
+
+
 
     public String getPhotoId() {
         return photoId;

@@ -6,6 +6,7 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class DatabaseController {
@@ -47,9 +48,9 @@ public class DatabaseController {
             return null;
 
         }finally
-         {
+        {
             session.close();
-             return userID;
+            return userID;
 
         }
     }
@@ -188,7 +189,7 @@ public class DatabaseController {
     }
 
     /* Method to UPDATE firstName for an employee */
-    public void updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender ){
+    public boolean updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -203,15 +204,17 @@ public class DatabaseController {
             user.setUsername(username);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
-    public void followCategories(UUID userID, UUID categoryID ){
+    public boolean followCategories(UUID userID, UUID categoryID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -221,9 +224,12 @@ public class DatabaseController {
             user.getUserCat().add(categoryID);
             session.update(user);
             tx.commit();
+            return true;
+
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -231,7 +237,166 @@ public class DatabaseController {
 
 
 
-    public void addBoard (UUID userID, UUID boardID ){
+    public Set<UUID> getCategories(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> categories= user.getUserCat();
+            tx.commit();
+            return categories;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getBoards(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> boards= user.getBoards();
+            tx.commit();
+            return boards;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<User> getFollowedUsers(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<User> following= user.getFollow();
+
+            tx.commit();
+            return following;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getLikedPhotos(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> photos= user.getUserLikedPhotos();
+
+            tx.commit();
+            return photos;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getPins(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> pins= user.getPinnedPosts();
+
+            tx.commit();
+            return pins;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+
+
+
+
+    public Set<User> getFollowersUsers(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<User> followers= user.getFollowedBy();
+
+            tx.commit();
+            return followers;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+    public boolean unfollowCategories(UUID userID, UUID categoryID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            user.getUserCat().remove(categoryID);
+            session.update(user);
+            tx.commit();
+            return true;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+    public boolean addBoard (UUID userID, UUID boardID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -241,16 +406,18 @@ public class DatabaseController {
             user.getBoards().add(boardID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
 
-    public void removeBoard (UUID userID, UUID boardID ){
+    public boolean removeBoard (UUID userID, UUID boardID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -260,9 +427,11 @@ public class DatabaseController {
             user.getBoards().remove(boardID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -311,7 +480,7 @@ public class DatabaseController {
 
 
 
-    public void followHashtag (UUID userID, UUID hashtagID ){
+    public boolean followHashtag (UUID userID, UUID hashtagID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -321,15 +490,17 @@ public class DatabaseController {
             user.getHashtags().add(hashtagID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
-    public void unfollowHashtag (UUID userID, UUID hashtagID ){
+    public boolean unfollowHashtag (UUID userID, UUID hashtagID ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -339,9 +510,11 @@ public class DatabaseController {
             user.getHashtags().remove(hashtagID);
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -466,12 +639,12 @@ public class DatabaseController {
 
             tx.commit();
 
-    } catch (HibernateException e) {
-        if (tx!=null) tx.rollback();
-        e.printStackTrace();
-    } finally {
-        session.close();
-    }
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
 
         return user;
     }
@@ -499,7 +672,7 @@ public class DatabaseController {
         }
     }
 
-    public void unblockUser(UUID userID, UUID unblocked ){
+    public boolean unblockUser(UUID userID, UUID unblocked ){
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -512,9 +685,11 @@ public class DatabaseController {
 
             session.update(user);
             tx.commit();
+            return true;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
@@ -538,7 +713,12 @@ public class DatabaseController {
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
-            return false;
+            return false;}
+
+            catch (Exception e) {
+                if (tx!=null) tx.rollback();
+                e.printStackTrace();
+                return false;
         } finally {
             session.close();
         }

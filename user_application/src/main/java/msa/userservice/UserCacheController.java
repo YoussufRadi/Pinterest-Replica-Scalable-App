@@ -1,12 +1,12 @@
-package msa.messagequeue;
+package msa.userservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import msa.pojo.User;
 import msa.pojo.UserLiveObject;
 import msa.postgresql.DatabaseController;
 import msa.redis.RedisConf;
-import org.hibernate.Hibernate;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLiveObjectService;
 
@@ -14,31 +14,29 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
-public class QHandler {
+public class UserCacheController {
 
-    private DatabaseController dbcont ;
+    private DatabaseController dbcont;
     private RedisConf redisConf;
-    private RLiveObjectService service ;
+    private RLiveObjectService service;
 
 
-
-
-    public QHandler() throws IOException {
+    public  UserCacheController() throws IOException {
 
         //initializations no big issue
-       dbcont = new DatabaseController();
-       redisConf = new RedisConf();
-       service = redisConf.getService();
+        dbcont = new DatabaseController();
+        redisConf = new RedisConf();
+        service = redisConf.getService();
 
     }
 
     public UUID addUser(String fname, String lname,
-                        String username, String email,String password,
+                        String username, String email, String password,
                         boolean gender, int age) {
 
         //call the method from the database
-        UUID id = dbcont.addUser(fname,lname,username,email,password,gender,age);
-        if(id == null)
+        UUID id = dbcont.addUser(fname, lname, username, email, password, gender, age);
+        if (id == null)
             return null;
         try {
             //make a live object which is explained in the UserLiveObject.class
@@ -58,9 +56,9 @@ public class QHandler {
             // set the value to the user id
             bucket.set(id.toString());
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
-           e.printStackTrace();
+            e.printStackTrace();
             return null;
 
         }
@@ -73,12 +71,130 @@ public class QHandler {
 
     }
 
-    public void updateUser(UUID userID,
+    public Set<UUID> getBoards(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getBoards();
+
+
+            } else {
+                return dbcont.getBoards(userID);
+
+            }
+        }
+        catch(Exception e) {
+                e.printStackTrace();
+                return null;
+
+            }
+
+
+    }
+
+    public Set<UUID> getCategories(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getUserCat();
+
+
+            } else {
+                return dbcont.getCategories(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<UUID> getPins(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getPinnedPosts();
+
+
+            } else {
+                return dbcont.getPins(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<User> getFollowedUsers(UUID userID) {
+
+        try {
+
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+
+                return user.getFollow();
+
+
+            } else {
+                System.out.println(dbcont.getFollowedUsers(userID));
+                return dbcont.getFollowedUsers(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<User> getFollowers(UUID userID) {
+
+        try {
+
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+
+                return user.getFollowedBy();
+
+
+            } else {
+
+                return dbcont.getFollowersUsers(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+
+
+    public boolean updateUser(UUID userID,
                            String firstName, String lastname, String password,
-                           String username, int age, boolean gender ) {
+                           String username, int age, boolean gender) {
 
         //we update the user in the database easy
-        dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
+       boolean res= dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
 
         //we check if the user is in the cache we update him
         try {
@@ -94,43 +210,47 @@ public class QHandler {
                 user.setUsername(username);
                 user.setAge(age);
                 user.setGender(gender);
+                return res;
 
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return false;
     }
 
-        public void addBoard (UUID userID, UUID boardID ){
+    public boolean addBoard(UUID userID, UUID boardID) {
 
         // add a board in the db by using the normal method
-        dbcont.addBoard(userID,boardID);
+        boolean flag = dbcont.addBoard(userID, boardID);
 
 
         // if the user is in the cache then update his boards also !!
-            try {
-                if (service.get(UserLiveObject.class, userID.toString()) != null) {
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
 
-                    //same as the above
-                    UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
-                    //get the boards
-                    Set boards = user.getBoards();
-                    //add a board to it
-                    boards.add(boardID);
+                //same as the above
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                //get the boards
+                Set boards = user.getBoards();
+                //add a board to it
+                boards.add(boardID);
+                return flag;
 
-
-                }
-            }catch (Exception e){
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-
+        return flag;
     }
 
-    public void removeBoard (UUID userID, UUID boardID ){
+    public boolean removeBoard(UUID userID, UUID boardID) {
 
         // add a board in the db by using the normal method
-        dbcont.removeBoard(userID,boardID);
+        boolean flag = dbcont.removeBoard(userID, boardID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -143,22 +263,25 @@ public class QHandler {
                 Set boards = user.getBoards();
                 //add a board to it
                 boards.remove(boardID);
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
         System.out.println(service.get(UserLiveObject.class,
                 userID.toString()).getBoards().toString());
 
-
+        return flag;
     }
-    public void followCategories(UUID userID, UUID categoryID ){
+
+    public boolean followCategories(UUID userID, UUID categoryID) {
 
         // add a board in the db by using the normal method
-        dbcont.followCategories(userID,categoryID);
+        boolean flag = dbcont.followCategories(userID, categoryID);
 
         try {
             // if the user is in the cache then update his boards also !!
@@ -170,20 +293,51 @@ public class QHandler {
                 Set categories = user.getUserCat();
                 //add a board to it
                 categories.add(categoryID);
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-
+        return flag;
 
     }
-    public boolean addPin (UUID userID, UUID pinID ){
+
+    public boolean unfollowCategories(UUID userID, UUID categoryID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.addPin(userID,pinID);
+        boolean flag = dbcont.unfollowCategories(userID, categoryID);
+
+        try {
+            // if the user is in the cache then update his boards also !!
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+
+                //same as the above
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                //get the boards
+                Set categories = user.getUserCat();
+                //add a board to it
+                categories.remove(categoryID);
+                return flag;
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return flag;
+
+    }
+
+    public boolean addPin(UUID userID, UUID pinID) {
+
+        // add a board in the db by using the normal method
+        boolean flag = dbcont.addPin(userID, pinID);
 
         try {
             // if the user is in the cache then update his boards also !!
@@ -199,19 +353,19 @@ public class QHandler {
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-return flag;
+        return flag;
 
 
     }
-    public boolean removePin (UUID userID, UUID pinID ){
+
+    public boolean removePin(UUID userID, UUID pinID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.removePin(userID,pinID);
-
+        boolean flag = dbcont.removePin(userID, pinID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -228,19 +382,20 @@ return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
-return flag;
+        return flag;
 
 
     }
-    public void followHashtags(UUID userID, UUID hashtagID ){
+
+    public boolean followHashtags(UUID userID, UUID hashtagID) {
 
         // add a board in the db by using the normal method
-        dbcont.followHashtag(userID,hashtagID);
+        boolean flag = dbcont.followHashtag(userID, hashtagID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -253,21 +408,24 @@ return flag;
                 Set hashtags = user.getHashtags();
                 //add a board to it
                 hashtags.add(hashtagID);
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-      ;
-
+        ;
+        return flag;
 
     }
-    public void unfollowHashtags (UUID userID, UUID hashtagID ){
+
+    public boolean unfollowHashtags(UUID userID, UUID hashtagID) {
 
         // add a board in the db by using the normal method
-        dbcont.unfollowHashtag(userID,hashtagID);
+        boolean flag = dbcont.unfollowHashtag(userID, hashtagID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -280,21 +438,24 @@ return flag;
                 Set hashtags = user.getHashtags();
                 //add a board to it
                 hashtags.remove(hashtagID);
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-
+        return flag;
 
 
     }
-    public boolean likePhotos(UUID userID, UUID likedPhotoID ){
+
+    public boolean likePhotos(UUID userID, UUID likedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean state = dbcont.likePhotos(userID,likedPhotoID);
+        boolean state = dbcont.likePhotos(userID, likedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -311,19 +472,19 @@ return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
-return false;
+        return false;
     }
-    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID ){
+
+    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.unlikePhotos(userID,unlikedPhotoID);
+        boolean flag = dbcont.unlikePhotos(userID, unlikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -340,19 +501,19 @@ return false;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
-return flag;
+        return flag;
     }
-    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID ){
+
+    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.dislikePhotos(userID,dislikedPhotoID);
+        boolean flag = dbcont.dislikePhotos(userID, dislikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -369,19 +530,20 @@ return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
- return flag;
+        return flag;
 
 
     }
-    public boolean undislikePhotos(UUID userID, UUID UndislikedPhotoID ){
+
+    public boolean undislikePhotos(UUID userID, UUID UndislikedPhotoID) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.undislikePhotos(userID,UndislikedPhotoID);
+        boolean flag = dbcont.undislikePhotos(userID, UndislikedPhotoID);
 
 
         // if the user is in the cache then update his boards also !!
@@ -397,19 +559,20 @@ return flag;
                 return flag;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-return flag;
+        return flag;
 
     }
-    public boolean blockUser(UUID userID, UUID blocked ){
+
+    public boolean blockUser(UUID userID, UUID blocked) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.blockUser(userID,blocked);
+        boolean flag = dbcont.blockUser(userID, blocked);
 
 
         // if the user is in the cache then update his boards also !!
@@ -422,24 +585,23 @@ return flag;
                 Set blockedUsers = user.getBlock();
                 //add a board to it
                 blockedUsers.add(blocked);
-                return true;
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-
-return flag;
+        return flag;
     }
 
-    public void UnblockUser(UUID userID, UUID unBlocked ){
+    public boolean UnblockUser(UUID userID, UUID unBlocked) {
 
         // add a board in the db by using the normal method
-        dbcont.blockUser(userID,unBlocked);
+        boolean flag = dbcont.unblockUser(userID, unBlocked);
 
 
         // if the user is in the cache then update his boards also !!
@@ -452,22 +614,25 @@ return flag;
                 Set blockedUsers = user.getBlock();
                 //add a board to it
                 blockedUsers.remove(unBlocked);
+                return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
-
+        return flag;
 
 
     }
-    public boolean followUser(UUID userID, UUID followingId ){
+
+    public boolean followUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-        boolean flag=dbcont.followUser(userID,followingId);
-
+            boolean flag = dbcont.followUser(userID, followingId);
+         System.out.println(flag +"Follow User");
 
         // if the user is in the cache then update his boards also !!
         try {
@@ -489,19 +654,20 @@ return flag;
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
 
-return flag;
+        return flag;
 
     }
-    public boolean unfollowUser(UUID userID, UUID followingId ){
+
+    public boolean unfollowUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-       boolean flag= dbcont.unfollowUser(userID,followingId);
+        boolean flag = dbcont.unfollowUser(userID, followingId);
 
 
         // if the user is in the cache then update his boards also !!
@@ -523,85 +689,107 @@ return flag;
                 return flag;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
-return flag;
+        return flag;
 
 
     }
 
-    public UserLiveObject signIn (String email, String password ) {
+    public User signIn(String email, String password) {
 
 
         try {
+            User user = dbcont.signIn(email, password);
 
-        RBucket<String> bucket = redisConf.getClient().getBucket(email);
-        if (bucket.get() != null) {
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
 
-            if (service.get(UserLiveObject.class, bucket.get()) != null) {
-                UserLiveObject userLiveObject = service.get(UserLiveObject.class, bucket.get());
-                if (email.equals(userLiveObject.getEmail()) &&
-                        password.equals(userLiveObject.getPassword())) {
+        }
+        return null;
+    }
+          /*  RBucket<String> bucket = redisConf.getClient().getBucket(email);
+            if (bucket.get() != null) {
 
-                    System.out.println("hereeeeeeeee");
+                if (service.get(UserLiveObject.class, bucket.get()) != null) {
+                    UserLiveObject userLiveObject = service.get(UserLiveObject.class, bucket.get());
+                    if (email.equals(userLiveObject.getEmail()) &&
+                            password.equals(userLiveObject.getPassword())) {
+
+                        System.out.println("1111111111111111111111");
 
 
+                        return userLiveObject;
+                    }
+                } else {
+                    User user = dbcont.signIn(email, password);
+                    System.out.println("22222222222222222222");
 
-                    return userLiveObject;
+                    if (user == null)
+                        return null;
+
+                    String message = new Gson().toJson(user);
+                    Gson gson = new GsonBuilder().create();
+                    UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
+                    userLive = service.persist(userLive);
+                    System.out.println("3333333333333333");
+
+
                 }
+
             } else {
+
                 User user = dbcont.signIn(email, password);
+
+                System.out.println("444444444444444");
+
+
                 if (user == null)
                     return null;
 
-                String message = new Gson().toJson(user);
-                Gson gson = new GsonBuilder().create();
-                UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
-                userLive = service.persist(userLive);
+                System.out.println("after null");
 
-            }
+                if (service.get(UserLiveObject.class, user.getId().toString()) != null) {
 
-        } else {
+                    System.out.println("5555555555555");
 
-            User user = dbcont.signIn(email, password);
 
-            if (user == null)
-                return null;
+                    RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
+                    bucket2.set(user.getId().toString());
 
-            if (service.get(UserLiveObject.class, user.getId().toString()) != null) {
+                    String message = new Gson().toJson(user);
+                    Gson gson = new GsonBuilder().create();
+                    UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
 
-                RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
-                bucket2.set(user.getId().toString());
+                    return userLive;
+                } else {
 
-                String message = new Gson().toJson(user);
-                Gson gson = new GsonBuilder().create();
-                UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
+                    System.out.println(user.getId());
+                    String json = new Gson().toJson(user);
+                    System.out.println(json);
+                    System.out.println("66666666666666");
 
-                return userLive;
-            } else {
+                  *//*  Gson gson = new GsonBuilder().create();
+                    UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
+                    userLive = service.persist(userLive);
+                    System.out.println(userLive.getId() + "elsaya");
 
-                String message = new Gson().toJson(user);
-                System.out.println(message);
-                Gson gson = new GsonBuilder().create();
-                UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
-                userLive = service.persist(userLive);
-                System.out.println(userLive.getId() + "elsaya");
-
-                RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
-                bucket2.set(user.getId().toString());
-                return userLive;
-
-            }
-
-        }
-    }catch (Exception e){
-        e.printStackTrace();
-    }
-        return null;
-    }
+                    RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
+                    bucket2.set(user.getId().toString());
+                    return userLive;*//*
+                  return null;*/
+//
+//                }
+//
+//
+//        } catch (Exception e) {
+//        }
+//        return null;
+//    }
 
 
 
@@ -663,12 +851,11 @@ return flag;
 
 
 
-        // gets the user with all collections (Sets)
+    // gets the user with all collections (Sets)
 
-        public UserLiveObject getUserWithProfileById(UUID userId)
-    {
+    public UserLiveObject getUserWithProfileById(UUID userId) {
 
-        if(service.get(UserLiveObject.class, userId.toString())!=null) {
+        if (service.get(UserLiveObject.class, userId.toString()) != null) {
             return service.get(UserLiveObject.class, userId.toString());
         }
 
@@ -684,5 +871,4 @@ return flag;
 
 
     }
-
 }
