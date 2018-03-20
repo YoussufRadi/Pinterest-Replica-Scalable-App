@@ -29,6 +29,18 @@ public class Message {
     @SerializedName("user_id")
     private String user_id;
 
+    @SerializedName("tag_name")
+    private String tag_name;
+
+    @SerializedName("skip")
+    private int skip;
+
+    @SerializedName("limit")
+    private int limit;
+
+    @SerializedName("tag_object")
+    private TagDBObject tag_object;
+
 
 
 
@@ -80,6 +92,14 @@ public class Message {
         this.post_object = post_object;
     }
 
+    public TagDBObject getTag_object() {
+        return tag_object;
+    }
+
+    public void setTag_object(TagDBObject tag_object) {
+        this.tag_object = tag_object;
+    }
+
     public String getUser_id() {
         return user_id;
     }
@@ -102,6 +122,30 @@ public class Message {
 
     public void setBoard_id(String board_id) {
         this.board_id = board_id;
+    }
+
+    public String getTag_name() {
+        return tag_name;
+    }
+
+    public void setTag_name(String tag_name) {
+        this.tag_name = tag_name;
+    }
+
+    public int getSkip() {
+        return skip;
+    }
+
+    public void setSkip(int skip) {
+        this.skip = skip;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public Message() {

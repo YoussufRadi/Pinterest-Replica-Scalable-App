@@ -230,7 +230,8 @@ public class ArangoInstance {
     public static void main(String[] args){
         ArangoInstance arango = new ArangoInstance("root","pass");
         String s = "Post";
-        arango.arangoDB.db(s).createCollection("boards");
+        //arango.arangoDB.db(s).createCollection("posts_tags");
+        System.out.println(arango.getPostsOfTagLimit(0,2,"cold"));
         //arango.initializeDB();
 //        arango.dropDB();
        //arango.insertNewBoard(new BoardDBObject("1","horses"));
