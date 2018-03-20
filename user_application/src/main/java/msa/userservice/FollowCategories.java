@@ -7,20 +7,16 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import msa.pojo.Message;
 import msa.pojo.User;
-import msa.pojo.UserLiveObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
-public class UpdateUser extends Command {
-
-
-
+public class FollowCategories extends Command {
 
 
+    public void execute() {
 
-
-        public void execute () {
         HashMap<String, Object> parameters = data;
 
 
@@ -37,22 +33,21 @@ public class UpdateUser extends Command {
         User payload = msg.getPayload();
 
 
-        boolean respBol = UserCacheController.updateUser(payload.getId()
-                , payload.getFirstName(),
-                payload.getLastName(), payload.getPassword(),
-                payload.getUsername(), payload.getAge(), payload.isGender());
-
-        String response = respBol + "";
+        boolean respBool =
+                UserCacheController.followCategories(msg.getPayload().getId(), UUID.fromString(msg.getCategoryId()));
 
 
+        String response = respBool + "";
+
+
+
+        System.out.println(response);
         System.out.println();
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps,
-                    response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

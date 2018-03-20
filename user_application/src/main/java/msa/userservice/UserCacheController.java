@@ -2,6 +2,7 @@ package msa.userservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import msa.pojo.User;
 import msa.pojo.UserLiveObject;
 import msa.postgresql.DatabaseController;
@@ -69,6 +70,124 @@ public class UserCacheController {
 
 
     }
+
+    public Set<UUID> getBoards(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getBoards();
+
+
+            } else {
+                return dbcont.getBoards(userID);
+
+            }
+        }
+        catch(Exception e) {
+                e.printStackTrace();
+                return null;
+
+            }
+
+
+    }
+
+    public Set<UUID> getCategories(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getUserCat();
+
+
+            } else {
+                return dbcont.getCategories(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<UUID> getPins(UUID userID) {
+
+        try {
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+                return user.getPinnedPosts();
+
+
+            } else {
+                return dbcont.getPins(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<User> getFollowedUsers(UUID userID) {
+
+        try {
+
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+
+                return user.getFollow();
+
+
+            } else {
+                System.out.println(dbcont.getFollowedUsers(userID));
+                return dbcont.getFollowedUsers(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+    public Set<User> getFollowers(UUID userID) {
+
+        try {
+
+            if (service.get(UserLiveObject.class, userID.toString()) != null) {
+                UserLiveObject user = service.get(UserLiveObject.class, userID.toString());
+
+                return user.getFollowedBy();
+
+
+            } else {
+
+                return dbcont.getFollowersUsers(userID);
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+    }
+
+
 
     public boolean updateUser(UUID userID,
                            String firstName, String lastname, String password,
@@ -512,8 +631,8 @@ public class UserCacheController {
     public boolean followUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-        boolean flag = dbcont.followUser(userID, followingId);
-
+            boolean flag = dbcont.followUser(userID, followingId);
+         System.out.println(flag +"Follow User");
 
         // if the user is in the cache then update his boards also !!
         try {
@@ -580,12 +699,20 @@ public class UserCacheController {
 
     }
 
-    public UserLiveObject signIn(String email, String password) {
+    public User signIn(String email, String password) {
 
 
         try {
+            User user = dbcont.signIn(email, password);
 
-            RBucket<String> bucket = redisConf.getClient().getBucket(email);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+          /*  RBucket<String> bucket = redisConf.getClient().getBucket(email);
             if (bucket.get() != null) {
 
                 if (service.get(UserLiveObject.class, bucket.get()) != null) {
@@ -593,13 +720,15 @@ public class UserCacheController {
                     if (email.equals(userLiveObject.getEmail()) &&
                             password.equals(userLiveObject.getPassword())) {
 
-                        System.out.println("hereeeeeeeee");
+                        System.out.println("1111111111111111111111");
 
 
                         return userLiveObject;
                     }
                 } else {
                     User user = dbcont.signIn(email, password);
+                    System.out.println("22222222222222222222");
+
                     if (user == null)
                         return null;
 
@@ -607,6 +736,8 @@ public class UserCacheController {
                     Gson gson = new GsonBuilder().create();
                     UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
                     userLive = service.persist(userLive);
+                    System.out.println("3333333333333333");
+
 
                 }
 
@@ -614,10 +745,18 @@ public class UserCacheController {
 
                 User user = dbcont.signIn(email, password);
 
+                System.out.println("444444444444444");
+
+
                 if (user == null)
                     return null;
 
+                System.out.println("after null");
+
                 if (service.get(UserLiveObject.class, user.getId().toString()) != null) {
+
+                    System.out.println("5555555555555");
+
 
                     RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
                     bucket2.set(user.getId().toString());
@@ -629,25 +768,28 @@ public class UserCacheController {
                     return userLive;
                 } else {
 
-                    String message = new Gson().toJson(user);
-                    System.out.println(message);
-                    Gson gson = new GsonBuilder().create();
+                    System.out.println(user.getId());
+                    String json = new Gson().toJson(user);
+                    System.out.println(json);
+                    System.out.println("66666666666666");
+
+                  *//*  Gson gson = new GsonBuilder().create();
                     UserLiveObject userLive = gson.fromJson(message, UserLiveObject.class);
                     userLive = service.persist(userLive);
                     System.out.println(userLive.getId() + "elsaya");
 
                     RBucket<String> bucket2 = redisConf.getClient().getBucket(email);
                     bucket2.set(user.getId().toString());
-                    return userLive;
-
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+                    return userLive;*//*
+                  return null;*/
+//
+//                }
+//
+//
+//        } catch (Exception e) {
+//        }
+//        return null;
+//    }
 
 
 
@@ -705,6 +847,8 @@ public class UserCacheController {
     }
 
 */
+
+
 
 
     // gets the user with all collections (Sets)

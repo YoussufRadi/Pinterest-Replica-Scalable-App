@@ -75,6 +75,7 @@ public class RPCClient {
             JSONObject jsonStringInner = new JSONObject();
 
             //jsonStringInner.put("id","8d86fbfa-b98c-47d0-aeef-ee7a3450a06d");
+
             jsonStringInner.put("password","password");
             jsonStringInner.put("email","jojo@gmail.com");
 
@@ -97,6 +98,7 @@ public class RPCClient {
             //////   ****** Follow/Unfollow Hashtag Test*****
               jsonString.put("command", "SignIn");
                 jsonString.put("payload" ,jsonStringInner);
+                jsonString.put("otherUserId","a0e6d54d-6eaf-492b-acd3-789814ae38f1");
                 //jsonString.put("hashtagId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
 //
 //                jsonString.put("method", "unfollowHashtags");

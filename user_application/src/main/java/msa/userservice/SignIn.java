@@ -32,7 +32,7 @@ public class SignIn extends Command{
         User payload = msg.getPayload();
 
 
-        UserLiveObject userLiveObject = UserCacheController.signIn(payload.getEmail(),
+        User userLiveObject = UserCacheController.signIn(payload.getEmail(),
                 payload.getPassword());
 
         String response = new Gson().toJson(userLiveObject);

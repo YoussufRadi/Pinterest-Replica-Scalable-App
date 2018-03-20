@@ -6,6 +6,7 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class DatabaseController {
@@ -221,7 +222,6 @@ public class DatabaseController {
             tx = session.beginTransaction();
             User user = (User)session.get(User.class, userID);
             user.getUserCat().add(categoryID);
-            user.getUserCat().add(categoryID);
             session.update(user);
             tx.commit();
             return true;
@@ -234,6 +234,145 @@ public class DatabaseController {
             session.close();
         }
     }
+
+
+
+    public Set<UUID> getCategories(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> categories= user.getUserCat();
+            tx.commit();
+            return categories;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getBoards(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> boards= user.getBoards();
+            tx.commit();
+            return boards;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<User> getFollowedUsers(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<User> following= user.getFollow();
+
+            tx.commit();
+            return following;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getLikedPhotos(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> photos= user.getUserLikedPhotos();
+
+            tx.commit();
+            return photos;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public Set<UUID> getPins(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<UUID> pins= user.getPinnedPosts();
+
+            tx.commit();
+            return pins;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+
+
+
+
+    public Set<User> getFollowersUsers(UUID userID ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            User user = (User)session.get(User.class, userID);
+            Set<User> followers= user.getFollowedBy();
+
+            tx.commit();
+            return followers;
+
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+
     public boolean unfollowCategories(UUID userID, UUID categoryID ){
         Session session = factory.openSession();
         Transaction tx = null;
@@ -574,7 +713,12 @@ public class DatabaseController {
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
-            return false;
+            return false;}
+
+            catch (Exception e) {
+                if (tx!=null) tx.rollback();
+                e.printStackTrace();
+                return false;
         } finally {
             session.close();
         }
