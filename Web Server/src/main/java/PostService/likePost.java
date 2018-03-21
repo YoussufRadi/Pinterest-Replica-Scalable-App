@@ -49,6 +49,7 @@ public class likePost extends Command {
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         if (postLiveObject!= null){
             postLiveObject.setLikes_id(arangoInstance.getPost(post_id).getLikes_id());
+            postLiveObject.setDislikes_id(arangoInstance.getPost(post_id).getDislikes_id());
         }
         return arangoInstance.getPost(post_id);
     }
