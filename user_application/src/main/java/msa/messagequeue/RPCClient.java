@@ -6,6 +6,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -60,26 +61,47 @@ public class RPCClient {
     }
 
     public static void main(String[] argv) {
-        RPCClient fibonacciRpc = null;
-        String response = null;
-        try {
-            fibonacciRpc = new RPCClient();
+        RPCClient Rpc = null;
+        String response = "";
 
-            System.out.println(" [x] Requesting fib(30)");
-            response = fibonacciRpc.call("30");
-            System.out.println(" [.] Got '" + response + "'");
-        }
-        catch  (IOException | TimeoutException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            if (fibonacciRpc!= null) {
-                try {
-                    fibonacciRpc.close();
+
+
+            try {
+                Rpc = new RPCClient();
+
+                System.out.println(" [x] Requesting JSON");
+
+                JSONObject jsonString = new JSONObject();
+                JSONObject jsonStringInner = new JSONObject();
+
+                jsonStringInner.put("id","b935d19e-7725-4c64-9fe6-8f432a8e226b");
+                //jsonStringInner.put("password","password");
+               /* jsonStringInner.put("age","14");
+                jsonStringInner.put("firstName","Moe");
+                jsonStringInner.put("lastName","Moe");
+                jsonStringInner.put("gender","true");
+                jsonStringInner.put("username","MoeUserName");*/
+
+
+
+
+                jsonString.put("method", "unfollowUser");
+                        jsonString.put("payload" ,jsonStringInner);
+                jsonString.put("otherUserId", "7dc85920-48e1-4b6c-a976-c3a3d8cbdd52");
+
+                response = Rpc.call(jsonString.toString());
+                System.out.println(" [.] Got '" + response + "'");
+            } catch (IOException | TimeoutException | InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (Rpc != null) {
+                    try {
+                        Rpc.close();
+                    } catch (IOException _ignore) {
+                    }
                 }
-                catch (IOException _ignore) {}
             }
         }
-    }
+
 }
 

@@ -1,3 +1,4 @@
+package msa.messagequeue;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -5,11 +6,9 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -19,7 +18,7 @@ public class RPCClient {
 
     private Connection connection;
     private Channel channel;
-    private String requestQueueName = "post_queue";
+    private String requestQueueName = "rpc_queue";
     private String replyQueueName;
 
     public RPCClient() throws IOException, TimeoutException {
@@ -33,7 +32,7 @@ public class RPCClient {
     }
 
     public String call(String message) throws IOException, InterruptedException {
-        final String corrId = UUID.randomUUID().toString();
+        String corrId = UUID.randomUUID().toString();
 
         AMQP.BasicProperties props = new AMQP.BasicProperties
                 .Builder()
@@ -62,50 +61,47 @@ public class RPCClient {
     }
 
     public static void main(String[] argv) {
-        RPCClient rpcClient = null;
-        String response = null;
+        RPCClient Rpc = null;
+        String response = "";
+        for (int i = 0; i < 25; i++) {
 
-        try {
-            rpcClient = new RPCClient();
-            JSONObject jsonString = new JSONObject();
-            JSONObject jsonStringInner = new JSONObject();
-            JSONArray likes_id = new JSONArray();
-            likes_id.add("1");
-            JSONArray dislikes_id = new JSONArray();
-            dislikes_id.add("1");
-            JSONArray comments_id = new JSONArray();
-            comments_id.add("1");
-            JSONArray categories_id = new JSONArray();
-            categories_id.add("1");
-            JSONArray tags_id = new JSONArray();
-            tags_id.add("1");
 
-            jsonStringInner.put("user_id","jojo@gmail.com");
-            jsonStringInner.put("likes_id",likes_id);
-            jsonStringInner.put("dislikes_id",dislikes_id);
-            jsonStringInner.put("comments_id",comments_id);
-            jsonStringInner.put("categories_id",categories_id);
-            jsonStringInner.put("tags_id",tags_id);
-            jsonStringInner.put("image_id","4");
+            try {
+                Rpc = new RPCClient();
 
-            jsonString.put("method", "insert_post");
-            jsonString.put("payload" ,jsonStringInner);
+                System.out.println(" [x] Requesting JSON");
 
-            System.out.println(" [x] add post ");
-            response = rpcClient.call(jsonString.toString());
-            System.out.println(" [.] Got '" + response + "'");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rpcClient != null) {
-                try {
-                    rpcClient.close();
-                } catch (IOException _ignore) {
+                JSONObject jsonString = new JSONObject();
+                JSONObject jsonStringInner = new JSONObject();
+
+                jsonStringInner.put("email","jojo@gmail.com");
+                jsonStringInner.put("password","password");
+                jsonStringInner.put("14","age");
+                jsonStringInner.put("firstName","Moe");
+                jsonStringInner.put("lastName","Moe");
+                jsonStringInner.put("gender","true");
+                jsonStringInner.put("username","MoeUserName");
+
+
+
+
+                jsonString.put("method", "signUp");
+                        jsonString.put("payload" ,jsonStringInner);
+
+
+                response = Rpc.call(jsonString.toString());
+                System.out.println(" [.] Got '" + response + "'");
+            } catch (IOException | TimeoutException | InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (Rpc != null) {
+                    try {
+                        Rpc.close();
+                    } catch (IOException _ignore) {
+                    }
                 }
             }
         }
     }
-
 }
-
 

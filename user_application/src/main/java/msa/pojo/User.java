@@ -1,18 +1,21 @@
 package msa.pojo;
 
+import net.bytebuddy.agent.builder.AgentBuilder;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Type;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
 
 import java.util.*;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name="uuid",
@@ -37,34 +40,55 @@ public class User {
     @Column(name = "gender" ,nullable = false)
     private boolean gender;
 
+    @Column(name = "age" ,nullable = false)
+    private int age;
 
+    @Column(name = "username",nullable = false)
+    private String username;
 
-    private String redisId;
+    public int getAge() {
+        return age;
+    }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-    @ManyToMany
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+
     @JoinTable(name="block",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="blockedId")
     )
-    private List<User> block;
-    public List<User> getBlock() {
+
+    private Set<User> block;
+    public Set<User> getBlock() {
         return block;
     }
-    public void setBlock(List<User> block) {
+    public void setBlock(Set<User> block) {
         this.block = block;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+
     @JoinTable(name="block",
             joinColumns=@JoinColumn(name="blockedId"),
             inverseJoinColumns=@JoinColumn(name="userId")
     )
-    private List<User> blockedBy;
-    public List<User> getBlockedBy() {
+    private Set<User> blockedBy;
+    public Set<User> getBlockedBy() {
         return blockedBy;
     }
-    public void setBlockedBy(List<User> blockedBy) {
+    public void setBlockedBy(Set<User> blockedBy) {
         this.blockedBy = blockedBy;
     }
 
@@ -84,82 +108,115 @@ public class User {
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followingId")
     )
-    private List<User> following;
-    public List<User> getFollowing() {
+    private Set<User> following;
+    public Set<User> getFollowing() {
         return following;
     }
-    public void setFollowing(List<User> following) {
+    public void setFollowing(Set<User> following) {
         this.following = following;
     }
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="following",
             joinColumns=@JoinColumn(name="followingId"),
             inverseJoinColumns=@JoinColumn(name="userId")
     )
-    private List<User> followedBy;
-    public List<User> getFollowedBy() {
+    private Set<User> followedBy;
+    public Set<User> getFollowedBy() {
         return followedBy;
     }
-    public void setFollowedBy(List<User> followedBy) {
+    public void setFollowedBy(Set<User> followedBy) {
         this.followedBy = followedBy;
     }
 
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="userId"),
             inverseJoinColumns=@JoinColumn(name="followerId")
     )
-    private List<User> followers;
-    public List<User> getFollowers() { return followers;}
+    private Set<User> followers;
+    public Set<User> getFollowers() { return followers;}
 
-    public void setFollowers(List<User> followers) { this.followers = followers; }
+    public void setFollowers(Set<User> followers) { this.followers = followers; }
 
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="followers",
             joinColumns=@JoinColumn(name="followerId"),
             inverseJoinColumns=@JoinColumn(name="userId")
     )
-    private List<User> follow;
-    public List<User> getFollow() {return follow; }
-    public void setFollow(List<User> follow) { this.follow = follow; }
+    private Set<User> follow;
+    public Set<User> getFollow() {return follow; }
+    public void setFollow(Set<User> follow) { this.follow = follow; }
 
 
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="Categories", joinColumns=@JoinColumn(name="user_id"))
     @Column(name="category")
-    private List<UUID> userCat;
-    public List<UUID> getUserCat() {
+    private Set<UUID> userCat;
+    public Set<UUID> getUserCat() {
         return userCat;
     }
-    public void setUserCat(List<UUID> userCat) {
+    public void setUserCat(Set<UUID> userCat) {
         this.userCat = userCat;
     }
 
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="liked_photos", joinColumns=@JoinColumn(name="user_id"))
+    @Column(name="likedphoto_id")
+    private Set<UUID> userLikedPhotos;
+    public Set<UUID> getUserLikedPhotos(){ return userLikedPhotos; }
+    public void setUserLikedPhotos(Set<UUID> userLikedPhotos) { this.userLikedPhotos = userLikedPhotos; }
 
-    public String getRedisId() {
-        return redisId;
-    }
 
-    public void setRedisId(UUID id) {
-        this.redisId = id.toString();
-    }
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="disliked_photos", joinColumns=@JoinColumn(name="user_id"))
+    @Column(name="dislikedphoto_id")
+    private Set<UUID> userDislikedPhotos;
+    public Set<UUID> getUserDislikedPhotos() { return userDislikedPhotos; }
+    public void setUserDislikedPhotos(Set<UUID> userDislikedPhotos) { this.userDislikedPhotos = userDislikedPhotos; }
+
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="Pins", joinColumns=@JoinColumn(name="user_id"))
+    @Column(name="pin_id")
+    private Set<UUID> pinnedPosts;
+    public Set<UUID> getPinnedPosts() { return pinnedPosts; }
+    public void setPinnedPosts(Set<UUID> pinnedPosts) { this.pinnedPosts = pinnedPosts; }
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="Hashtags", joinColumns=@JoinColumn(name="user_id"))
+    @Column(name="hashtag_id")
+    private Set<UUID> hashtags;
+    public Set<UUID> getHashtags() { return hashtags; }
+    public void setHashtags(Set<UUID> hashtags) { this.hashtags = hashtags; }
+
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="Boards", joinColumns=@JoinColumn(name="user_id"))
+    @Column(name="board_id")
+    private Set<UUID> boards;
+    public Set<UUID> getBoards() { return boards; }
+    public void setBoards(Set<UUID> boards) { this.boards = boards;}
+
     public UUID getId() {
-
         return id;
     }
 
@@ -210,12 +267,14 @@ public class User {
     public User(){
 
     }
-    public User( String firstName, String lastName, String email, String password, boolean gender) {
+    public User( String firstName, String lastName, String username, String email, String password, boolean gender, int age) {
 
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.username=username;
+        this.age=age;
         this.password = password;
         this.gender = gender;
     }

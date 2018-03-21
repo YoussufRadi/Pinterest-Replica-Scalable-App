@@ -3,6 +3,7 @@ package Arango;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
+import com.arangodb.entity.DocumentEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +94,6 @@ public class ArangoInstance {
     }
     public void insertNewPost(PostDBObject postDBObject){
         arangoDB.db("Post").collection("posts").insertDocument(postDBObject);
-
     }
 
     public PostDBObject getPost(String id){

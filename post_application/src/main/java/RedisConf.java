@@ -1,5 +1,4 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import org.redisson.Redisson;
 import org.redisson.api.RLiveObjectService;
 import org.redisson.api.RedissonClient;
@@ -7,7 +6,6 @@ import org.redisson.config.Config;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class RedisConf {
 

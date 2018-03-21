@@ -1,6 +1,8 @@
 import java.io.IOException;
 
-import Arango.PostDBObject;
+import Arango.*;
+import LiveObjects.PostLiveObject;
+import com.arangodb.entity.DocumentEntity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.ConnectionFactory;
@@ -23,7 +25,6 @@ public class RPCServer {
         ConnectionFactory factory = new ConnectionFactory();
         final QHandler QHandler = new QHandler();
         factory.setHost("localhost");
-
         Connection connection = null;
         try {
             connection      = factory.newConnection();
@@ -61,6 +62,7 @@ public class RPCServer {
 
                         System.out.println(future.get());
                         response +=future.get().toString();
+                        System.out.println(response);
 
                     }
                     catch (RuntimeException e){
@@ -105,14 +107,47 @@ public class RPCServer {
     public  Object handleMessage(Message msg){
 
         String method = msg.getMethod();
-        PostDBObject payload = msg.getPayload();
+        Object returned = null;
+
 
         switch (method){
             case "insert_post":
-                qHandler.addPost(payload);
+                PostDBObject postDBObject = msg.getPost_object();
+                returned = qHandler.insert_post(postDBObject);
                 break;
+            case "get_post":
+                PostLiveObject post= qHandler.getPost(msg.getPost_id());
+                returned = post;
+                break;
+
+            case "delete_post":
+                qHandler.deletePost(msg.getPost_id());
+                returned = "deleted";
+                break;
+
+            case "get_category":
+                returned = qHandler.getCategory(msg.getCategory_id());
+                break;
+
+            case "update_post":
+                returned = qHandler.update_post(msg.getPost_id(),msg.getPost_object());
+                break;
+            case "insert_category":
+                CategoryDBObject categoryDBObject = msg.getCategory_object();
+                returned = qHandler.insert_category(categoryDBObject);
+                break;
+
+            case "delete_category":
+                qHandler.deleteCategory(msg.getCategory_id());
+                returned = "deleted";
+                break;
+
+            case "update_category":
+                returned =  qHandler.updateCategoty(msg.getCategory_id(),msg.getCategory_object());
+                break;
+
         }
-        return null;
+        return returned;
     }
 
 
