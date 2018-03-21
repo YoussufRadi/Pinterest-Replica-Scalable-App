@@ -76,7 +76,7 @@ public class ArangoInstance {
 
         }
     }
-    public void RemovePostToCategory(String id,String postid){
+    public void removePostToCategory(String id,String postid){
         PostDBObject post= getPost(postid);
         if(post!=null){
             CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
