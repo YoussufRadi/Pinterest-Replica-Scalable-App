@@ -17,6 +17,13 @@ public class Message {
     @SerializedName("category_id")
     private String category_id;
 
+    @SerializedName("comment_id")
+    private String comment_id;
+
+
+    @SerializedName("comment_object")
+    private CommentDBObject comment_object;
+
     @SerializedName("category_object")
     private CategoryDBObject category_object;
 
@@ -146,6 +153,22 @@ public class Message {
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+    public String getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(String comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public CommentDBObject getComment_object() {
+        return comment_object;
+    }
+
+    public void setComment_object(CommentDBObject comment_object) {
+        this.comment_object = comment_object;
     }
 
     public Message() {
