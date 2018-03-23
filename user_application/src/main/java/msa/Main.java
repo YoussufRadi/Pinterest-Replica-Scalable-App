@@ -1,10 +1,16 @@
 package msa;
 
-import msa.messagequeue.QHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
+import msa.pojo.User;
+import msa.pojo.UserLiveObject;
+import msa.userservice.UserCacheController;
 import msa.postgresql.DatabaseController;
 import msa.redis.RedisConf;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
 
 public class Main {
@@ -13,15 +19,24 @@ public class Main {
 
         DatabaseController dbcontroller = new DatabaseController();
         RedisConf conf = new RedisConf();
-        QHandler q =new QHandler();
+        UserCacheController q =new UserCacheController();
 
-        //UserLiveObject userLiveObjec=q.signIn("ahmedsouidan@gmail.com","password");
+        //UserLiveObject userLiveObjec=q.SignIn("ahmedsouidan@gmail.com","password");
         //System.out.println(userLiveObjec.getId());
-        UUID id = q.addUser("zaher","tarek",
-                "jojihiqh","jojo@gmail.com",
-                "password",true,22);
 
-        System.out.println(id);
+              User live = q.signIn("jojo@gmail.com","password");
+
+              System.out.println(live.getId());
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(live);
+
+              System.out.println(json);
+
+       /* for (User myVal : set) {
+            System.out.println(myVal.getFirstName());
+        }*/
+
         //UUID uid = UUID.fromString("85c05c80-564a-425e-9a5b-aec519a9f655");
         //UUID uid2 = UUID.fromString("85c05c80-564a-425e-9a5b-aec519a9f778");
         //UUID uid3 = UUID.fromString("882bbd03-915b-4eda-88cd-a7f0dd04a612");

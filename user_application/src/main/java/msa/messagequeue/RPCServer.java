@@ -1,34 +1,32 @@
 package msa.messagequeue;
 
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.rabbitmq.client.ConnectionFactory;
-        import com.rabbitmq.client.Connection;
-        import com.rabbitmq.client.Channel;
-        import com.rabbitmq.client.Consumer;
-        import com.rabbitmq.client.DefaultConsumer;
-        import com.rabbitmq.client.AMQP;
-        import com.rabbitmq.client.Envelope;
-import msa.pojo.Message;
-import msa.pojo.User;
-import msa.pojo.UserLiveObject;
-
-import java.util.UUID;
-import java.util.concurrent.*;
+import com.rabbitmq.client.*;
+import msa.userservice.*;
+import msa.userservice.Command;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class RPCServer {
 
-    private static final String RPC_QUEUE_NAME = "rpc_queue";
-    static ExecutorService executorService = Executors.newFixedThreadPool(15);
-    msa.messagequeue.QHandler qHandler ;
+    private static final String RPC_QUEUE_NAME = "user-request";
+    private static final String RPC_RESPONSE_QUEUE = "user-response";
+
+    static ExecutorService executor = Executors.newFixedThreadPool(15);
+    UserCacheController UserCacheController;
 
     public RPCServer() throws IOException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
-        qHandler = new msa.messagequeue.QHandler();
+        UserCacheController = new UserCacheController();
 
         Connection connection = null;
         try {
@@ -36,6 +34,8 @@ public class RPCServer {
             final Channel channel = connection.createChannel();
 
             channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(RPC_RESPONSE_QUEUE , false, false, false, null);
+
 
             channel.basicQos(1);
 
@@ -52,38 +52,43 @@ public class RPCServer {
                     String response = "";
 
                     try {
-                        Future future = executorService.submit(new Callable() {
-                            public Object call() throws Exception {
-                                String message = new String(body, "UTF-8");
-                                System.out.println(Thread.currentThread().getName());
+                        String message = new String(body, "UTF-8");
+                        JSONParser parser = new JSONParser();
+                        JSONObject command = (JSONObject) parser.parse(message);
+                        String className = "msa.userservice." + (String)command.get("command");
+                        Class com = Class.forName(className);
+                        Command cmd = (Command) com.newInstance();
 
-                                Gson gson = new GsonBuilder().create();
-                                Message msg = gson.fromJson(message, Message.class);
+                        HashMap<String, Object> init2 = new HashMap<String, Object>();
+                        init2.put("channel", channel);
+                        init2.put("properties", properties);
+                        init2.put("replyProps", replyProps);
+                        init2.put("envelope", envelope);
+                        init2.put("body", message);
+                        init2.put("UserCacheController", UserCacheController);
+                        cmd.init(init2);
+                        executor.submit(cmd);
 
-                                return handleMessage(msg);
-
-                            }
-                        });
 
 
-                        response += future.get().toString();
+
+
+
                     }
 
 
 
                     catch (RuntimeException e){
                         System.out.println(" [.] " + e.toString());
-                    } catch (InterruptedException e) {
+                    }  catch (IllegalAccessException e) {
                         e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (ParseException e) {
                         e.printStackTrace();
-                    } finally {
-                        channel.basicPublish( "", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
-                        channel.basicAck(envelope.getDeliveryTag(), false);
-                        // RabbitMq consumer worker thread notifies the RPC server owner thread
-                        synchronized(this) {
-                            this.notify();
-                        }
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+
                     }
                 }
             };
@@ -101,8 +106,7 @@ public class RPCServer {
             }
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (connection != null)
                 try {
                     connection.close();
@@ -112,7 +116,7 @@ public class RPCServer {
 
 
 
-    public  Object handleMessage(Message msg){
+   /* public  Object handleMessage(Message msg){
 
         String method = msg.getMethod();
         User payload = msg.getPayload();
@@ -121,18 +125,18 @@ public class RPCServer {
 
 
         switch (method){
-            case "signIn" :
-                 live = qHandler.signIn(msg.getPayload().getEmail(),
+            case "SignIn" :
+                 live = UserCacheController.signIn(msg.getPayload().getEmail(),
                         msg.getPayload().getPassword());
                 System.out.println(live.getId());
                 String message = new Gson().toJson(live);
                 return message;
 
-            case "signUp" :
+            case "SignUp" :
                 System.out.println(payload.getEmail());
                 System.out.println(payload.getAge());
 
-                UUID id  = qHandler.addUser(payload.getFirstName(),payload.getLastName(),payload.getUsername(),
+                UUID id  = UserCacheController.addUser(payload.getFirstName(),payload.getLastName(),payload.getUsername(),
                         payload.getEmail(),payload.getPassword(),payload.isGender(),payload.getAge());
                 System.out.println("ID FROM SERVER");
                 System.out.println(id);
@@ -142,13 +146,13 @@ public class RPCServer {
                 return id;
 
             case "updateUser" :
-                qHandler.updateUser(payload.getId(),payload.getFirstName(),
+                UserCacheController.updateUser(payload.getId(),payload.getFirstName(),
                         payload.getLastName(),payload.getPassword(),
                         payload.getUsername(),payload.getAge(),payload.isGender());
 
-            case "likePhoto" :
+            case "LikePhoto" :
                 System.out.println(UUID.fromString(msg.getPhotoId()));
-                boolean liveFlag= qHandler.likePhotos(msg.getPayload().getId(),
+                boolean liveFlag= UserCacheController.likePhotos(msg.getPayload().getId(),
                         UUID.fromString(msg.getPhotoId()));
                 // return message;
 
@@ -156,7 +160,7 @@ public class RPCServer {
 
             case "unlikePhoto" :
                 System.out.println(UUID.fromString(msg.getPhotoId()));
-                boolean unlikePhotoFlag= qHandler.unlikePhotos(msg.getPayload().getId(),
+                boolean unlikePhotoFlag= UserCacheController.unlikePhotos(msg.getPayload().getId(),
                         UUID.fromString(msg.getPhotoId()));
                 // return message;
 
@@ -164,7 +168,7 @@ public class RPCServer {
 
             case "dislikePhoto" :
                 System.out.println(UUID.fromString(msg.getPhotoId()));
-                boolean dislikePhotoFlag= qHandler.dislikePhotos(msg.getPayload().getId(),
+                boolean dislikePhotoFlag= UserCacheController.dislikePhotos(msg.getPayload().getId(),
                         UUID.fromString(msg.getPhotoId()));
                 // return message;
 
@@ -172,43 +176,100 @@ public class RPCServer {
 
             case "undislikePhoto" :
                 System.out.println(UUID.fromString(msg.getPhotoId()));
-                boolean undislikePhotoFlag= qHandler.undislikePhotos(msg.getPayload().getId(),
+                boolean undislikePhotoFlag= UserCacheController.undislikePhotos(msg.getPayload().getId(),
                         UUID.fromString(msg.getPhotoId()));
                 // return message;
 
                 return  undislikePhotoFlag;
             case "addPin" :
-                boolean addPinFlag= qHandler.addPin(msg.getPayload().getId(),
+                boolean addPinFlag= UserCacheController.addPin(msg.getPayload().getId(),
                         UUID.fromString(msg.getPinId()));
                 // return message;
 
                 return  addPinFlag;
             case "removePin" :
-                boolean removePinFlag= qHandler.removePin(msg.getPayload().getId(),
+                boolean removePinFlag= UserCacheController.removePin(msg.getPayload().getId(),
                         UUID.fromString(msg.getPinId()));
                 // return message;
 
                 return  removePinFlag;
 
             case "followUser" :
-                boolean followUserFlag= qHandler.followUser(msg.getPayload().getId(),
+                boolean followUserFlag= UserCacheController.followUser(msg.getPayload().getId(),
                         UUID.fromString(msg.getOtherUserId()));
                 // return message;
 
                 return  followUserFlag;
 
             case "unfollowUser" :
-                boolean unFollowUserFlag= qHandler.unfollowUser(msg.getPayload().getId(),
+                boolean unFollowUserFlag= UserCacheController.unfollowUser(msg.getPayload().getId(),
                         UUID.fromString(msg.getOtherUserId()));
                 // return message;
 
                 return  unFollowUserFlag;
-        }
+
+
+        case "blockUser" :
+        boolean blockUserFlag= qHandler.blockUser(msg.getPayload().getId(),
+                UUID.fromString(msg.getOtherUserId()));
+        // return message;
+
+        return  blockUserFlag;
+
+        case "unblockUser" :
+        boolean unblockUserFlag= qHandler.UnblockUser(msg.getPayload().getId(),
+                UUID.fromString(msg.getOtherUserId()));
+        // return message;
+
+        return  unblockUserFlag;
+
+        case "followHashtags" :
+        boolean followHashtagFlag= qHandler.followHashtags(msg.getPayload().getId(),
+                UUID.fromString(msg.getHashtagId()));
+        // return message;
+
+        return  followHashtagFlag;
+
+        case "unfollowHashtags" :
+        boolean unfollowHashtagFlag= qHandler.unfollowHashtags(msg.getPayload().getId(),
+                UUID.fromString(msg.getHashtagId()));
+        // return message;
+
+        return  unfollowHashtagFlag;
+
+        case "followCategories" :
+        boolean followCategoriesFlag= qHandler.followCategories(msg.getPayload().getId(),
+                UUID.fromString(msg.getCategoryId()));
+        // return message;
+
+        return  followCategoriesFlag;
+
+        case "unfollowCategories" :
+        boolean unfollowCategoriesFlag= qHandler.unfollowCategories(msg.getPayload().getId(),
+                UUID.fromString(msg.getCategoryId()));
+        // return message;
+
+        return  unfollowCategoriesFlag;
+        case "addBoard" :
+        boolean addBoardId= qHandler.addBoard(msg.getPayload().getId(),
+                UUID.fromString(msg.getBoardId()));
+        // return message;
+
+        return  addBoardId;
+
+        case "removeBoard" :
+        boolean removeBoardFlag= qHandler.removeBoard(msg.getPayload().getId(),
+                UUID.fromString(msg.getBoardId()));
+        // return message;
+
+        return  removeBoardFlag;
+
+    }
 
         return null;
     }
 
-
+*/
 
 
 
