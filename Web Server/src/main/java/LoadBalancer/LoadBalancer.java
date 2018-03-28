@@ -1,6 +1,4 @@
 package LoadBalancer;
-
-import UserService.Command;
 import com.rabbitmq.client.*;
 import io.netty.util.concurrent.Future;
 import org.json.JSONObject;

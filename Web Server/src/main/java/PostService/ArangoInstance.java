@@ -3,6 +3,8 @@ package PostService;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
+import com.arangodb.ArangoDatabase;
+import com.arangodb.internal.ArangoExecutor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +13,15 @@ public class ArangoInstance {
 
 
     public ArangoDB arangoDB;
+    private String user;
+    private String pass;
 
 
-    public ArangoInstance(String user, String password){
-        String rootPath = "src/main/resources/";
-        arangoDB = new ArangoDB.Builder().user(user).password(password).build();
+
+    public ArangoInstance(String user, String password,int maxConnections){
+        arangoDB = new ArangoDB.Builder().user(user).password(password).maxConnections(maxConnections).build();
+        this.user = user;
+        pass = password;
 
     }
 
@@ -227,8 +233,13 @@ public class ArangoInstance {
         updateBoard(board_id,board);
     }
 
+    public void setMaxDBConnections(int maxDBConnections){
+           arangoDB = new ArangoDB.Builder().user(user).password(pass).maxConnections(maxDBConnections).build();
+    }
+
     public static void main(String[] args){
-        ArangoInstance arango = new ArangoInstance("root","pass");
+        ArangoInstance arango = new ArangoInstance("root","pass",15);
+
         String s = "Post";
         //arango.arangoDB.db(s).createCollection("posts_tags");
         System.out.println(arango.getPostsOfTagLimit(0,2,"cold"));
