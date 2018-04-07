@@ -39,7 +39,7 @@ public class HTTPServer {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         HTTPServer.start(8080);
     }
 }
