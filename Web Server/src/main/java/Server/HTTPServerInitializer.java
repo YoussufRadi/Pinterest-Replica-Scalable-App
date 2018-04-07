@@ -1,4 +1,4 @@
-package Netty;
+package Server;
 
 import com.rabbitmq.client.*;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 import static io.netty.buffer.Unpooled.copiedBuffer;

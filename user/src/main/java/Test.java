@@ -2,7 +2,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import Models.User;
-import Commands.UserCacheController;
+import Cache.UserCacheController;
 import Database.DatabaseController;
 import Cache.RedisConf;
 

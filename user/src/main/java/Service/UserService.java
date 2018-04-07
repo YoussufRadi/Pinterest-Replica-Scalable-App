@@ -7,8 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
+import Cache.UserCacheController;
 import com.rabbitmq.client.*;
-import Commands.*;
 import Commands.Command;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,7 +20,7 @@ public class UserService {
 
     private static ThreadPoolExecutor executor;
     private final int threadsNo;
-    private UserCacheController UserCacheController;
+    private Cache.UserCacheController UserCacheController;
 
     private UserService(int threadsNo){
         this.threadsNo = threadsNo;

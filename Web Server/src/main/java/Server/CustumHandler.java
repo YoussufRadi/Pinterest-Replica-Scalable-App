@@ -1,4 +1,4 @@
-package Netty;
+package Server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,7 +14,7 @@ public class CustumHandler extends ChannelInboundHandlerAdapter {
         if (msg instanceof FullHttpRequest) {
             final FullHttpRequest request = (FullHttpRequest) msg;
 //            System.out.println(request.content().readableBytes());
-            final String responseMessage = "Hello from Netty!";
+            final String responseMessage = "Hello from Server!";
 
             FullHttpResponse response = new DefaultFullHttpResponse(
                     HttpVersion.HTTP_1_1,

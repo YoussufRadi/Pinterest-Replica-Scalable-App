@@ -1,7 +1,9 @@
 package Commands;
 
+import Cache.UserCacheController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
@@ -38,12 +40,13 @@ public class AddBoard extends Command {
 
         String response = respBool + "";
 
-
+        JSONObject jsonObject = (JSONObject) parameters.get("body");
+        jsonObject.put("response", response);
 
         System.out.println(response +"Responsee");
         System.out.println();
         try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, response.getBytes("UTF-8"));
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (IOException e) {
             e.printStackTrace();

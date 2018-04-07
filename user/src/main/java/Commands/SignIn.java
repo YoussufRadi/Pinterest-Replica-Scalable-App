@@ -1,5 +1,6 @@
 package Commands;
 
+import Cache.UserCacheController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.AMQP;
@@ -7,6 +8,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import Models.Message;
 import Models.User;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,13 +38,14 @@ public class SignIn extends Command{
 
         String response = new Gson().toJson(userLiveObject);
 
-
+        JSONObject jsonObject = (JSONObject) parameters.get("body");
+        jsonObject.put("response", response);
 
         System.out.println(response+"SigInResonse");
         System.out.println();
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps,
-                    response.getBytes("UTF-8"));
+                    jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (IOException e) {
             e.printStackTrace();
