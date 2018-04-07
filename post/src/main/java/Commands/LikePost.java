@@ -1,0 +1,59 @@
+package Commands;
+
+import Models.Message;
+import Models.PostDBObject;
+import Models.PostLiveObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Envelope;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+
+public class LikePost extends Command {
+
+    @Override
+    protected void execute() {
+        HashMap<String, Object> parameters = data;
+
+
+        Channel channel = (Channel) parameters.get("channel");
+
+        AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
+        AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
+        Envelope envelope = (Envelope) parameters.get("envelope");
+        JsonParser jsonParser = new JsonParser();
+        System.out.println(properties.getReplyTo());
+
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+        Gson gson = new GsonBuilder().create();
+        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+
+        String post = gson.toJson(likePost(message.getPost_id(),message.getUser_id()));
+        jsonObject.add("response",jsonParser.parse(post));
+
+
+        try {
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
+            channel.basicAck(envelope.getDeliveryTag(), false);
+            //System.out.println(envelope.getDeliveryTag());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public PostDBObject likePost(String post_id, String user_id){
+        arangoInstance.likePost(user_id,post_id);
+        PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
+        if (postLiveObject!= null){
+            postLiveObject.setLikes_id(arangoInstance.getPost(post_id).getLikes_id());
+            postLiveObject.setDislikes_id(arangoInstance.getPost(post_id).getDislikes_id());
+        }
+        return arangoInstance.getPost(post_id);
+    }
+}
