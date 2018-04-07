@@ -1,11 +1,13 @@
 package PostService;
 
+import com.arangodb.ArangoDB;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -15,13 +17,22 @@ public class postService {
 
     private static final String RPC_QUEUE_NAME = "post";
     private ThreadPoolExecutor executor;
+    protected static ArangoInstance arangoInstance;
 
-    public postService(int threadsNo){
+    public postService(int threadsNo,int maxDbConnection){
          executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
+         arangoInstance = new ArangoInstance("root","pass",maxDbConnection);
     }
+
+
+
 
     public void setMaxThreadsSize(int size){
         executor.setMaximumPoolSize(size);
+    }
+
+    public void setMaxDBConnections(int maxDBConnections){
+        arangoInstance.setMaxDBConnections(maxDBConnections);
     }
 
 
@@ -70,7 +81,7 @@ public class postService {
                         init.put("envelope", envelope);
                         init.put("body", message);
 
-                        cmd.init(init);
+                        cmd.init(init,arangoInstance);
                         executor.submit(cmd);
 
                     } catch (RuntimeException e) {
@@ -98,9 +109,10 @@ public class postService {
     }
 
 
-    public static void main(String [] argv) {
-            postService postApp = new postService(15);
+    public static void main(String [] argv) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+            postService postApp = new postService(15,15);
             postApp.Start();
+
     }
 
 

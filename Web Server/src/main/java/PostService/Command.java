@@ -12,12 +12,13 @@ public abstract class Command implements Runnable {
     protected RedisConf redisConf;
     protected RLiveObjectService liveObjectService;
 
-    final public void init(HashMap<String, Object> parameters) throws IOException {
+    final public void init(HashMap<String, Object> parameters,ArangoInstance arangoInstance) throws IOException {
         this.data = parameters;
-        arangoInstance = new ArangoInstance("root","pass");
         redisConf = new RedisConf();
         liveObjectService = redisConf.getService();
+        this.arangoInstance = arangoInstance;
     }
+
 
     protected abstract void execute();
 
