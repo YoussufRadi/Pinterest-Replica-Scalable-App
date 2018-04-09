@@ -21,7 +21,7 @@ public final class HttpStaticFileServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new HttpStaticFileServerInitializer(null));
+                    .childHandler(new HttpStaticFileServerInitializer());
 
             Channel ch = b.bind(PORT).sync().channel();
 
