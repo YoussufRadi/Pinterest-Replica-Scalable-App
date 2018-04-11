@@ -87,7 +87,7 @@ import static io.netty.handler.codec.http.HttpVersion.*;
  *
  * </pre>
  */
-public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+public class MediaFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
     public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";

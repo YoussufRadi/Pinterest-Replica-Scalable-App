@@ -37,10 +37,17 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
 
             final JSONObject jsonRequest = (JSONObject) channelHandlerContext.channel().attr(AttributeKey.valueOf("REQUEST")).get();
             final String corrId = (String) channelHandlerContext.channel().attr(AttributeKey.valueOf("CORRID")).get();
-            jsonRequest.put("body", body);
             jsonRequest.put("command", body.get("command"));
             String service = (String) body.get("application");
             jsonRequest.put("application", service);
+
+            String imageName = "";
+            if(body.has("Image"))
+                imageName = ImageWriter.write((String)body.get("Image"));
+
+
+            body.put("imageUrl", imageName);
+            jsonRequest.put("body", body);
 
             transmitRequest(corrId,jsonRequest,channelHandlerContext);
 

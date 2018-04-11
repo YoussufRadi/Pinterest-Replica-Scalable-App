@@ -7,13 +7,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-public final class HttpStaticFileServer {
+public final class MediaServer {
 
-    static final int PORT = 8080;
-    static final int THREADS = 1;
+    private int PORT;
+    private int THREADS;
 
-    public static void main(String[] args) throws Exception {
-
+    private MediaServer(int port, int threads){
+        this.PORT = port;
+        this.THREADS = threads;
         EventLoopGroup bossGroup = new NioEventLoopGroup(THREADS);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -21,16 +22,23 @@ public final class HttpStaticFileServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new HttpStaticFileServerInitializer());
+                    .childHandler(new MediaFileServerInitializer());
 
             Channel ch = b.bind(PORT).sync().channel();
 
             System.err.println("Open your web browser and navigate to http" +"://127.0.0.1:" + PORT + '/');
 
             ch.closeFuture().sync();
-        } finally {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        new MediaServer(8080,5);
+
     }
 }
