@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/compiler.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__com_rabbitmq_amqp_client_5_0_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__io_netty_netty_all_4_1_21_Final.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_10_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_10_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__org_apache_logging_log4j_log4j_slf4j_impl_2_10_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/misc.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/.idea/workspace.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/Media Server.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/pom.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/src/main/java/HttpStaticFileServer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/src/main/java/HttpStaticFileServerHandler.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Media Server/src/main/java/HttpStaticFileServerInitializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../moosefs-docker-cluster" afterPath="$PROJECT_DIR$/../moosefs-docker-cluster" />
-    </list>
+    <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/../post/target/" />
     <ignored path="$PROJECT_DIR$/../user/target/" />
@@ -56,8 +37,8 @@
       <file leaf-file-name="Pinterest.iml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Pinterest.iml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+            <state relative-caret-position="645">
+              <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -200,48 +181,6 @@
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
               <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="LoadBalancer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -815,8 +754,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Pinterest.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+        <state relative-caret-position="645">
+          <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
           <folding />
         </state>
       </provider>
