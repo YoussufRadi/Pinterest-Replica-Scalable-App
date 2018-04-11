@@ -22,11 +22,6 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class HTTPHandler extends ChannelInboundHandlerAdapter {
     private HttpRequest request;
-    private String requestBody;
-    private long correlationId;
-    volatile String responseBody;
-    ExecutorService executorService = Executors.newCachedThreadPool();
-
 
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
@@ -34,8 +29,7 @@ public class HTTPHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg)
-            throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         JSONObject fullRequest = new JSONObject();
 
         if (msg instanceof HttpRequest) {

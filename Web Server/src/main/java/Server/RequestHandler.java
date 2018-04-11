@@ -20,7 +20,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
     private String RPC_QUEUE_SEND_TO;
     private Channel senderChannel;
 
-    protected RequestHandler(Channel channel,HashMap<String, ChannelHandlerContext> uuid, String RPC_QUEUE_REPLY_TO, String RPC_QUEUE_SEND_TO) {
+    RequestHandler(Channel channel, HashMap<String, ChannelHandlerContext> uuid, String RPC_QUEUE_REPLY_TO, String RPC_QUEUE_SEND_TO) {
         this.uuid = uuid;
         this.RPC_QUEUE_REPLY_TO = RPC_QUEUE_REPLY_TO;
         this.RPC_QUEUE_SEND_TO = RPC_QUEUE_SEND_TO;
@@ -28,7 +28,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+    public void channelRead(ChannelHandlerContext channelHandlerContext, Object o) {
         ByteBuf buffer = (ByteBuf) o;
 
         //try and catch
@@ -42,7 +42,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
             String service = (String) body.get("application");
             jsonRequest.put("application", service);
 
-            transmitRequest(service,corrId,jsonRequest,channelHandlerContext);
+            transmitRequest(corrId,jsonRequest,channelHandlerContext);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-    private void transmitRequest(String RPC_QUEUE_NAME, String corrId, JSONObject jsonRequest, ChannelHandlerContext ctx){
+    private void transmitRequest(String corrId, JSONObject jsonRequest, ChannelHandlerContext ctx){
         try {
             uuid.put(corrId,ctx);
             AMQP.BasicProperties props = new AMQP.BasicProperties

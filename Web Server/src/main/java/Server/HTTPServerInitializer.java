@@ -24,7 +24,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
     private ConnectionFactory factory;
     private Channel receiverChannel;
     private Channel senderChannel;
-    private String FACTORY_HOST;
+//    private String FACTORY_HOST;
     private String RPC_QUEUE_REPLY_TO;
     private String RPC_QUEUE_SEND_TO = "load_balancer";
 
@@ -55,7 +55,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private void establishConnection() {
         factory = new ConnectionFactory();
-        factory.setHost(FACTORY_HOST);
+//        factory.setHost(FACTORY_HOST);
         Connection connection = null;
         try {
             connection = factory.newConnection();
@@ -94,7 +94,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
                     Iterator<String> keys = headers.keys();
 
                     while (keys.hasNext()) {
-                        String key = (String) keys.next();
+                        String key = keys.next();
                         String value = (String) headers.get(key);
                         response.headers().set(key, value);
                     }
