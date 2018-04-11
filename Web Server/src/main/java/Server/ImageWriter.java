@@ -43,7 +43,7 @@ public class ImageWriter {
             BufferedImage image = ImageIO.read(bis);
             UUID uuid = UUID.randomUUID();
             name = uuid.toString()+"."+mimeType;
-            File outputFile = new File("/mnt/mfs/images/"+name);
+            File outputFile = new File("/Users/youssuf/mnt/mfs/images/"+name);
             ImageIO.write(image, mimeType, outputFile);
             bis.close();
         }catch(IOException e){

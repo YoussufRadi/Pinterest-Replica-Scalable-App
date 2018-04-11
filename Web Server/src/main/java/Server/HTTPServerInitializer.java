@@ -45,6 +45,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("decoder", new HttpRequestDecoder());
         p.addLast("encoder", new HttpResponseEncoder());
         p.addLast(new CorsHandler(corsConfig));
+        p.addLast(new HttpObjectAggregator(65536));
         p.addLast(new HTTPHandler());
         p.addLast("MQ", new RequestHandler(senderChannel, uuid, RPC_QUEUE_REPLY_TO, RPC_QUEUE_SEND_TO));
 //        p.addLast("aggregator",

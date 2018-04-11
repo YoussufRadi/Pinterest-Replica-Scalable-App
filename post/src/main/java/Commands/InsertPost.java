@@ -22,29 +22,31 @@ public class InsertPost extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
-        AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
-        AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
-        Envelope envelope = (Envelope) parameters.get("envelope");
-        JsonParser jsonParser = new JsonParser();
-        System.out.println(properties.getReplyTo());
-
-        JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
-        Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
-
-        String post = gson.toJson(message.getPost_object());
-        arangoInstance.insertNewPost(message.getPost_object());
-        jsonObject.add("response",jsonParser.parse(post));
-
-
-
         try {
+            AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
+            AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
+            Envelope envelope = (Envelope) parameters.get("envelope");
+            JsonParser jsonParser = new JsonParser();
+            System.out.println(properties.getReplyTo());
+
+            JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
+            Gson gson = new GsonBuilder().create();
+            Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+//            System.out.println(jsonObject.get("body").toString());
+//            System.out.println(message.getPost_id());
+            String post = gson.toJson(message.getPost_object());
+//            System.out.println(post);
+            arangoInstance.insertNewPost(message.getPost_object());
+            jsonObject.add("response",jsonParser.parse(post));
+
+
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
             //System.out.println(envelope.getDeliveryTag());
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 }
