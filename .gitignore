@@ -10,5 +10,4 @@ buildNumber.properties
 .DS_Store
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 .idea/
-PintrestUser.iml
 !/.mvn/wrapper/maven-wrapper.jar

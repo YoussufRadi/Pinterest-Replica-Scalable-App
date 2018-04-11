@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="media" />
         <module name="post" />
         <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="media" target="1.8" />
       <module name="Pinterest" target="1.8" />
       <module name="post" target="1.8" />
       <module name="user" target="1.8" />

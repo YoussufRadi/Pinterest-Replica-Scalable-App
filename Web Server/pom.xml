@@ -25,6 +25,7 @@
     <modules>
         <module>../post</module>
         <module>../user</module>
+        <module>../media</module>
     </modules>
     <dependencies>
 
