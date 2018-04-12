@@ -1,3 +1,5 @@
+# Maven Ignore
+
 target/
 */target/
 pom.xml.tag
@@ -8,9 +10,47 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-.DS_Store
-*/.DS_Store
+
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ 
 .idea/
 */.idea/
-!/.mvn/wrapper/maven-wrapper.jar
+*.iml
+*.iws
+*/*.iml
+*/*.iws
+
+# General Ignore
+*~
+*.orig
+.vagrant
+
+# Apple Os Ignore
+.DS_Store
+*/.DS_Store
+.AppleDouble
+.LSOverride
+.localized
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
