@@ -23,9 +23,10 @@
         </plugins>
     </build>
     <modules>
-        <module>../post</module>
-        <module>../user</module>
-        <module>../media</module>
+        <module>../Post Service</module>
+        <module>../User Service</module>
+        <module>../Media Server</module>
+        <module>../Service Server</module>
     </modules>
     <dependencies>
 

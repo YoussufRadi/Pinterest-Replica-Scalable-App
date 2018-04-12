@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="media" />
         <module name="post" />
+        <module name="serviceServer" />
         <module name="user" />
       </profile>
     </annotationProcessing>
@@ -15,6 +16,8 @@
       <module name="media" target="1.8" />
       <module name="Pinterest" target="1.8" />
       <module name="post" target="1.8" />
+      <module name="Service Server" target="1.8" />
+      <module name="serviceServer" target="1.8" />
       <module name="user" target="1.8" />
     </bytecodeTargetLevel>
   </component>

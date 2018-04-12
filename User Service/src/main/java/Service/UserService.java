@@ -8,22 +8,23 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import Cache.UserCacheController;
+import Interface.ControlService;
 import com.rabbitmq.client.*;
 import Commands.Command;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class UserService {
+public class UserService extends ControlService {
 
     private static final String RPC_QUEUE_NAME = "user";
 
     private static ThreadPoolExecutor executor;
-    private final int threadsNo;
     private Cache.UserCacheController UserCacheController;
 
-    private UserService(int threadsNo){
-        this.threadsNo = threadsNo;
+    @Override
+    public void init(int thread, int connections) {
+        this.threadsNo = thread;
 
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
         try {
@@ -33,13 +34,8 @@ public class UserService {
         }
     }
 
-
-    public void setMaxThreadsSize(int size){
-        executor.setMaximumPoolSize(size);
-    }
-
-
-    private void start() {
+    @Override
+    public void start() {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -116,7 +112,8 @@ public class UserService {
     }
 
     public static void main(String[] argv) throws IOException {
-        UserService rpcServer = new UserService(15);
+        ControlService rpcServer = new UserService();
+        rpcServer.init(15,15);
         rpcServer.start();
 
     }

@@ -2,6 +2,7 @@ package Service;
 
 import Database.ArangoInstance;
 import Commands.Command;
+import Interface.ControlService;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,33 +15,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
-public class PostService {
+public class PostService extends ControlService {
 
     private static final String RPC_QUEUE_NAME = "post";
-    private final int threadsNo;
-    private ThreadPoolExecutor executor;
     protected static ArangoInstance arangoInstance;
 
-    private PostService(int threadsNo, int maxDbConnection){
-        this.threadsNo = threadsNo;
-         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
-         arangoInstance = new ArangoInstance("root","pass",maxDbConnection);
-    }
-
-
-
-
-    public void setMaxThreadsSize(int size){
-        executor.setMaximumPoolSize(size);
-    }
-
-    public void setMaxDBConnections(int maxDBConnections){
+    public void setMaxDBConnections(int connections){
+        this.maxDBConnections = connections;
         arangoInstance.setMaxDBConnections(maxDBConnections);
     }
 
 
+    @Override
+    public void init(int thread, int connections) {
+        executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(thread);
+        arangoInstance = new ArangoInstance("root","pass",connections);
+    }
 
-    private void start(){
+    public void start(){
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = null;
@@ -112,9 +104,12 @@ public class PostService {
     }
 
 
-    public static void main(String [] argv) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-            PostService postApp = new PostService(15,15);
-            postApp.start();
+    public static void main(String [] args) {
+        ControlService postApp = new PostService();
+        postApp.init(15,15);
+        postApp.start();
+//        postApp.setMaxDBConnections(15);
+//        postApp.setMaxThreadsSize(15);
 
     }
 

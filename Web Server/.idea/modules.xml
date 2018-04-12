@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Pinterest.iml" filepath="$PROJECT_DIR$/Pinterest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../media/media.iml" filepath="$PROJECT_DIR$/../media/media.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../post/post.iml" filepath="$PROJECT_DIR$/../post/post.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../user/user.iml" filepath="$PROJECT_DIR$/../user/user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Media Server/media.iml" filepath="$PROJECT_DIR$/../Media Server/media.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Post Service/post.iml" filepath="$PROJECT_DIR$/../Post Service/post.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Service Server/serviceServer.iml" filepath="$PROJECT_DIR$/../Service Server/serviceServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../User Service/user.iml" filepath="$PROJECT_DIR$/../User Service/user.iml" />
     </modules>
   </component>
 </project>
