@@ -35,6 +35,8 @@ public class Client {
 
             Channel channel = bootstrap.connect(server, port).sync().channel();
 
+            System.out.println(channel);
+
             channel.write("Hi\n");
             channel.write("Hi\n");
             channel.write("Hi\n");
