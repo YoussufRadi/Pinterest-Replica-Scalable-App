@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 
@@ -34,11 +34,12 @@ public class ImageWriter {
             return null;
         }
 
-        BASE64Decoder decoder = new BASE64Decoder();
+//        BASE64Decoder decoder = new BASE64Decoder();
         String name;
 
         try{
-            byte[] imageByte = decoder.decodeBuffer(imageData);
+//            byte[] imageByte = decoder.decodeBuffer(imageData);
+            byte[] imageByte = null;
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             BufferedImage image = ImageIO.read(bis);
             UUID uuid = UUID.randomUUID();

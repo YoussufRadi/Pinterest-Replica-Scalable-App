@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Chat Service/Chat Service.iml" filepath="$PROJECT_DIR$/../Chat Service/Chat Service.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pinterest.iml" filepath="$PROJECT_DIR$/Pinterest.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Media Server/media.iml" filepath="$PROJECT_DIR$/../Media Server/media.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Post Service/post.iml" filepath="$PROJECT_DIR$/../Post Service/post.iml" />

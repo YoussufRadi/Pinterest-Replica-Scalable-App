@@ -3,18 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>Pinterest</artifactId>
+        <artifactId>serviceServer</artifactId>
         <groupId>Pinterest</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../Web Server/pom.xml</relativePath>
+        <relativePath>../Service Server/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>serviceServer</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>../Chat Service</module>
-    </modules>
+    <artifactId>chat</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>Pinterest</groupId>
+            <artifactId>serviceServer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 </project>
