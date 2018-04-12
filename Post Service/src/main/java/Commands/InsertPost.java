@@ -1,5 +1,7 @@
 package Commands;
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +10,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +26,10 @@ public class InsertPost extends Command {
         Channel channel = (Channel) parameters.get("channel");
 
         try {
+
+            ArangoInstance arangoInstance = (ArangoInstance)
+                    parameters.get("ArangoInstance");
+
             AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
             AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
             Envelope envelope = (Envelope) parameters.get("envelope");

@@ -1,5 +1,7 @@
 package Commands;
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.CommentDBObject;
 import Models.Message;
 import com.google.gson.Gson;
@@ -9,11 +11,12 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class GetComment extends Command  {
+public class GetComment extends Command {
 
 
     @Override
@@ -22,6 +25,9 @@ public class GetComment extends Command  {
 
 
         Channel channel = (Channel) parameters.get("channel");
+
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
 
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
@@ -32,7 +38,7 @@ public class GetComment extends Command  {
         JsonObject jsonObject = (JsonObject)jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(),Message.class);
-        String comment = gson.toJson(getComment(message.getComment_id()));
+        String comment = gson.toJson(getComment(message.getComment_id(), ArangoInstance));
         if(comment != null) {
             jsonObject.add("response", jsonParser.parse(comment));
         }else {
@@ -48,7 +54,7 @@ public class GetComment extends Command  {
         }
 
     }
-    public CommentDBObject getComment(String comment_id ){
+    public CommentDBObject getComment(String comment_id , ArangoInstance arangoInstance){
             CommentDBObject commentDBObject= arangoInstance.getComment(comment_id);
             return commentDBObject;
     }

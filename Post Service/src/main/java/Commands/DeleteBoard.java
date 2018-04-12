@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.BoardLiveObject;
 import Models.Message;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +27,11 @@ public class DeleteBoard extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -33,7 +41,7 @@ public class DeleteBoard extends Command {
         JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
-        deleteBoard(message.getBoard_id());
+        deleteBoard(message.getBoard_id(), ArangoInstance, RLiveObjectService);
         jsonObject.add("response",new JsonObject());
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
@@ -44,7 +52,7 @@ public class DeleteBoard extends Command {
         }
 
     }
-    public void deleteBoard(String board_id){
+    public void deleteBoard(String board_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.deleteBoard(board_id);
         BoardLiveObject boardLiveObject = liveObjectService.get(BoardLiveObject.class,board_id);
         if(boardLiveObject!=null){

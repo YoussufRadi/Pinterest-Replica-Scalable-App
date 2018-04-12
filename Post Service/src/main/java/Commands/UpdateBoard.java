@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.BoardDBObject;
 import Models.BoardLiveObject;
 import Models.Message;
@@ -12,6 +14,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import org.json.JSONObject;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +28,11 @@ public class UpdateBoard extends Command {
 
 
         Channel channel = (Channel) parameters.get("channel");
+
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
 
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
@@ -44,7 +52,7 @@ public class UpdateBoard extends Command {
             s+= "board_object is missing";
         }
         if(s.isEmpty()) {
-            String board = gson.toJson(update_board(message.getBoard_id(), message.getBoard_object()));
+            String board = gson.toJson(update_board(message.getBoard_id(), message.getBoard_object(), ArangoInstance, RLiveObjectService));
             jsonObject.add("response",jsonParser.parse(board));
         }else {
             System.out.println(s);
@@ -62,7 +70,7 @@ public class UpdateBoard extends Command {
         }
 
     }
-    public BoardDBObject update_board(String board_id, BoardDBObject boardDBObject){
+    public BoardDBObject update_board(String board_id, BoardDBObject boardDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.updateBoard(board_id,boardDBObject);
         BoardLiveObject boardLiveObject = liveObjectService.get(BoardLiveObject.class,board_id);
         if (boardLiveObject!= null){

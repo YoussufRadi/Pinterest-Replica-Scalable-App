@@ -1,15 +1,16 @@
 package Service;
 
+import Interface.Command;
+import Cache.RedisConf;
 import Database.ArangoInstance;
-import Commands.Command;
 import Interface.ControlService;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -19,6 +20,8 @@ public class PostService extends ControlService {
 
     private static final String RPC_QUEUE_NAME = "post";
     protected static ArangoInstance arangoInstance;
+    protected static RedisConf redisConf;
+    protected RLiveObjectService liveObjectService;
 
     public void setMaxDBConnections(int connections){
         this.maxDBConnections = connections;
@@ -30,6 +33,12 @@ public class PostService extends ControlService {
     public void init(int thread, int connections) {
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(thread);
         arangoInstance = new ArangoInstance("root","pass",connections);
+        try {
+            redisConf  = new RedisConf();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        liveObjectService = redisConf.getService();
     }
 
     public void start(){
@@ -75,8 +84,9 @@ public class PostService extends ControlService {
                         init.put("replyProps", replyProps);
                         init.put("envelope", envelope);
                         init.put("body", message);
-
-                        cmd.init(init,arangoInstance);
+                        init.put("RLiveObjectService", liveObjectService);
+                        init.put("ArangoInstance", arangoInstance);
+                        cmd.init(init);
                         executor.submit(cmd);
 
                     } catch (RuntimeException e) {

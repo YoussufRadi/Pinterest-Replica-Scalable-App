@@ -1,5 +1,7 @@
 package Commands;
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.Message;
 import Models.PostDBObject;
 import Models.PostLiveObject;
@@ -10,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +27,11 @@ public class DislikePost extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -34,7 +42,7 @@ public class DislikePost extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
 
-        String post = gson.toJson(dislikePost(message.getPost_id(),message.getUser_id()));
+        String post = gson.toJson(dislikePost(message.getPost_id(),message.getUser_id(), ArangoInstance, RLiveObjectService));
         jsonObject.add("response",jsonParser.parse(post));
 
 
@@ -47,7 +55,7 @@ public class DislikePost extends Command {
         }
 
     }
-    public PostDBObject dislikePost(String post_id, String user_id){
+    public PostDBObject dislikePost(String post_id, String user_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.dislikePost(user_id,post_id);
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         if (postLiveObject!= null){

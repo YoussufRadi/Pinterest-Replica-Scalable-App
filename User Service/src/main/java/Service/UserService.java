@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 import Cache.UserCacheController;
 import Interface.ControlService;
 import com.rabbitmq.client.*;
-import Commands.Command;
+import Interface.Command;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

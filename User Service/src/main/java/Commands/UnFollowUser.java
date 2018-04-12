@@ -1,6 +1,7 @@
 package Commands;
 
 import Cache.UserCacheController;
+import Interface.Command;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.AMQP;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class UnFollowUser extends Command{
+public class UnFollowUser extends Command {
 
 
     public void execute() {

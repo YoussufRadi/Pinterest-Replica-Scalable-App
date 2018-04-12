@@ -1,5 +1,7 @@
 package Commands;
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.Message;
 import Models.PostDBObject;
 import Models.PostLiveObject;
@@ -10,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +27,11 @@ public class GetPost extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -33,7 +41,7 @@ public class GetPost extends Command {
         JsonObject jsonObject = (JsonObject)jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
-        String post = gson.toJson(getPost(message.getPost_id()));
+        String post = gson.toJson(getPost(message.getPost_id(), ArangoInstance, RLiveObjectService));
         if(post!=null){
             jsonObject.add("response",jsonParser.parse(post));
         }else{
@@ -49,7 +57,7 @@ public class GetPost extends Command {
         }
 
     }
-    public PostLiveObject getPost(String post_id){
+    public PostLiveObject getPost(String post_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         System.out.println(postLiveObject);
         if(postLiveObject==null){

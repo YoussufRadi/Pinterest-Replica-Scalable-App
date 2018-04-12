@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.Message;
 import Models.PostDBObject;
 import Models.PostLiveObject;
@@ -12,6 +14,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import org.json.JSONObject;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +28,11 @@ public class UpdatePost extends Command {
 
 
         Channel channel = (Channel) parameters.get("channel");
+
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
 
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
@@ -44,7 +52,7 @@ public class UpdatePost extends Command {
             s+= "post_object is missing";
         }
         if(s.isEmpty()) {
-            String post = gson.toJson(update_post(message.getPost_id(), message.getPost_object()));
+            String post = gson.toJson(update_post(message.getPost_id(), message.getPost_object(), ArangoInstance, RLiveObjectService));
             jsonObject.add("response",jsonParser.parse(post));
         }else {
             System.out.println(s);
@@ -62,7 +70,7 @@ public class UpdatePost extends Command {
         }
 
     }
-    public PostDBObject update_post(String post_id, PostDBObject postDBObject){
+    public PostDBObject update_post(String post_id, PostDBObject postDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.updatePost(post_id,postDBObject);
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         if (postLiveObject!= null){

@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.CategoryLiveObject;
 import Models.Message;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +27,11 @@ public class DeleteCategory extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -35,7 +43,7 @@ public class DeleteCategory extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonResponse.get("body").toString(), Message.class);
 
-        deleteCategory(message.getCategory_id());
+        deleteCategory(message.getCategory_id(), ArangoInstance, RLiveObjectService);
         //System.out.println("Ready to send   :   "  + jsonResponse);
         jsonResponse.add("response", new JsonObject());
         try {
@@ -47,7 +55,7 @@ public class DeleteCategory extends Command {
         }
 
     }
-    public void deleteCategory(String category_id){
+    public void deleteCategory(String category_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.deleteCategory(category_id);
         CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
         if(categoryLiveObject!=null){

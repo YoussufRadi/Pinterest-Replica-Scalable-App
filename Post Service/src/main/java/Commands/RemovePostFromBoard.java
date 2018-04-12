@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.BoardDBObject;
 import Models.BoardLiveObject;
 import Models.Message;
@@ -11,6 +13,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +28,11 @@ public class RemovePostFromBoard extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -35,7 +43,7 @@ public class RemovePostFromBoard extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
 
-        String board = gson.toJson(removePostFromBoard(message.getBoard_id(),message.getPost_id()));
+        String board = gson.toJson(removePostFromBoard(message.getBoard_id(),message.getPost_id(), ArangoInstance, RLiveObjectService));
         jsonObject.add("response",jsonParser.parse(board));
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
@@ -46,7 +54,7 @@ public class RemovePostFromBoard extends Command {
         }
 
     }
-    public BoardDBObject removePostFromBoard(String board_id, String post_id){
+    public BoardDBObject removePostFromBoard(String board_id, String post_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.removePostFromBoard(board_id,post_id);
         BoardDBObject boardDBObject = arangoInstance.getBoard(board_id);
         BoardLiveObject boardLiveObject = liveObjectService.get(BoardLiveObject.class,board_id);

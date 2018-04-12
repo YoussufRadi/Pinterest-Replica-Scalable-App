@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.BoardDBObject;
 import Models.BoardLiveObject;
 import Models.Message;
@@ -11,6 +13,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +28,11 @@ public class GetBoard extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -34,7 +42,7 @@ public class GetBoard extends Command {
         JsonObject jsonObject = (JsonObject)jsonParser.parse((String) parameters.get("body"));
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(),Message.class);
-        String board = gson.toJson(getBoard(message.getBoard_id()));
+        String board = gson.toJson(getBoard(message.getBoard_id(), ArangoInstance, RLiveObjectService));
         if(board != null) {
             jsonObject.add("response", jsonParser.parse(board));
         }else {
@@ -50,7 +58,7 @@ public class GetBoard extends Command {
         }
 
     }
-    public BoardLiveObject getBoard(String board_id ){
+    public BoardLiveObject getBoard(String board_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         BoardLiveObject boardLiveObject = liveObjectService.get(BoardLiveObject.class,board_id);
         if(boardLiveObject==null){
             BoardDBObject boardDBObject= arangoInstance.getBoard(board_id);

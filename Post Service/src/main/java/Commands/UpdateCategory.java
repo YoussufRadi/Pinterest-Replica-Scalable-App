@@ -1,6 +1,8 @@
 package Commands;
 
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.CategoryDBObject;
 import Models.CategoryLiveObject;
 import Models.Message;
@@ -11,6 +13,7 @@ import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +28,11 @@ public class UpdateCategory extends Command {
 
         Channel channel = (Channel) parameters.get("channel");
 
+        RLiveObjectService RLiveObjectService = (RLiveObjectService)
+                parameters.get("RLiveObjectService");
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
+
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
         Envelope envelope = (Envelope) parameters.get("envelope");
@@ -36,7 +44,7 @@ public class UpdateCategory extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
         System.out.println("here");
-        String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object()));
+        String category = gson.toJson(updateCategory(message.getCategory_id(),message.getCategory_object(), ArangoInstance, RLiveObjectService));
         if(category != null) {
             jsonObject.add("response", jsonParser.parse(category));
         }else {
@@ -51,7 +59,7 @@ public class UpdateCategory extends Command {
         }
 
     }
-    public CategoryDBObject updateCategory(String category_id, CategoryDBObject categoryDBObject){
+    public CategoryDBObject updateCategory(String category_id, CategoryDBObject categoryDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.updateCategory(category_id,categoryDBObject);
         CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
         if(categoryLiveObject != null){

@@ -1,5 +1,7 @@
 package Commands;
 
+import Database.ArangoInstance;
+import Interface.Command;
 import Models.CommentDBObject;
 import Models.Message;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import org.json.JSONObject;
+import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,6 +24,9 @@ public class UpdateComment extends Command {
 
 
         Channel channel = (Channel) parameters.get("channel");
+
+        ArangoInstance ArangoInstance = (ArangoInstance)
+                parameters.get("ArangoInstance");
 
         AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
         AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
@@ -40,7 +46,7 @@ public class UpdateComment extends Command {
             s+= "Comment_object is missing";
         }
         if(s.isEmpty()) {
-            String comment = gson.toJson(update_comment(message.getComment_id(), message.getComment_object()));
+            String comment = gson.toJson(update_comment(message.getComment_id(), message.getComment_object(), ArangoInstance));
             jsonObject.add("response",jsonParser.parse(comment));
         }else {
             System.out.println(s);
@@ -58,7 +64,7 @@ public class UpdateComment extends Command {
         }
 
     }
-    public CommentDBObject update_comment(String comment_id, CommentDBObject commentDBObject){
+    public CommentDBObject update_comment(String comment_id, CommentDBObject commentDBObject, ArangoInstance arangoInstance){
         arangoInstance.updateComment(comment_id,commentDBObject);
         return arangoInstance.getComment(comment_id);
     }
