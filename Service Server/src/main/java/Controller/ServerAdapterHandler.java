@@ -10,7 +10,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 public class ServerAdapterHandler extends
         ChannelInboundHandlerAdapter {
 
-    private static final ChannelGroup channels = new DefaultChannelGroup(
+    public static final ChannelGroup channels = new DefaultChannelGroup(
             "containers", GlobalEventExecutor.INSTANCE);
 
     @Override
@@ -26,15 +26,15 @@ public class ServerAdapterHandler extends
         channels.remove(ctx.channel());
         super.handlerRemoved(ctx);
     }
-    
-    public void messageReceived(ChannelHandlerContext ctx, String arg1)
-            throws Exception {
-        Channel currentChannel = ctx.channel();
-        System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - "
-                + arg1);
-        currentChannel.write("[Server] - Success");
-
-    }
+//
+//    public void messageReceived(ChannelHandlerContext ctx, String arg1)
+//            throws Exception {
+//        Channel currentChannel = ctx.channel();
+//        System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - "
+//                + arg1);
+//        currentChannel.write("[Server] - Success");
+//
+//    }
 
 //    @Override
 //    public boolean beginMessageReceived(ChannelHandlerContext ctx)
@@ -44,24 +44,21 @@ public class ServerAdapterHandler extends
 //    }
 
     @Override
-    public void channelRead(ChannelHandlerContext arg0, Object arg1)
-            throws Exception {
+    public void channelRead(ChannelHandlerContext arg0, Object arg1) {
         System.out.println("channelRead");
         Channel currentChannel = arg0.channel();
         System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
-        currentChannel.write("[Server] - Success");
+//        currentChannel.writeAndFlush("[Server] - Success");
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext arg0)
-            throws Exception {
+    public void channelReadComplete(ChannelHandlerContext arg0) {
         // TODO Auto-generated method stub
         System.out.println("channelReadComplete");
     }
 
     @Override
-    public void channelWritabilityChanged(ChannelHandlerContext arg0)
-            throws Exception {
+    public void channelWritabilityChanged(ChannelHandlerContext arg0) {
         // TODO Auto-generated method stub
         System.out.println("channelWritabilityChanged");
     }

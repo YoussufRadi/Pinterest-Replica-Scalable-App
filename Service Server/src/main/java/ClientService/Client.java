@@ -2,9 +2,13 @@ package ClientService;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+
+import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 public class Client {
 
@@ -25,27 +29,38 @@ public class Client {
         new Client(server, port, containerPort).start();
     }
 
+    public static Channel channel;
+
     public void start() {
         EventLoopGroup group = new NioEventLoopGroup();
+        try{
+            Bootstrap clientBootstrap = new Bootstrap();
 
-        try {
-            Bootstrap bootstrap = new Bootstrap().group(group)
-                    .channel(NioSocketChannel.class)
-                    .handler(new ClientAdapterInitializer());
+            clientBootstrap.group(group);
+            clientBootstrap.channel(NioSocketChannel.class);
+            clientBootstrap.remoteAddress(new InetSocketAddress(server, port));
+            clientBootstrap.handler(new ClientAdapterInitializer());
 
-            Channel channel = bootstrap.connect(server, port).sync().channel();
+            ChannelFuture channelFuture = clientBootstrap.connect().sync();
+            channel = channelFuture.channel();
 
-            System.out.println(channel);
 
-            channel.write("Hi\n");
-            channel.write("Hi\n");
-            channel.write("Hi\n");
-            channel.flush();
+            Thread t = new Thread(() -> {
+                Scanner sc = new Scanner(System.in);
+                while (true){
+                    String line = sc.nextLine();
+                    Client.channel.writeAndFlush(line + "\r\n");
+                }
+            });
+            t.start();
+
+            channelFuture.channel().closeFuture().sync();
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             group.shutdownGracefully();
+            System.exit(0);
         }
     }
 }

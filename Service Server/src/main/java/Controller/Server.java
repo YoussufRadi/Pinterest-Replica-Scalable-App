@@ -1,9 +1,12 @@
 package Controller;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.util.Scanner;
 
 public class Server {
 
@@ -25,6 +28,15 @@ public class Server {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ServerAdapterInitializer());
             System.out.println("Server started");
+            Thread t = new Thread(() -> {
+                Scanner sc = new Scanner(System.in);
+                while (true){
+                    String line = sc.nextLine();
+                    for(Channel c : ServerAdapterHandler.channels)
+                        c.writeAndFlush(line);
+                }
+            });
+            t.start();
             bootstrap.bind(port).sync().channel().closeFuture().sync();
 
         } catch (Exception e) {

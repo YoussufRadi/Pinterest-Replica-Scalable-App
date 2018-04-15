@@ -24,7 +24,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
     private ConnectionFactory factory;
     private Channel receiverChannel;
     private Channel senderChannel;
-//    private String FACTORY_HOST;
+//    private String FACTORY_HOST = "localhost";
     private String RPC_QUEUE_REPLY_TO;
     private String RPC_QUEUE_SEND_TO = "load_balancer";
 
@@ -50,7 +50,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("MQ", new RequestHandler(senderChannel, uuid, RPC_QUEUE_REPLY_TO, RPC_QUEUE_SEND_TO));
 //        p.addLast("aggregator",
 //                new HttpObjectAggregator(512 * 1024));
-//        p.addLast("request",new CustumHandler());
+//        p.addLast("request",new Server.CustumHandler());
 
     }
 

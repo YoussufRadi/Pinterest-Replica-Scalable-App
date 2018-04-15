@@ -1,11 +1,9 @@
 package LoadBalancer;
 import com.rabbitmq.client.*;
-import io.netty.util.concurrent.Future;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
 
 public class LoadBalancer {

@@ -1,6 +1,5 @@
 package Server;
 
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -36,6 +35,7 @@ public class HTTPServer {
     }
 
     public static void main(String[] args) {
+
         HTTPServer.start(8080);
     }
 }
