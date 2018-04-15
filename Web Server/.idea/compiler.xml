@@ -6,10 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="media" />
-        <module name="post" />
         <module name="serviceServer" />
-        <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

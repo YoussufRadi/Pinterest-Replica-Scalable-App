@@ -6,7 +6,7 @@
 
     <groupId>Pinterest</groupId>
     <artifactId>Pinterest</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -48,12 +48,9 @@
             </plugin>
         </plugins>
     </build>
-    <!--<modules>-->
-        <!--<module>../Post Service</module>-->
-        <!--<module>../User Service</module>-->
-        <!--<module>../Media Server</module>-->
-        <!--<module>../Service Server</module>-->
-    <!--</modules>-->
+    <modules>
+        <module>../Service Server</module>
+    </modules>
     <dependencies>
 
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
