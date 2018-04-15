@@ -24,12 +24,12 @@ public class Client {
         this.server = server;
         this.port = port;
         switch (serviceName.toLowerCase()){
-            case "post": service = new PostService(); break;
-            case "user": service = new UserService(); break;
+//            case "post": service = new PostService(); break;
+//            case "user": service = new UserService(); break;
 //            case "chat": service = new ChatService(); break;
         }
-        service.init(15,15);
-        service.start();
+//        service.init(15,15);
+//        service.start();
     }
 
     public static void main(String[] args) {
