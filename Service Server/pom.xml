@@ -11,6 +11,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>serviceServer</artifactId>
+    <!--<dependencies>-->
+        <!--<dependency>-->
+            <!--<groupId>Pinterest</groupId>-->
+            <!--<artifactId>post</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>Pinterest</groupId>-->
+            <!--<artifactId>user</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
 
 
 </project>

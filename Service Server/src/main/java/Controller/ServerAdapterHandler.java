@@ -26,40 +26,21 @@ public class ServerAdapterHandler extends
         channels.remove(ctx.channel());
         super.handlerRemoved(ctx);
     }
-//
-//    public void messageReceived(ChannelHandlerContext ctx, String arg1)
-//            throws Exception {
-//        Channel currentChannel = ctx.channel();
-//        System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - "
-//                + arg1);
-//        currentChannel.write("[Server] - Success");
-//
-//    }
-
-//    @Override
-//    public boolean beginMessageReceived(ChannelHandlerContext ctx)
-//            throws Exception {
-//        System.out.println("Message received");
-//        return super.beginMessageReceived(ctx);
-//    }
 
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
         System.out.println("channelRead");
         Channel currentChannel = arg0.channel();
         System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
-//        currentChannel.writeAndFlush("[Server] - Success");
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext arg0) {
-        // TODO Auto-generated method stub
         System.out.println("channelReadComplete");
     }
 
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext arg0) {
-        // TODO Auto-generated method stub
         System.out.println("channelWritabilityChanged");
     }
 

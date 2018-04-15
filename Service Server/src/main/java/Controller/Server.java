@@ -28,6 +28,7 @@ public class Server {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ServerAdapterInitializer());
             System.out.println("Server started");
+
             Thread t = new Thread(() -> {
                 Scanner sc = new Scanner(System.in);
                 while (true){

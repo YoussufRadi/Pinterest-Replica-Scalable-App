@@ -1,12 +1,14 @@
 package ClientService;
 
+import Interface.ControlService;
+//import Service.PostService;
+//import Service.UserService;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 
@@ -14,19 +16,24 @@ public class Client {
 
     String server;
     int port;
-    int containerPort;
+    ControlService service;
 
-    public Client(String server, int port, int containerPort) {
+    public Client(String server, int port, String serviceName) {
         this.server = server;
         this.port = port;
-        this.containerPort = containerPort;
+        switch (serviceName.toLowerCase()){
+//            case "post": service = new PostService(); break;
+//            case "user": service = new UserService(); break;
+//            case "chat": service = new ChatService(); break;
+        }
+        service.init(15,15);
+        service.start();
     }
 
     public static void main(String[] args) {
         String server = "localhost";
         int port = 5252;
-        int containerPort = 8094;
-        new Client(server, port, containerPort).start();
+        new Client(server, port,"post").start();
     }
 
     public static Channel channel;
