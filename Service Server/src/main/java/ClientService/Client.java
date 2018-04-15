@@ -3,6 +3,8 @@ package ClientService;
 import Interface.ControlService;
 //import Service.PostService;
 //import Service.UserService;
+import Services.PostService;
+import Services.UserService;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -22,12 +24,12 @@ public class Client {
         this.server = server;
         this.port = port;
         switch (serviceName.toLowerCase()){
-//            case "post": service = new PostService(); break;
-//            case "user": service = new UserService(); break;
+            case "post": service = new PostService(); break;
+            case "user": service = new UserService(); break;
 //            case "chat": service = new ChatService(); break;
         }
-//        service.init(15,15);
-//        service.start();
+        service.init(15,15);
+        service.start();
     }
 
     public static void main(String[] args) {

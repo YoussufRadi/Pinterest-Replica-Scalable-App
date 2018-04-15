@@ -2,93 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../Media Server/media.iml" afterPath="$PROJECT_DIR$/../Media Server/media.iml" />
-      <change beforePath="$PROJECT_DIR$/../Media Server/src/main/java/MediaFileServerHandler.java" afterPath="$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerHandler.java" />
-      <change beforePath="$PROJECT_DIR$/../Media Server/src/main/java/MediaFileServerInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerInitializer.java" />
-      <change beforePath="$PROJECT_DIR$/../Media Server/src/main/java/MediaServer.java" afterPath="$PROJECT_DIR$/src/main/java/MediaServer/MediaServer.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/Post Service.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/pom.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/post.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Cache/RedisConf.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeletePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DislikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetPostsOfTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetTagsOfPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPostToBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPostToCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertReply.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/LikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/RemovePostFromBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/RemovePostFromCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdatePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Database/ArangoInstance.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Database/ArangoInstance.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/BoardDBObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/BoardDBObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/BoardLiveObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/BoardLiveObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/CategoryDBObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/CategoryDBObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/CategoryLiveObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/CategoryLiveObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/CommentDBObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/CommentDBObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/Message.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/Message.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/PostDBObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/PostDBObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/PostLiveObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/PostLiveObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/TagDBObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/TagDBObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Models/TagLiveObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/TagLiveObject.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java" />
-      <change beforePath="$PROJECT_DIR$/../Post Service/src/main/java/Test.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Test.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/pom.xml" afterPath="$PROJECT_DIR$/../Service Server/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/serviceServer.iml" afterPath="$PROJECT_DIR$/../Service Server/serviceServer.iml" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/User Service.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/pom.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Cache/RedisConf.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Cache/UserCacheController.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Cache/UserCacheController.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Cache/singleNodeConfig.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/AddBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/AddBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/AddPin.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/AddPin.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/BlockUser.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/BlockUser.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/DislikePhoto.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/DislikePhoto.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/FollowCategories.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowCategories.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/FollowHashtags.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowHashtags.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/FollowUser.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowUser.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/LikePhoto.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/LikePhoto.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/RemoveBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/RemoveBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/RemovePin.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/RemovePin.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/SignIn.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/SignIn.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/SignUp.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/SignUp.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnBlockUser.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnBlockUser.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnDislikePhoto.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnDislikePhoto.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnFollowCategories.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnFollowCategories.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnFollowHashtags.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnFollowHashtags.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnFollowUser.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnFollowUser.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UnlikePhoto.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UnlikePhoto.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Commands/UpdateUser.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/UpdateUser.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Database/ConfigurationInit.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Database/ConfigurationInit.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Database/DatabaseController.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Database/DatabaseController.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Models/Message.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Models/User.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/User.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Models/UserLiveObject.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Models/UserLiveObject.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Service/RPCClient.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Service/UserService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java" />
-      <change beforePath="$PROJECT_DIR$/../User Service/src/main/java/Test.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../User Service/user.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/../post/target/" />
@@ -107,41 +21,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+            <state relative-caret-position="358">
+              <caret line="69" column="19" lean-forward="true" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MediaFileServerHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerHandler.java">
+      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MediaFileServerInitializer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerInitializer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MediaServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="31" column="36" lean-forward="false" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+            <state relative-caret-position="210">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -215,7 +109,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java" />
-        <option value="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/RemovePin.java" />
         <option value="$PROJECT_DIR$/../Service Server/pom.xml" />
@@ -226,6 +119,7 @@
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/MediaServer/MediaServer.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
       </list>
     </option>
   </component>
@@ -305,6 +199,30 @@
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ClientService" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
               <item name="Web Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -369,7 +287,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MediaServer">
+  <component name="RunManager" selected="Application.Client">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -567,9 +485,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.MediaServer" />
-        <item index="1" class="java.lang.String" itemvalue="Application.Client" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Server" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Client" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Server" />
+        <item index="2" class="java.lang.String" itemvalue="Application.MediaServer" />
         <item index="3" class="java.lang.String" itemvalue="Application.PostService" />
         <item index="4" class="java.lang.String" itemvalue="Application.LoadBalancer" />
       </list>
@@ -593,7 +511,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -603,7 +520,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32941177" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32941177" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -681,22 +598,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1052,30 +953,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="63" column="48" lean-forward="false" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="81" column="59" lean-forward="false" selection-start-line="81" selection-start-column="59" selection-end-line="81" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Media Server/media.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1100,6 +977,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-539">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/MediaServer/MediaFileServerInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1116,10 +1017,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+        <state relative-caret-position="645">
+          <caret line="63" column="48" lean-forward="false" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="69" column="19" lean-forward="true" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
           <folding />
         </state>
       </provider>
