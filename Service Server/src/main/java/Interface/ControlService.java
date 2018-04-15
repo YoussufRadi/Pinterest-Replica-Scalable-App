@@ -21,7 +21,7 @@ public abstract class ControlService {
 //    public abstract void delete_command();
 //    public abstract void update_command();
 //    public abstract void update_class();
-//    public abstract void freeze();
-//    public abstract void resume();
+    public abstract void freeze();
+    public abstract void resume();
 //    public abstract void set_error_reporting_level();
 }

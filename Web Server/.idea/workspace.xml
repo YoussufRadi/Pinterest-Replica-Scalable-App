@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="">
+<<<<<<< HEAD
       <change beforePath="" afterPath="$PROJECT_DIR$/Dockerfile" />
       <change beforePath="$PROJECT_DIR$/../Media Server/media.iml" afterPath="$PROJECT_DIR$/../Media Server/media.iml" />
       <change beforePath="$PROJECT_DIR$/../Post Service/post.iml" afterPath="$PROJECT_DIR$/../Post Service/post.iml" />
@@ -11,6 +12,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" afterPath="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" />
+=======
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/../post/target/" />
@@ -29,11 +34,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
+      <file leaf-file-name="PostService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="594">
               <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+=======
+            <state relative-caret-position="365">
+              <caret line="147" column="21" lean-forward="true" selection-start-line="147" selection-start-column="21" selection-end-line="147" selection-end-column="21" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -41,6 +51,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/Server.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -51,10 +62,19 @@
                 <element signature="e#292#293#0" expanded="true" />
                 <element signature="e#328#329#0" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="GetCategory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetCategory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="38" column="49" lean-forward="true" selection-start-line="38" selection-start-column="49" selection-end-line="38" selection-end-column="49" />
+              <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="HTTPServerInitializer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Server/HTTPServerInitializer.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -63,10 +83,19 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="DeleteBoard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteBoard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="34" column="8" lean-forward="true" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+              <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="ImageWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Server/ImageWriter.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -75,30 +104,55 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="Command.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+              <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="HTTPServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Server/HTTPServer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="550">
               <caret line="41" column="0" lean-forward="true" selection-start-line="28" selection-start-column="31" selection-end-line="41" selection-end-column="0" />
+=======
+      <file leaf-file-name="ControlService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
               <caret line="7" column="29" lean-forward="false" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+=======
+      <file leaf-file-name="singleNodeConfig.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/singleNodeConfig.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
@@ -117,10 +171,19 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="RedisConf.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../User Service/src/main/java/Service/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -136,7 +199,38 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2070">
               <caret line="127" column="17" lean-forward="false" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="71" />
+=======
+      <file leaf-file-name="HTTPServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Server/HTTPServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadBalancer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/LoadBalancer/LoadBalancer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/Server.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="30" column="32" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#292#293#0" expanded="true" />
+                <element signature="e#328#329#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -168,6 +262,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/../media/src/main/java/MediaServer.java" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
         <option value="$PROJECT_DIR$/../media/src/main/java/HttpStaticFileServerHandler.java" />
         <option value="$PROJECT_DIR$/../media/src/main/java/MediaFileServerHandler.java" />
         <option value="$PROJECT_DIR$/../post/src/main/java/Commands/InsertPost.java" />
@@ -177,7 +275,11 @@
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/ServiceInterface.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Service.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/Service.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
+=======
+        <option value="$PROJECT_DIR$/../User Service/src/main/java/Service/UserService.java" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Database/ArangoInstance.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/Command.java" />
@@ -213,12 +315,18 @@
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/ClientAdapterHandler.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Controller/ServerAdapterHandler.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/../User Service/src/main/java/Service/RPCClient.java" />
         <option value="$PROJECT_DIR$/../User Service/src/main/java/Service/UserService.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java" />
         <option value="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/Dockerfile" />
+=======
+        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
+        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
       </list>
     </option>
   </component>
@@ -268,38 +376,91 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
+=======
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
               <item name="Web Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
               <item name="Web Server" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="Post Service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Post Service" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
+              <item name="Post Service" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
+              <item name="Post Service" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Web Server" type="462c0819:PsiDirectoryNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ClientService" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
@@ -310,6 +471,7 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
@@ -322,17 +484,23 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="Docker" />
+=======
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/../Post Service" />
+      <recent name="$PROJECT_DIR$/../Post Service/src/main/java/Cache" />
       <recent name="$PROJECT_DIR$/../post/src/main/java/Cache" />
       <recent name="$PROJECT_DIR$/../post/src/main" />
-      <recent name="$PROJECT_DIR$/../post/src/main/java" />
-      <recent name="$PROJECT_DIR$/../post/src" />
-      <recent name="$PROJECT_DIR$/../post" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -347,7 +515,11 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Application.HTTPServer">
+=======
+  <component name="RunManager" selected="Application.PostService">
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -393,6 +565,48 @@
       <module name="Pinterest" />
       <envs />
     </configuration>
+<<<<<<< HEAD
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="LoadBalancer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="LoadBalancer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="LoadBalancer.LoadBalancer" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Pinterest" />
+      <envs />
+    </configuration>
+    <configuration name="PostService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="Service.PostService" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="post" />
+      <envs />
+    </configuration>
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -410,25 +624,6 @@
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="serviceServer" />
-      <envs />
-    </configuration>
-    <configuration name="UserService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="Service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="Service.UserService" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="user" />
       <envs />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -522,6 +717,7 @@
       </deployment>
     </configuration>
     <list size="5">
+<<<<<<< HEAD
       <item index="0" class="java.lang.String" itemvalue="Docker.Dockerfile" />
       <item index="1" class="java.lang.String" itemvalue="Application.HTTPServer" />
       <item index="2" class="java.lang.String" itemvalue="Application.UserService" />
@@ -535,6 +731,21 @@
         <item index="2" class="java.lang.String" itemvalue="Application.Client" />
         <item index="3" class="java.lang.String" itemvalue="Application.Server" />
         <item index="4" class="java.lang.String" itemvalue="Application.UserService" />
+=======
+      <item index="0" class="java.lang.String" itemvalue="Application.HTTPServer" />
+      <item index="1" class="java.lang.String" itemvalue="Application.PostService" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Server" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Client" />
+      <item index="4" class="java.lang.String" itemvalue="Application.LoadBalancer" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Application.PostService" />
+        <item index="1" class="java.lang.String" itemvalue="Application.LoadBalancer" />
+        <item index="2" class="java.lang.String" itemvalue="Application.HTTPServer" />
+        <item index="3" class="java.lang.String" itemvalue="Application.Client" />
+        <item index="4" class="java.lang.String" itemvalue="Application.Server" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
       </list>
     </recent_temporary>
   </component>
@@ -556,6 +767,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+<<<<<<< HEAD
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -576,6 +788,29 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+=======
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0049751243" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34554973" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.262576" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -594,10 +829,25 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+=======
+    <entry file="file://$PROJECT_DIR$/Pinterest.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="9" lean-forward="false" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="19" lean-forward="false" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+          <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
         </state>
       </provider>
     </entry>
@@ -637,6 +887,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/Command.java" />
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -651,6 +902,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
     <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteComment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -711,13 +964,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="18" column="38" lean-forward="false" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="21" column="37" lean-forward="false" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -826,6 +1072,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/Server/RequestHandler.java" />
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/ServerAdapterInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -836,6 +1083,9 @@
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.21.Final/netty-all-4.1.21.Final.jar!/io/netty/channel/ChannelInboundHandlerAdapter.class" />
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/ClientAdapterInitializer.java">
+=======
+    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteCategory.java">
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="15" column="57" lean-forward="false" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
@@ -844,13 +1094,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/ClientAdapterHandler.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="342">
           <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="23" selection-end-column="51" />
+=======
+        <state relative-caret-position="72">
+          <caret line="15" column="64" lean-forward="false" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="64" />
+          <folding />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/ServerAdapterHandler.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="828">
           <caret line="51" column="51" lean-forward="false" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
         </state>
@@ -864,6 +1121,12 @@
             <element signature="imports" expanded="true" />
             <element signature="e#292#293#0" expanded="true" />
             <element signature="e#328#329#0" expanded="true" />
+=======
+        <state relative-caret-position="108">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           </folding>
         </state>
       </provider>
@@ -877,8 +1140,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="594">
           <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+=======
+        <state relative-caret-position="198">
+          <caret line="15" column="57" lean-forward="false" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -887,6 +1155,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../User Service/src/main/java/Service/RPCClient.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="2070">
           <caret line="127" column="17" lean-forward="false" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="71" />
           <folding />
@@ -905,6 +1174,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1728">
           <caret line="110" column="49" lean-forward="false" selection-start-line="110" selection-start-column="49" selection-end-line="110" selection-end-column="49" />
+=======
+        <state relative-caret-position="342">
+          <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="23" selection-end-column="51" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -913,8 +1186,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Server/ImageWriter.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="36">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+=======
+        <state relative-caret-position="828">
+          <caret line="51" column="51" lean-forward="false" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -923,22 +1201,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="414">
           <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+=======
+        <state relative-caret-position="162">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Server/HTTPServerInitializer.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="190">
           <caret line="31" column="33" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="33" />
+=======
+        <state relative-caret-position="594">
+          <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -952,6 +1241,91 @@
         <state relative-caret-position="550">
           <caret line="41" column="0" lean-forward="true" selection-start-line="28" selection-start-column="31" selection-end-line="41" selection-end-column="0" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/singleNodeConfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Server/HTTPServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/LoadBalancer/LoadBalancer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="38" column="49" lean-forward="true" selection-start-line="38" selection-start-column="49" selection-end-line="38" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="34" column="8" lean-forward="true" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Controller/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="30" column="32" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#292#293#0" expanded="true" />
+            <element signature="e#328#329#0" expanded="true" />
+          </folding>
+>>>>>>> 61aa04e4ee52bf9d7744e9577991c86c1ecca12b
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="147" column="21" lean-forward="true" selection-start-line="147" selection-start-column="21" selection-end-line="147" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
