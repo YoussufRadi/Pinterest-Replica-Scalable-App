@@ -26,8 +26,8 @@ public class Client {
 //            case "user": service = new UserService(); break;
 //            case "chat": service = new ChatService(); break;
         }
-        service.init(15,15);
-        service.start();
+//        service.init(15,15);
+//        service.start();
     }
 
     public static void main(String[] args) {

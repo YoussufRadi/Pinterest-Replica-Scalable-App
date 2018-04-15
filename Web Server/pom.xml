@@ -6,11 +6,12 @@
 
     <groupId>Pinterest</groupId>
     <artifactId>Pinterest</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <jdk.version>1.8</jdk.version>
     </properties>
+
 
     <build>
         <plugins>
@@ -23,14 +24,36 @@
                     <target>${jdk.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>fully.qualified.MainClass</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>../Post Service</module>
-        <module>../User Service</module>
-        <module>../Media Server</module>
-        <module>../Service Server</module>
-    </modules>
+    <!--<modules>-->
+        <!--<module>../Post Service</module>-->
+        <!--<module>../User Service</module>-->
+        <!--<module>../Media Server</module>-->
+        <!--<module>../Service Server</module>-->
+    <!--</modules>-->
     <dependencies>
 
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
@@ -38,7 +61,6 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.21.Final</version>
-            <scope>compile</scope>
         </dependency>
 
 

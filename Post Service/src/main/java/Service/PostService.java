@@ -22,6 +22,10 @@ public class PostService extends ControlService {
     protected static ArangoInstance arangoInstance;
     protected static RedisConf redisConf;
     protected RLiveObjectService liveObjectService;
+    protected String consumerTag;
+    protected Consumer consumer;
+    protected Channel channel;
+
 
     public void setMaxDBConnections(int connections){
         this.maxDBConnections = connections;
@@ -47,7 +51,7 @@ public class PostService extends ControlService {
         Connection connection = null;
         try {
             connection = factory.newConnection();
-            final Channel channel = connection.createChannel();
+            channel = connection.createChannel();
 
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
 //            channel.queueDeclare(RPC_RESPONSE_QUEUE, false, false, false, null);
@@ -56,68 +60,96 @@ public class PostService extends ControlService {
 
             System.out.println(" [x] Awaiting RPC requests");
 
-            Consumer consumer = new DefaultConsumer(channel) {
+            consumer = new DefaultConsumer(channel) {
                 @Override
+
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                     AMQP.BasicProperties replyProps = new AMQP.BasicProperties
                             .Builder()
                             .correlationId(properties.getCorrelationId())
                             .build();
-                    System.out.println("Responding to corrID: "+ properties.getCorrelationId());
+
+                    System.out.println("Responding to corrID: " + properties.getCorrelationId());
 
                     String response = "";
 
-                    try {
+                        try {
 
-                        //Using Reflection to convert a command String to its appropriate class
-                        String message = new String(body, "UTF-8");
-                        JSONParser parser = new JSONParser();
-                        JSONObject command = (JSONObject) parser.parse(message);
-                        String className = (String)command.get("command");
-                        System.out.println(className);
-                        Class com = Class.forName("Commands."+className);
-                        Command cmd = (Command) com.newInstance();
+                            //Using Reflection to convert a command String to its appropriate class
+                            String message = new String(body, "UTF-8");
+                            JSONParser parser = new JSONParser();
+                            JSONObject command = (JSONObject) parser.parse(message);
+                            String className = (String) command.get("command");
+                            System.out.println(className);
+                            Class com = Class.forName("Commands." + className);
+                            Command cmd = (Command) com.newInstance();
 
-                        HashMap<String, Object> init = new HashMap<String, Object>();
-                        init.put("channel", channel);
-                        init.put("properties", properties);
-                        init.put("replyProps", replyProps);
-                        init.put("envelope", envelope);
-                        init.put("body", message);
-                        init.put("RLiveObjectService", liveObjectService);
-                        init.put("ArangoInstance", arangoInstance);
-                        cmd.init(init);
-                        executor.submit(cmd);
+                            HashMap<String, Object> init = new HashMap<String, Object>();
+                            init.put("channel", channel);
+                            init.put("properties", properties);
+                            init.put("replyProps", replyProps);
+                            init.put("envelope", envelope);
+                            init.put("body", message);
+                            init.put("RLiveObjectService", liveObjectService);
+                            init.put("ArangoInstance", arangoInstance);
+                            cmd.init(init);
+                            executor.submit(cmd);
 
-                    } catch (RuntimeException e) {
-                        System.out.println(" [.] " + e.toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } finally {
-                        synchronized (this) {
-                            this.notify();
+                        } catch (RuntimeException e) {
+                            System.out.println(" [.] " + e.toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } finally {
+                            synchronized (this) {
+                                this.notify();
+
+                            }
                         }
                     }
-                }
-            };
 
-            channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+            };
+            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+
+
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void freeze() {
+        try {
+            channel.basicCancel(consumerTag);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static void main(String [] args) {
+    @Override
+    public void resume() {
+        try {
+            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void main(String [] args) throws InterruptedException {
         ControlService postApp = new PostService();
         postApp.init(15,15);
         postApp.start();
+//        System.out.println("freeze");
+//        postApp.freeze();
+//        Thread.sleep(8000);
+//        System.out.println("resume");
+//        postApp.resume();
 //        postApp.setMaxDBConnections(15);
 //        postApp.setMaxThreadsSize(15);
 
