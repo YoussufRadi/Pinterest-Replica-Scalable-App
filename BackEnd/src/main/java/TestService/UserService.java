@@ -42,9 +42,7 @@ public class UserService {
                             .build();
                     System.out.println("Responding to corrID: "+ properties.getCorrelationId());
 
-
                     try {
-
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
                         JSONObject jsonRequest = new JSONObject(message);
@@ -76,14 +74,13 @@ public class UserService {
             channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null)
+                try {
+                    connection.close();
+                } catch (IOException _ignore) {
+                }
         }
-//        finally {
-//            if (connection != null)
-//                try {
-//                    connection.close();
-//                } catch (IOException _ignore) {
-//                }
-//        }
 
     }
 
