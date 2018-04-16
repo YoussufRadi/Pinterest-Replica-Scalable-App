@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.redisson.api.RLiveObjectService;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
@@ -16,16 +15,15 @@ import java.util.concurrent.TimeoutException;
 
 public abstract class ControlService {
 
-
-    protected int threadsNo;
+    private int threadsNo;
     protected int maxDBConnections;
-    protected String RPC_QUEUE_NAME;
-    protected String host;
-    protected int port;
-    public  ThreadPoolExecutor executor;
-    protected Channel channel;
-    protected String consumerTag;
-    protected Consumer consumer;
+    private String RPC_QUEUE_NAME;
+    private String host;
+    private int port;
+    private  ThreadPoolExecutor executor;
+    private Channel channel;
+    private String consumerTag;
+    private Consumer consumer;
     protected RLiveObjectService liveObjectService; // For Post Only
     protected static ArangoInstance arangoInstance; // For Post Only
     protected UserCacheController userCacheController; // For User Only
@@ -43,7 +41,7 @@ public abstract class ControlService {
 
     public abstract void init();
 
-    public void start(){
+    private void start(){
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(host);
         factory.setPort(port);
@@ -108,7 +106,6 @@ public abstract class ControlService {
                     }
                 }
             };
-
             consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
 
         } catch (IOException | TimeoutException e) {
@@ -119,7 +116,6 @@ public abstract class ControlService {
                     connection.close();
                 } catch (IOException _ignore) {}
         }
-
     }
 
     public void setMaxThreadsSize(int threads){

@@ -1,8 +1,6 @@
 package ClientService;
 
 import Interface.ControlService;
-//import Service.PostService;
-//import Service.UserService;
 import Services.PostService;
 import Services.UserService;
 import io.netty.bootstrap.Bootstrap;
@@ -11,36 +9,39 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 public class Client {
 
-    String server;
-    int port;
-    ControlService service;
+    private String server;
+    private int port;
+    private ControlService service;
+    private static Channel channel;
 
-    public Client(String server, int port, String serviceName) {
+    private Client(String server, int port) {
         this.server = server;
         this.port = port;
+//        start();
+    }
+
+    private void initService(String serviceName, String host, int port, int threadNo, int dbConnections){
         switch (serviceName.toLowerCase()){
-//            case "post": service = new PostService(); break;
-//            case "user": service = new UserService(); break;
-//            case "chat": service = new ChatService(); break;
+            case "post": service = new PostService(host,port,threadNo,dbConnections); break;
+            case "user": service = new UserService(host,port,threadNo,dbConnections); break;
         }
-//        service.init(15,15);
-//        service.start();
     }
 
     public static void main(String[] args) {
         String server = "localhost";
         int port = 5252;
-        new Client(server, port,"post").start();
+        Client c = new Client(server, port);
+        c.initService("post","localhost",5672,15,15);
+        c.start();
     }
 
-    public static Channel channel;
-
-    public void start() {
+    private void start() {
         EventLoopGroup group = new NioEventLoopGroup();
         try{
             Bootstrap clientBootstrap = new Bootstrap();

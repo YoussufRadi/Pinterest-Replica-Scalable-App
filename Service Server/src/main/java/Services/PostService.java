@@ -1,30 +1,19 @@
 package Services;
 
-import Interface.Command;
 import Cache.RedisConf;
 import Database.ArangoInstance;
 import Interface.ControlService;
-import com.rabbitmq.client.*;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeoutException;
 
 public class PostService extends ControlService {
-
 
     private static RedisConf redisConf;
     private static String dbUserName;
     private static String dbPass;
 
     public PostService(String host, int port, int threadsNo, int maxDBConnections) {
-        super(host,port,threadsNo, maxDBConnections, "User");
+        super(host,port,threadsNo, maxDBConnections, "Post");
     }
 
     public void setMaxDBConnections(int connections){
@@ -43,8 +32,6 @@ public class PostService extends ControlService {
         }
         liveObjectService = redisConf.getService();
     }
-
-
 
     public static void main(String [] args) {
         dbUserName = "root";
