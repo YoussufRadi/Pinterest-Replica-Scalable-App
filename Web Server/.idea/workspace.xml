@@ -2,32 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" />
       <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -117,8 +91,8 @@
       <file leaf-file-name="UpdatePost.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="69" column="50" lean-forward="false" selection-start-line="69" selection-start-column="50" selection-end-line="69" selection-end-column="50" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1175,8 +1149,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="69" column="50" lean-forward="false" selection-start-line="69" selection-start-column="50" selection-end-line="69" selection-end-column="50" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
