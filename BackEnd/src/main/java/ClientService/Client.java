@@ -32,6 +32,7 @@ public class Client {
         switch (this.serviceName.toLowerCase()){
             case "post": service = new PostService(host,port,threadNo,dbConnections); break;
             case "user": service = new UserService(host,port,threadNo,dbConnections); break;
+            //TODO Chat Service
         }
     }
 
@@ -55,7 +56,6 @@ public class Client {
 
             ChannelFuture channelFuture = clientBootstrap.connect().sync();
             channel = channelFuture.channel();
-
 
             Thread t = new Thread(() -> {
                 Scanner sc = new Scanner(System.in);

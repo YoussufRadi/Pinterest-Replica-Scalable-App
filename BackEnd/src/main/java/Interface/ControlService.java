@@ -132,6 +132,7 @@ public abstract class ControlService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Service Resumed");
     }
 
     public void freeze() {
@@ -140,6 +141,7 @@ public abstract class ControlService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Service freezed");
     }
 
     //TODO

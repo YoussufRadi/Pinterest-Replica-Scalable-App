@@ -17,6 +17,7 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
             controlService(m);
             System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + m.getControlCommand());
         }
+        System.out.println("READ");
         currentChannel.writeAndFlush("[Server] - Success" + "\r\n");
     }
 
@@ -39,6 +40,7 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
             case "error" : Client.service.set_error_reporting_level(Integer.parseInt(m.getParam()));
                 break;
         }
+        System.out.println("ControlService is executing : " + m.getControlCommand());
     }
 
     @Override
