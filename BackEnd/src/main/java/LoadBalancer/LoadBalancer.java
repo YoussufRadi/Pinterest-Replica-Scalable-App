@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 
 public class LoadBalancer {
     private static final String HOST = "localhost";
+    private static final int PORT = 5672;
     private static final String RPC_QUEUE_NAME = "load_balancer";
     private static final String POST_QUEUE_NAME = "Post";
     private static final String USER_QUEUE_NAME = "User";
@@ -18,16 +19,16 @@ public class LoadBalancer {
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<String, Channel>();
 
 
-    public LoadBalancer() {
-
+    private LoadBalancer() {
         establishConnections();
+        start();
+    }
+
+    private void start(){
 
         try {
-
             Channel balancer = REQUEST_CHANNEL_MAP.get(RPC_QUEUE_NAME);
-
             System.out.println(" [x] Awaiting RPC requests");
-
             Consumer consumer = new DefaultConsumer(balancer) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -46,31 +47,21 @@ public class LoadBalancer {
 
                         receiver.basicPublish("", appName, properties, body);
 
-                    } catch (RuntimeException e) {
+                    } catch (RuntimeException| IOException e) {
                         e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }catch (Exception e) {
-                        e.printStackTrace();
+                        start();
                     } finally {
                         synchronized (this) {
                             this.notify();
                         }
                     }
-
                 }
             };
-
-
             balancer.basicConsume(RPC_QUEUE_NAME, true, consumer);
             // Wait and be prepared to consume the message from RPC client.
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-//            if (connection != null)
-//                try {
-//                    //connection.close();
-//                } catch (IOException _ignore) {}
+            start();
         }
     }
 
@@ -81,6 +72,7 @@ public class LoadBalancer {
     private void establishConnections() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST);
+        factory.setPort(PORT);
         Connection connection = null;
         try {
             connection = factory.newConnection();
@@ -99,9 +91,7 @@ public class LoadBalancer {
             REQUEST_CHANNEL_MAP.put(USER_QUEUE_NAME, userChannel);
             REQUEST_CHANNEL_MAP.put(POST_QUEUE_NAME, postChannel);
             REQUEST_CHANNEL_MAP.put(CHAT_QUEUE_NAME, chatChannel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
+        } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
     }
