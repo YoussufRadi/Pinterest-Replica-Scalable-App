@@ -1,4 +1,4 @@
-package PostCommands;
+package postCommands;
 
 
 import Database.ArangoInstance;
@@ -16,13 +16,15 @@ public class GetCategory extends ConcreteCommand {
     protected void doCommand() {
         String category = gson.toJson(getCategory(message.getCategory_id(), ArangoInstance, RLiveObjectService));
         System.out.println(category);
-        if(category != null)
+        if(category != null) {
             responseJson = jsonParser.parse(category);
+            //System.out.println(responseJson);
+        }
     }
 
     private CategoryLiveObject getCategory(String category_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         CategoryLiveObject categoryLiveObject = liveObjectService.get(CategoryLiveObject.class,category_id);
-        System.out.println(categoryLiveObject);
+//        System.out.println(categoryLiveObject);
         if(categoryLiveObject==null){
             CategoryDBObject categoryDBObject= arangoInstance.getCategory(category_id);
             if(categoryDBObject!=null) {

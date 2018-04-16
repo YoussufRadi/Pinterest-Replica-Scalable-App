@@ -1,4 +1,4 @@
-package PostCommands;
+package postCommands;
 
 
 import Database.ArangoInstance;
