@@ -13,7 +13,7 @@ public class PostService extends ControlService {
     private static String dbPass;
 
     public PostService(String host, int port, int threadsNo, int maxDBConnections) {
-        super(host,port,threadsNo, maxDBConnections, "Post");
+        super(host,port,threadsNo, maxDBConnections, "post");
     }
 
     @Override

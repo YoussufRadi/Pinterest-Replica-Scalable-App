@@ -43,11 +43,11 @@ public abstract class ControlService {
     public abstract void init();
 
     private void start(){
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(host);
-        factory.setPort(port);
         Connection connection = null;
         try {
+            ConnectionFactory factory = new ConnectionFactory();
+//            factory.setHost(host);
+//            factory.setPort(port);
             connection = factory.newConnection();
             channel = connection.createChannel();
 
@@ -68,13 +68,15 @@ public abstract class ControlService {
 
                     System.out.println("Responding to corrID: " + properties.getCorrelationId());
 
+
                     try {
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
+                        //System.out.println(liveObjectService);
                         JSONParser parser = new JSONParser();
                         JSONObject command = (JSONObject) parser.parse(message);
                         String className = (String) command.get("command");
-                        System.out.println(className);
+//                        System.out.println(className);
                         Class com = Class.forName(RPC_QUEUE_NAME+"Commands." + className);
                         Command cmd = (Command) com.newInstance();
 
@@ -107,7 +109,7 @@ public abstract class ControlService {
                     }
                 }
             };
-            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, true, consumer);
 
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
