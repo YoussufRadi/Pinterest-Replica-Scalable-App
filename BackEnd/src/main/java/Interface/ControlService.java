@@ -26,7 +26,7 @@ public abstract class ControlService {
     private String consumerTag;
     private Consumer consumer;
     protected RLiveObjectService liveObjectService; // For Post Only
-    protected static ArangoInstance arangoInstance; // For Post Only
+    protected ArangoInstance arangoInstance; // For Post Only
     protected UserCacheController userCacheController; // For UserModel Only
 
     public ControlService(String host, int port, int threadsNo, int maxDBConnections, String queue){
@@ -43,15 +43,16 @@ public abstract class ControlService {
     public abstract void init();
 
     private void start(){
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost(host);
+        factory.setPort(port);
         Connection connection = null;
         try {
-            ConnectionFactory factory = new ConnectionFactory();
-//            factory.setHost(host);
-//            factory.setPort(port);
             connection = factory.newConnection();
             channel = connection.createChannel();
 
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
+//            channel.queueDeclare(RPC_RESPONSE_QUEUE, false, false, false, null);
 
             channel.basicQos(threadsNo);
 
@@ -68,16 +69,16 @@ public abstract class ControlService {
 
                     System.out.println("Responding to corrID: " + properties.getCorrelationId());
 
+                    String response = "";
 
                     try {
+
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
-                        //System.out.println(liveObjectService);
                         JSONParser parser = new JSONParser();
                         JSONObject command = (JSONObject) parser.parse(message);
                         String className = (String) command.get("command");
-//                        System.out.println(className);
-                        Class com = Class.forName(RPC_QUEUE_NAME+"Commands." + className);
+                        Class com = Class.forName(RPC_QUEUE_NAME+ "Commands." + className);
                         Command cmd = (Command) com.newInstance();
 
                         TreeMap<String, Object> init = new TreeMap<>();
@@ -88,7 +89,7 @@ public abstract class ControlService {
                         init.put("body", message);
                         init.put("RLiveObjectService", liveObjectService);
                         init.put("ArangoInstance", arangoInstance);
-                        init.put("UserCacheController", userCacheController);
+//                        init.put("UserCacheController", userCacheController);
                         cmd.init(init);
                         executor.submit(cmd);
 
@@ -105,19 +106,17 @@ public abstract class ControlService {
                     } finally {
                         synchronized (this) {
                             this.notify();
+
                         }
                     }
                 }
+
             };
-            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, true, consumer);
+            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+
 
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null)
-                try {
-                    connection.close();
-                } catch (IOException _ignore) {}
         }
     }
 

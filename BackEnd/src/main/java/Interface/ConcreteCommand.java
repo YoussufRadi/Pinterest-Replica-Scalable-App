@@ -17,7 +17,6 @@ public abstract class ConcreteCommand extends Command {
     protected RLiveObjectService RLiveObjectService;
     protected ArangoInstance ArangoInstance;
     protected UserCacheController UserCacheController;
-    //private TreeMap<String, Object> parameters = data;
     protected Message message;
     protected JsonElement responseJson = new JsonObject();
     protected Gson gson;
@@ -48,7 +47,6 @@ public abstract class ConcreteCommand extends Command {
             doCommand();
 
             jsonObject.add("response", responseJson);
-            //System.out.println(jsonObject);
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (Exception e) {

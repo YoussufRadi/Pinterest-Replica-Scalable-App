@@ -9,7 +9,7 @@ import java.util.concurrent.TimeoutException;
 public class LoadBalancer {
     private static final String HOST = "localhost";
     private static final String RPC_QUEUE_NAME = "load_balancer";
-    private static final String POST_QUEUE_NAME = "post";
+    private static final String POST_QUEUE_NAME = "Post";
     private static final String USER_QUEUE_NAME = "User";
     private static final String CHAT_QUEUE_NAME = "Chat";
 
