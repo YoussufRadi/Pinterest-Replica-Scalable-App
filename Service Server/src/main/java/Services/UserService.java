@@ -1,9 +1,10 @@
 package Services;
 
 
-import java.io.IOException;
 import Cache.UserCacheController;
 import Interface.ControlService;
+
+import java.io.IOException;
 
 public class UserService extends ControlService {
 
@@ -19,6 +20,11 @@ public class UserService extends ControlService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setMaxDBConnections(int connections) {
+        // TODO @soudian
     }
 
 

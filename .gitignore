@@ -1,6 +1,8 @@
 # Maven Ignore
 
 target/
+Web Server/target/
+Service Server/target
 */target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -16,8 +18,8 @@ buildNumber.properties
 
 # IntelliJ 
 .idea/
+Web Server/.idea/
 */.idea/
-Web\ Server/.idea/
 *.iml
 *.iws
 */*.iml
@@ -30,6 +32,8 @@ Web\ Server/.idea/
 
 # Apple Os Ignore
 .DS_Store
+Web Server/.DS_Store
+Service Server/.DS_Store
 */.DS_Store
 .AppleDouble
 .LSOverride

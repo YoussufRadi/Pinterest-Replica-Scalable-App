@@ -16,6 +16,7 @@ public class PostService extends ControlService {
         super(host,port,threadsNo, maxDBConnections, "Post");
     }
 
+    @Override
     public void setMaxDBConnections(int connections){
         this.maxDBConnections = connections;
         arangoInstance.setMaxDBConnections(maxDBConnections);

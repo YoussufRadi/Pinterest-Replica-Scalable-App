@@ -23,7 +23,6 @@ public class Client {
     private Client(String server, int port) {
         this.server = server;
         this.port = port;
-//        start();
     }
 
     private void initService(String serviceName, String host, int port, int threadNo, int dbConnections){

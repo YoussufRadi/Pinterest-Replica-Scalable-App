@@ -140,7 +140,7 @@ public abstract class ControlService {
     }
 
     //TODO
-//    public abstract void setMaxDBConnections(int connections);
+    public abstract void setMaxDBConnections(int connections);
 //    public abstract void add_command();
 //    public abstract void delete_command();
 //    public abstract void update_command();
