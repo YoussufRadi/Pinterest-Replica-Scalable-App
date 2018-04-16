@@ -1,43 +1,14 @@
 package PostCommands;
 
 import Database.ArangoInstance;
-import Interface.Command;
+import Interface.ConcreteCommand;
 import Models.CommentDBObject;
-import Models.Message;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Envelope;
 import org.json.JSONObject;
-import org.redisson.api.RLiveObjectService;
 
-import java.io.IOException;
-import java.util.HashMap;
+public class UpdateComment extends ConcreteCommand {
 
-public class UpdateComment extends Command {
     @Override
-    protected void execute() {
-        HashMap<String, Object> parameters = data;
-
-
-        Channel channel = (Channel) parameters.get("channel");
-
-        ArangoInstance ArangoInstance = (ArangoInstance)
-                parameters.get("ArangoInstance");
-
-        AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
-        AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
-        Envelope envelope = (Envelope) parameters.get("envelope");
-        JsonParser jsonParser = new JsonParser();
-        System.out.println(properties.getReplyTo());
-
-        JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
-        Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
-
+    protected void doCommand() {
         String s  = "";
         if(message.getComment_id() == null){
             s+= "Comment_id is missing";
@@ -47,24 +18,16 @@ public class UpdateComment extends Command {
         }
         if(s.isEmpty()) {
             String comment = gson.toJson(update_comment(message.getComment_id(), message.getComment_object(), ArangoInstance));
-            jsonObject.add("response",jsonParser.parse(comment));
+            responseJson = jsonParser.parse(comment);
         }else {
             System.out.println(s);
             JSONObject err = new JSONObject();
             err.put("error",s);
-            jsonObject.add("response",jsonParser.parse(err.toString()));
+            responseJson = jsonParser.parse(err.toString());
         }
-
-        try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
-            channel.basicAck(envelope.getDeliveryTag(), false);
-            //System.out.println(envelope.getDeliveryTag());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
-    public CommentDBObject update_comment(String comment_id, CommentDBObject commentDBObject, ArangoInstance arangoInstance){
+
+    private CommentDBObject update_comment(String comment_id, CommentDBObject commentDBObject, ArangoInstance arangoInstance){
         arangoInstance.updateComment(comment_id,commentDBObject);
         return arangoInstance.getComment(comment_id);
     }

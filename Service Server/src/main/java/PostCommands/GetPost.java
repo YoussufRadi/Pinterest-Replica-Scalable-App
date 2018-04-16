@@ -1,63 +1,24 @@
 package PostCommands;
 
 import Database.ArangoInstance;
-import Interface.Command;
-import Models.Message;
+import Interface.ConcreteCommand;
 import Models.PostDBObject;
 import Models.PostLiveObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Envelope;
 import org.redisson.api.RLiveObjectService;
 
-import java.io.IOException;
-import java.util.HashMap;
 
-
-public class GetPost extends Command {
+public class GetPost extends ConcreteCommand {
 
     @Override
-    protected void execute() {
-        HashMap<String, Object> parameters = data;
-
-
-        Channel channel = (Channel) parameters.get("channel");
-
-        RLiveObjectService RLiveObjectService = (RLiveObjectService)
-                parameters.get("RLiveObjectService");
-        ArangoInstance ArangoInstance = (ArangoInstance)
-                parameters.get("ArangoInstance");
-
-        AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
-        AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
-        Envelope envelope = (Envelope) parameters.get("envelope");
-        JsonParser jsonParser = new JsonParser();
-        System.out.println(properties.getReplyTo());
-
-        JsonObject jsonObject = (JsonObject)jsonParser.parse((String) parameters.get("body"));
-        Gson gson = new GsonBuilder().create();
-        Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
+    protected void doCommand() {
         String post = gson.toJson(getPost(message.getPost_id(), ArangoInstance, RLiveObjectService));
-        if(post!=null){
-            jsonObject.add("response",jsonParser.parse(post));
-        }else{
-            jsonObject.add("response",new JsonObject());
-        }
-
-        try {
-            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
-            channel.basicAck(envelope.getDeliveryTag(), false);
-            //System.out.println(envelope.getDeliveryTag());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        if(post!=null)
+            responseJson = jsonParser.parse(post);
     }
-    public PostLiveObject getPost(String post_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
+
+    private PostLiveObject getPost(String post_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         System.out.println(postLiveObject);
         if(postLiveObject==null){

@@ -2,7 +2,7 @@ package PostCommands;
 
 
 import Database.ArangoInstance;
-import Interface.Command;
+import Interface.ConcreteCommand;
 import Models.Message;
 import Models.PostDBObject;
 import Models.PostLiveObject;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class UpdatePost extends Command {
+public class UpdatePost extends ConcreteCommand {
 
     @Override
     protected void execute() {
@@ -44,22 +44,7 @@ public class UpdatePost extends Command {
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson((String) jsonObject.get("body").toString(), Message.class);
 
-        String s  = "";
-        if(message.getPost_id() == null){
-            s+= "post_id is missing";
-        }
-        if(message.getPost_object()==null){
-            s+= "post_object is missing";
-        }
-        if(s.isEmpty()) {
-            String post = gson.toJson(update_post(message.getPost_id(), message.getPost_object(), ArangoInstance, RLiveObjectService));
-            jsonObject.add("response",jsonParser.parse(post));
-        }else {
-            System.out.println(s);
-            JSONObject err = new JSONObject();
-            err.put("error",s);
-            jsonObject.add("response",jsonParser.parse(err.toString()));
-        }
+
 
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
@@ -70,6 +55,27 @@ public class UpdatePost extends Command {
         }
 
     }
+
+    @Override
+    protected void doCommand() {
+        String s  = "";
+        if(message.getPost_id() == null){
+            s+= "post_id is missing";
+        }
+        if(message.getPost_object()==null){
+            s+= "post_object is missing";
+        }
+        if(s.isEmpty()) {
+            String post = gson.toJson(update_post(message.getPost_id(), message.getPost_object(), ArangoInstance, RLiveObjectService));
+            responseJson = jsonParser.parse(post);
+        }else {
+            System.out.println(s);
+            JSONObject err = new JSONObject();
+            err.put("error",s);
+            responseJson = jsonParser.parse(err.toString());
+        }
+    }
+
     public PostDBObject update_post(String post_id, PostDBObject postDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.updatePost(post_id,postDBObject);
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);

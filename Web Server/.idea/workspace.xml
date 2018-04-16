@@ -2,12 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6095d737-99f6-4bc9-8438-77c6e114865f" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java" />
-      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" />
+      <change beforePath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" afterPath="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/../post/target/" />
@@ -24,71 +45,81 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="28" column="55" lean-forward="false" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ControlService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="152" column="4" lean-forward="false" selection-start-line="152" selection-start-column="4" selection-end-line="152" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PostService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="51" column="40" lean-forward="false" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="40" lean-forward="false" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#564#565#0" expanded="true" />
-                <element signature="e#619#620#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ConcreteCommand.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="16" lean-forward="true" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+            <state relative-caret-position="192">
+              <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemovePostFromBoard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemovePostFromCategory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="10" column="61" lean-forward="false" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Command.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
+      <file leaf-file-name="UpdateBoard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="36" />
-              <folding>
-                <element signature="e#208#209#0" expanded="true" />
-                <element signature="e#246#247#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="345">
+              <caret line="33" column="11" lean-forward="false" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateCategory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="20" column="11" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateComment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="7" column="52" lean-forward="false" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdatePost.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="371">
+              <caret line="69" column="50" lean-forward="false" selection-start-line="69" selection-start-column="50" selection-end-line="69" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,6 +141,7 @@
       <find>consumer</find>
       <find>maxDBConnections</find>
       <find>user</find>
+      <find>comment</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,32 +155,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/Service.java" />
-        <option value="$PROJECT_DIR$/../User Service/src/main/java/Service/UserService.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Database/ArangoInstance.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/Command.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteBoard.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteCategory.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeleteComment.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DeletePost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/DislikePost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetBoard.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetCategory.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetComment.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetPost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetPostsOfTag.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/GetTagsOfPost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertBoard.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertCategory.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertComment.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPostToBoard.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertPostToCategory.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertReply.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/InsertTag.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/LikePost.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/RemovePostFromBoard.java" />
-        <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/RemovePostFromCategory.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateBoard.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateCategory.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Commands/UpdateComment.java" />
@@ -161,7 +167,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Server/ImageWriter.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Cache/RedisConf.java" />
         <option value="$PROJECT_DIR$/../Post Service/src/main/java/Service/PostService.java" />
-        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/RemovePin.java" />
         <option value="$PROJECT_DIR$/../Service Server/pom.xml" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Models/Message.java" />
@@ -169,11 +174,38 @@
         <option value="$PROJECT_DIR$/src/main/java/MediaServer/MediaServer.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java" />
-        <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Services/UserService.java" />
         <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowCategories.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java" />
+        <option value="$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java" />
       </list>
     </option>
   </component>
@@ -293,6 +325,14 @@
             </path>
             <path>
               <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Service Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="UserCommands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Pinterest" type="b2602c69:ProjectViewProjectNode" />
               <item name="Web Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -332,6 +372,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -591,7 +632,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32941177" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32941177" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -671,216 +712,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Database/ArangoInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/BoardDBObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/BoardLiveObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/CategoryDBObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/CategoryLiveObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/CommentDBObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/PostDBObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/PostLiveObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/TagDBObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/TagLiveObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Post Service/post.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Post Service/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/singleNodeConfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../User Service/src/main/java/Cache/singleNodeConfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/AddBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/AddPin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/BlockUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/DislikePhoto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowCategories.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowHashtags.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/LikePhoto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/RemoveBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Models/UserLiveObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../User Service/src/main/java/Models/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -1024,14 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="16" lean-forward="true" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Database/ConfigurationInit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
@@ -1064,29 +887,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="36" />
-          <folding>
-            <element signature="e#208#209#0" expanded="true" />
-            <element signature="e#246#247#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="28" column="55" lean-forward="false" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
+        <state relative-caret-position="2043">
+          <caret line="152" column="4" lean-forward="false" selection-start-line="152" selection-start-column="4" selection-end-line="152" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java">
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        <state relative-caret-position="555">
+          <caret line="51" column="40" lean-forward="false" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -1103,18 +915,268 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Services/PostService.java">
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/Command.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="51" column="40" lean-forward="false" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
+        <state relative-caret-position="90">
+          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="36" />
+          <folding>
+            <element signature="e#208#209#0" expanded="true" />
+            <element signature="e#246#247#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/UserCommands/FollowCategories.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="25" column="62" lean-forward="true" selection-start-line="25" selection-start-column="62" selection-end-line="27" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ControlService.java">
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteComment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="152" column="4" lean-forward="false" selection-start-line="152" selection-start-column="4" selection-end-line="152" selection-end-column="4" />
+        <state relative-caret-position="165">
+          <caret line="12" column="11" lean-forward="false" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+          <folding>
+            <element signature="e#189#190#0" expanded="true" />
+            <element signature="e#259#260#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeleteBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="42" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="42" />
+          <folding>
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#350#351#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/ClientService/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="28" column="55" lean-forward="false" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="21" column="11" lean-forward="false" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPostsOfTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="47" lean-forward="false" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetPost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="28">
+          <caret line="11" column="46" lean-forward="false" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetComment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="12" column="50" lean-forward="false" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DislikePost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/DeletePost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding>
+            <element signature="e#262#263#0" expanded="true" />
+            <element signature="e#346#347#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/GetTagsOfPost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="52" lean-forward="false" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/LikePost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="47" lean-forward="false" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="48" lean-forward="false" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertReply.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="59" lean-forward="false" selection-start-line="9" selection-start-column="59" selection-end-line="9" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPostToBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="9" column="56" lean-forward="false" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertPost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertComment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="52" lean-forward="false" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="53" lean-forward="false" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/InsertBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="4" selection-start-column="50" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/Interface/ConcreteCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/RemovePostFromCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="61" lean-forward="false" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="33" column="11" lean-forward="false" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="11" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdateComment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="52" lean-forward="false" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Service Server/src/main/java/PostCommands/UpdatePost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="69" column="50" lean-forward="false" selection-start-line="69" selection-start-column="50" selection-end-line="69" selection-end-column="50" />
           <folding />
         </state>
       </provider>
