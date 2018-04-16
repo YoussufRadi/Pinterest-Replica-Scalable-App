@@ -7,13 +7,13 @@ import com.rabbitmq.client.Envelope;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public class GetUserCommand extends Command {
 
     public void execute() {
 
-        HashMap<String, Object> parameters = data;
+        TreeMap<String, Object> parameters = data;
 
         Channel channel = (Channel) parameters.get("channel");
 

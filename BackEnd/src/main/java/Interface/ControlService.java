@@ -7,8 +7,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.redisson.api.RLiveObjectService;
+
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
@@ -77,7 +78,7 @@ public abstract class ControlService {
                         Class com = Class.forName(RPC_QUEUE_NAME+"Commands." + className);
                         Command cmd = (Command) com.newInstance();
 
-                        HashMap<String, Object> init = new HashMap<>();
+                        TreeMap<String, Object> init = new TreeMap<>();
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);
@@ -118,6 +119,8 @@ public abstract class ControlService {
         }
     }
 
+    public abstract void setMaxDBConnections(int connections);
+
     public void setMaxThreadsSize(int threads){
         threadsNo =threads;
         executor.setMaximumPoolSize(threads);
@@ -140,11 +143,23 @@ public abstract class ControlService {
     }
 
     //TODO
-    public abstract void setMaxDBConnections(int connections);
-//    public abstract void add_command();
-//    public abstract void delete_command();
-//    public abstract void update_command();
-//    public abstract void update_class();
-//    public abstract void set_error_reporting_level();
+    public void add_command(String commandName, String filePath){
+
+    }
+
+    //TODO
+    public void delete_command(String commandName){
+
+    }
+
+    public void update_command(String commandName, String filePath){
+        delete_command(commandName);
+        add_command(commandName, filePath);
+    }
+
+    //TODO
+    public void set_error_reporting_level(int level){
+
+    }
     
 }

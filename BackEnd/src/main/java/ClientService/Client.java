@@ -1,6 +1,7 @@
 package ClientService;
 
 import Interface.ControlService;
+import Models.ControlMessage;
 import Services.PostService;
 import Services.UserService;
 import io.netty.bootstrap.Bootstrap;
@@ -16,8 +17,9 @@ import java.util.Scanner;
 public class Client {
 
     private String server;
+    private String serviceName;
     private int port;
-    private ControlService service;
+    protected static ControlService service;
     private static Channel channel;
 
     private Client(String server, int port) {
@@ -26,7 +28,8 @@ public class Client {
     }
 
     private void initService(String serviceName, String host, int port, int threadNo, int dbConnections){
-        switch (serviceName.toLowerCase()){
+        this.serviceName = serviceName;
+        switch (this.serviceName.toLowerCase()){
             case "post": service = new PostService(host,port,threadNo,dbConnections); break;
             case "user": service = new UserService(host,port,threadNo,dbConnections); break;
         }
@@ -63,7 +66,10 @@ public class Client {
             });
             t.start();
 
+            Client.channel.writeAndFlush(new ControlMessage("init", serviceName));
+
             channelFuture.channel().closeFuture().sync();
+
 
         } catch (Exception e) {
             e.printStackTrace();

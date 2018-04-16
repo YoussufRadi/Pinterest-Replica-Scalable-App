@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
@@ -52,7 +52,7 @@ public class UserService {
                         String className = "ServiceTest." + (String)jsonRequest.get("command");
                         Class com = Class.forName(className);
                         Command cmd = (Command) com.newInstance();
-                        HashMap<String, Object> init = new HashMap<String, Object>();
+                        TreeMap<String, Object> init = new TreeMap<>();
                         init.put("channel", channel);
                         init.put("properties", properties);
                         init.put("replyProps", replyProps);

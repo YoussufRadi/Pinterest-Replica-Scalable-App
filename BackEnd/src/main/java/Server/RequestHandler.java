@@ -41,13 +41,13 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
             String service = (String) body.get("application");
             jsonRequest.put("application", service);
 
-            String imageName = "";
-            if(body.has("Image"))
-                imageName = ImageWriter.write((String)body.get("Image"));
+            if (body.has("Image")){
+                String imageName = ImageWriter.write((String) body.get("Image"));
+                body.remove("Image");
+                body.put("imageUrl", imageName);
+//                System.out.println("Image Name : " + imageName);
+            }
 
-//            System.out.println("Image Name : " + imageName);
-            body.remove("Image");
-            body.put("imageUrl", imageName);
             jsonRequest.put("body", body);
 
             transmitRequest(corrId,jsonRequest,channelHandlerContext);

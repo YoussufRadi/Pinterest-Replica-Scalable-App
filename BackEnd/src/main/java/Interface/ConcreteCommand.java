@@ -9,7 +9,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
 import org.redisson.api.RLiveObjectService;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public abstract class ConcreteCommand extends Command {
 
@@ -17,7 +17,7 @@ public abstract class ConcreteCommand extends Command {
     protected RLiveObjectService RLiveObjectService;
     protected ArangoInstance ArangoInstance;
     protected UserCacheController UserCacheController;
-    private HashMap<String, Object> parameters = data;
+    private TreeMap<String, Object> parameters = data;
     protected Message message;
     protected JsonElement responseJson = new JsonObject();
     protected Gson gson;

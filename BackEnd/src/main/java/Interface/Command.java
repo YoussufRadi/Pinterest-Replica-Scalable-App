@@ -1,12 +1,12 @@
 package Interface;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public abstract class Command implements Runnable {
 
-    protected HashMap<String, Object> data;
+    protected TreeMap<String, Object> data;
 
-    final public void init(HashMap<String, Object> parameters) {
+    final public void init(TreeMap<String, Object> parameters) {
         this.data = parameters;
     }
 

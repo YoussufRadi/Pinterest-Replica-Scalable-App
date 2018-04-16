@@ -3,8 +3,9 @@ package ClientService;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 
 
 public class ClientAdapterInitializer extends ChannelInitializer<SocketChannel> {
@@ -13,10 +14,10 @@ public class ClientAdapterInitializer extends ChannelInitializer<SocketChannel> 
     protected void initChannel(SocketChannel channel) {
         ChannelPipeline pipeline = channel.pipeline();
 
-        pipeline.addLast("decoder", new StringDecoder());
-        pipeline.addLast("encoder", new StringEncoder());
+        pipeline.addLast("decoder", new ObjectDecoder(ClassResolvers
+                .cacheDisabled(getClass().getClassLoader())));
+        pipeline.addLast("encode", new ObjectEncoder());
         pipeline.addLast("handler", new ClientAdapterHandler());
-
     }
 
 }

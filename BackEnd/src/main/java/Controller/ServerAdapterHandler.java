@@ -1,5 +1,6 @@
 package Controller;
 
+import Models.ControlMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,7 +16,7 @@ public class ServerAdapterHandler extends
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("[START] New Container has been initialzed");
+        System.out.println("[START] New Container has been initialzed " + ctx.channel().localAddress());
         channels.add(ctx.channel());
         super.handlerAdded(ctx);
     }
@@ -29,8 +30,15 @@ public class ServerAdapterHandler extends
 
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
-        System.out.println("channelRead");
         Channel currentChannel = arg0.channel();
+
+        if(arg1 instanceof ControlMessage){
+            ControlMessage m = (ControlMessage) arg1;
+            if(m.getControlCommand().equals("init"))
+                Server.services.get(m.getParam()).add(currentChannel);
+            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Server.services.get(m.getParam()).size()-1));
+        }
+
         System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
     }
 
@@ -42,6 +50,7 @@ public class ServerAdapterHandler extends
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext arg0) {
         System.out.println("channelWritabilityChanged");
+        System.out.println();
     }
 
 }
