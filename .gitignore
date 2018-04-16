@@ -1,29 +1,28 @@
 # Maven Ignore
 
 target/
-Web Server/target/
-Service Server/target
+BackEnd/target/
 */target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
+BackEnd/pom.xml.tag
+BackEnd/pom.xml.releaseBackup
+BackEnd/pom.xml.versionsBackup
+BackEnd/pom.xml.next
+BackEnd/release.properties
+BackEnd/dependency-reduced-pom.xml
+BackEnd/buildNumber.properties
+BackEnd/.mvn/timing.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
-!/.mvn/wrapper/maven-wrapper.jar
+!/BackEnd/.mvn/wrapper/maven-wrapper.jar
 
 # IntelliJ 
 .idea/
-Web Server/.idea/
+BackEnd/.idea/
 */.idea/
 *.iml
 *.iws
-*/*.iml
-*/*.iws
+BackEnd/*.iml
+BackEnd/*.iws
 
 # General Ignore
 *~
@@ -32,8 +31,7 @@ Web Server/.idea/
 
 # Apple Os Ignore
 .DS_Store
-Web Server/.DS_Store
-Service Server/.DS_Store
+BackEnd/.DS_Store
 */.DS_Store
 .AppleDouble
 .LSOverride
