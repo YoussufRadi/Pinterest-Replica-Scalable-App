@@ -31,7 +31,7 @@ public class UpdatePost extends ConcreteCommand {
         }
     }
 
-    public PostDBObject update_post(String post_id, PostDBObject postDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
+    private PostDBObject update_post(String post_id, PostDBObject postDBObject, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
         arangoInstance.updatePost(post_id,postDBObject);
         PostLiveObject postLiveObject = liveObjectService.get(PostLiveObject.class,post_id);
         if (postLiveObject!= null){
