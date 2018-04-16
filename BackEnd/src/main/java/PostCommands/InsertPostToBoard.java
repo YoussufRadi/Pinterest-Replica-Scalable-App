@@ -1,5 +1,4 @@
-package postCommands;
-
+package PostCommands;
 
 import Database.ArangoInstance;
 import Interface.ConcreteCommand;
@@ -8,16 +7,16 @@ import Models.BoardLiveObject;
 import org.redisson.api.RLiveObjectService;
 
 
-public class RemovePostFromBoard extends ConcreteCommand {
+public class InsertPostToBoard extends ConcreteCommand {
 
     @Override
     protected void doCommand() {
-        String board = gson.toJson(removePostFromBoard(message.getBoard_id(),message.getPost_id(), ArangoInstance, RLiveObjectService));
+        String board = gson.toJson(insertPostToBoard(message.getPost_id(),message.getBoard_id(), ArangoInstance, RLiveObjectService));
         responseJson = jsonParser.parse(board);
     }
 
-    private BoardDBObject removePostFromBoard(String board_id, String post_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
-        arangoInstance.removePostFromBoard(board_id,post_id);
+    private BoardDBObject insertPostToBoard(String post_id, String board_id, ArangoInstance arangoInstance, RLiveObjectService liveObjectService){
+        arangoInstance.insertPostToBoard(board_id,post_id);
         BoardDBObject boardDBObject = arangoInstance.getBoard(board_id);
         BoardLiveObject boardLiveObject = liveObjectService.get(BoardLiveObject.class,board_id);
         if(boardLiveObject != null){
@@ -26,6 +25,6 @@ public class RemovePostFromBoard extends ConcreteCommand {
             boardLiveObject.setUser_id(boardDBObject.getUser_id());
         }
         return boardDBObject;
-    }
 
+    }
 }

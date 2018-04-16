@@ -1,4 +1,4 @@
-package postCommands;
+package PostCommands;
 
 import Interface.ConcreteCommand;
 
