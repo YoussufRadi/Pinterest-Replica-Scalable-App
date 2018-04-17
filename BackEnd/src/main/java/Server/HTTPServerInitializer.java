@@ -1,5 +1,6 @@
 package Server;
 
+import Config.Config;
 import com.rabbitmq.client.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -19,18 +20,24 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 
 public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
 
+    private Config config = Config.getInstance();
     private HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
     private Channel receiverChannel;
     private Channel senderChannel;
-    private String loadBalancerHost = "localhost";
-    private int loadBalancerPort = 5672;
-    private String serverHost = "localhost";
-    private int serverPort = 5672;
-    private String RPC_QUEUE_REPLY_TO;
-    private String RPC_QUEUE_SEND_TO = "load_balancer";
+
+    private String loadBalancerHost = config.getLoadBalancerQueueHost();
+    private int loadBalancerPort = config.getLoadBalancerQueuePort();
+    private String loadBalancerUser = config.getLoadBalancerQueueUserName();
+    private String loadBalancerPass = config.getLoadBalancerQueuePass();
+    private String RPC_QUEUE_SEND_TO = config.getLoadBalancerQueueName();
+
+    private String serverHost = config.getServerQueueHost();
+    private int serverPort = config.getServerQueuePort();
+    private String serverUser = config.getServerQueueUserName();
+    private String serverPass = config.getServerQueuePass();
+    private String RPC_QUEUE_REPLY_TO = config.getServerQueueName();
 
     public HTTPServerInitializer(int port) {
-        RPC_QUEUE_REPLY_TO = port+"";
         establishLoadBalancerConnection();
         establishServerConnection();
         serverQueue();
@@ -55,6 +62,8 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         ConnectionFactory loadBalancerFactory = new ConnectionFactory();
         loadBalancerFactory.setHost(loadBalancerHost);
         loadBalancerFactory.setPort(loadBalancerPort);
+        loadBalancerFactory.setUsername(loadBalancerUser);
+        loadBalancerFactory.setPassword(loadBalancerPass);
         Connection connection;
         try {
             connection = loadBalancerFactory.newConnection();
@@ -69,6 +78,8 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
         ConnectionFactory serverFactory = new ConnectionFactory();
         serverFactory.setHost(serverHost);
         serverFactory.setPort(serverPort);
+        serverFactory.setUsername(serverUser);
+        serverFactory.setPassword(serverPass);
         Connection connection;
         try {
             connection = serverFactory.newConnection();

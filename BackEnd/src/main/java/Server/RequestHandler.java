@@ -72,7 +72,7 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
                     .correlationId(corrId)
                     .replyTo(RPC_QUEUE_REPLY_TO)
                     .build();
-            System.out.println("Sent   : "+ jsonRequest.toString());
+            System.out.println("Sent   : " + jsonRequest.toString());
             System.out.println();
             senderChannel.basicPublish("", RPC_QUEUE_SEND_TO, props, jsonRequest.toString().getBytes());
         } catch (Exception e) {

@@ -2,6 +2,9 @@ package Server;
 
 
 
+import Config.Config;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -10,11 +13,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
-import javax.imageio.ImageIO;
-
 public class ImageWriter {
+
+    private static Config conf = Config.getInstance();
 
     public static String write(String s){
         String[] base64 = s.split(",",2);
@@ -45,7 +46,7 @@ public class ImageWriter {
             BufferedImage image = ImageIO.read(bis);
             UUID uuid = UUID.randomUUID();
             name = uuid.toString()+"."+mimeType;
-            File outputFile = new File("/Users/youssuf/mnt/mfs/images/"+name);
+            File outputFile = new File(conf.getMediaServerPath()+name);
             ImageIO.write(image, mimeType, outputFile);
             bis.close();
         }catch(IOException e){

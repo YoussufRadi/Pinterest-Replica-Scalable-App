@@ -1,12 +1,11 @@
 package Config;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 public class Config {
 
-    private static Config instance;
+    private static Config instance = new Config();
 
     private final Properties arangoConfig = new Properties();
     private final Properties controllerConfig = new Properties();
@@ -44,18 +43,111 @@ public class Config {
         }
     }
 
-    public static void init(){
-        if(instance == null)
-            instance = new Config();
-    }
-
     public static Config getInstance(){
-        init();
         return instance;
     }
 
+    public void setProperty(ConfigTypes config, String key, String val){
+        Properties props = null;
+        String path = null;
+        switch (config){
+            case Arango:
+                props = arangoConfig;
+                path = arangoPath;
+                break;
+            case Controller:
+                props = controllerConfig;
+                path = controllerPath;
+                break;
+            case LoadBalancer:
+                props = loadBalancerConfig;
+                path = loadBalancerPath;
+                break;
+            case MediaServer:
+                props = mediaServerConfig;
+                path = mediaServerPath;
+                break;
+            case MqInstance:
+                props = mqInstanceConfig;
+                path = mqInstancePath;
+                break;
+            case Service:
+                props = serviceConfig;
+                path = servicePath;
+                break;
+            case WebServer:
+                props = webServerConfig;
+                path = webServerpath;
+                break;
+        }
+        props.setProperty(key,val);
+        writeConfig(props, path);
+    }
+
+    private void writeConfig(Properties config, String path){
+        OutputStream out;
+        try {
+            out = new FileOutputStream(path, false);
+            config.store(out, "");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Server Configs
 
     public int getWebServerPort() {
         return Integer.parseInt(webServerConfig.getProperty("server.port"));
+    }
+
+    public String getServerQueueHost() {
+        return webServerConfig.getProperty("server.rabbitmq.host");
+    }
+
+    public int getServerQueuePort() {
+        return Integer.parseInt(webServerConfig.getProperty("server.rabbitmq.port"));
+    }
+
+    public String getServerQueueUserName() {
+        return webServerConfig.getProperty("server.rabbitmq.username");
+    }
+
+    public String getServerQueuePass() {
+        return webServerConfig.getProperty("server.rabbitmq.password");
+    }
+
+    public String getServerQueueName() {
+        return webServerConfig.getProperty("server.rabbitmq.queue");
+    }
+
+
+    //LoadBalancer Configs
+
+    public String getLoadBalancerQueueHost() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.host");
+    }
+
+    public int getLoadBalancerQueuePort() {
+        return Integer.parseInt(loadBalancerConfig.getProperty("load.balancer.rabbitmq.port"));
+    }
+
+    public String getLoadBalancerQueueUserName() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.username");
+    }
+
+    public String getLoadBalancerQueuePass() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.password");
+    }
+
+    public String getLoadBalancerQueueName() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.queue");
+    }
+
+
+    //MediaServer Configs
+
+    public String getMediaServerPath() {
+        return mediaServerConfig.getProperty("media.server.file.path");
     }
 }
