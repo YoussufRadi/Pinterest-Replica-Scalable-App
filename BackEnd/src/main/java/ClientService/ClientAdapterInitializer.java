@@ -14,9 +14,9 @@ public class ClientAdapterInitializer extends ChannelInitializer<SocketChannel> 
     protected void initChannel(SocketChannel channel) {
         ChannelPipeline pipeline = channel.pipeline();
 
+        pipeline.addLast("encode", new ObjectEncoder());
         pipeline.addLast("decoder", new ObjectDecoder(ClassResolvers
                 .cacheDisabled(getClass().getClassLoader())));
-        pipeline.addLast("encode", new ObjectEncoder());
         pipeline.addLast("handler", new ClientAdapterHandler());
     }
 
