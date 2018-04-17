@@ -13,12 +13,10 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
         if(arg1 instanceof String) {
             System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
         }
-        else if(arg1 instanceof ControlMessage){
-            ControlMessage m = (ControlMessage) arg1;
-            controlService(m);
-            System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + m.getControlCommand());
-        }
+        else if(arg1 instanceof ControlMessage)
+            controlService((ControlMessage) arg1);
         System.out.println("READ");
+        System.out.println();
         currentChannel.writeAndFlush("[Server] - Success" + "\r\n");
     }
 

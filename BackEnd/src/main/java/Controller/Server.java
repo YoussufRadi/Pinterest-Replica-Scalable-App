@@ -8,7 +8,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,42 +64,27 @@ public class Server {
         ControlMessage delete = new ControlMessage("delete", "newCommand");
         ControlMessage update = new ControlMessage("update", "newCommand", "/Command/path");
         ControlMessage error = new ControlMessage("error", "1");
+        ControlMessage freeze = new ControlMessage("freeze");
 
         Thread t = new Thread(() -> {
             Scanner sc = new Scanner(System.in);
             while (true){
                 String line[] = sc.nextLine().split(" ");
 
-                ControlMessage freeze = new ControlMessage("freeze");
-//                for(Channel c : ServerAdapterHandler.channels)
-//                    c.writeAndFlush("hello");
-                if(line[2]!=null && line[2].equals("add")){
-                    //TODO read file then convert to byteBuff
-                    FileReader fileReader =
-                            null;
-
-                    String commandName = line[3];
-                    String sourceCode  = "";
-                    try {
-                        fileReader = new FileReader(line[4]);
-                        BufferedReader bufferedReader =
-                                new BufferedReader(fileReader);
-
-                        String nline = null;
-
-                        while((nline = bufferedReader.readLine()) != null) {
-                            sourceCode+=nline+"\n";
-                        }
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("hello");
-                    ControlMessage controlMessage =  new ControlMessage("add",commandName,sourceCode);
-                    sendToChannel(line[0],line[1],controlMessage);
+                if(line.length < 3){
+                    System.out.println("Parameters are not enough");
+                    continue;
                 }
+
+                ControlMessage controlMessage;
+                if(line.length == 3)
+                    controlMessage =  new ControlMessage(line[2]);
+                else if(line.length == 4)
+                    controlMessage =  new ControlMessage(line[2], line[3]);
+                else
+                    controlMessage =  new ControlMessage(line[2],line[3],readFile(line[4]));
+
+                sendToChannel(line[0],line[1],controlMessage);
             }
         });
         t.start();
@@ -116,6 +100,25 @@ public class Server {
             else System.out.println("Service Id : " + id + " doesn't exist");
         }
         else System.out.println("Service Name : " + name + " doesn't exist");
+    }
+
+    private String readFile(String path){
+        String sourceCode  = "";
+        try {
+            FileReader fileReader = new FileReader(path);
+            BufferedReader bufferedReader =
+                    new BufferedReader(fileReader);
+
+            String nline = null;
+
+            while((nline = bufferedReader.readLine()) != null) {
+                sourceCode+=nline+"\n";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sourceCode;
     }
     // Example
     // post 0 add GetKhara /home/aboelenien/Desktop/GetKhara.txt
