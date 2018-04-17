@@ -134,13 +134,11 @@ public abstract class ControlService {
 
     //TODO
     public void add_command(String commandName, String source_code){
-        FileWriter fileWriter =
-                null;
+        FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter("src/main/java/"+RPC_QUEUE_NAME+"Commands/"+commandName+".java");
+            fileWriter = new FileWriter("target/classes/"+RPC_QUEUE_NAME+"Commands/"+commandName+".class");
             BufferedWriter bufferedWriter =
                     new BufferedWriter(fileWriter);
-            String line = null;
             bufferedWriter.write(source_code);
             bufferedWriter.close();
         } catch (IOException e) {

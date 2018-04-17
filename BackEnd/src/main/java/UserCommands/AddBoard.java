@@ -1,7 +1,6 @@
 package UserCommands;
 
 import Interface.ConcreteCommand;
-
 import java.util.UUID;
 
 public class AddBoard extends ConcreteCommand {

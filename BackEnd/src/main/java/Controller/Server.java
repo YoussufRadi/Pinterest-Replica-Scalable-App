@@ -3,6 +3,7 @@ package Controller;
 import Models.ControlMessage;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -39,7 +40,8 @@ public class Server {
             ServerBootstrap bootstrap = new ServerBootstrap()
                     .group(producer, consumer)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ServerAdapterInitializer());
+                    .childHandler(new ServerAdapterInitializer())
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);;
             System.out.println("Server started");
             System.out.println();
 

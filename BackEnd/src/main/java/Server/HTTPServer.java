@@ -1,15 +1,20 @@
 package Server;
 
+import Config.Config;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import static io.netty.buffer.Unpooled.copiedBuffer;
-
 public class HTTPServer {
 
-    public static void start(int port) {
+    private int port;
+
+    private void start() {
+
+        Config c = Config.getInstance();
+        port = c.getWebServerPort();
         EventLoopGroup bossGroup = new NioEventLoopGroup(2);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -36,6 +41,7 @@ public class HTTPServer {
 
     public static void main(String[] args) {
 
-        HTTPServer.start(8080);
+        HTTPServer s = new HTTPServer();
+        s.start();
     }
 }

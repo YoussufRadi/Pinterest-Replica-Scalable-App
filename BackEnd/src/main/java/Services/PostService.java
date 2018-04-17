@@ -41,31 +41,4 @@ public class PostService extends ControlService {
         PostService postService = new PostService("localhost",5672,15,15);
         //postService.add_command("GetKhara","/home/aboelenien/Desktop/GetKhara.txt");
     }
-
-//    @Override
-//    public void add_command(String commandName, String filePath) {
-//
-//        try {
-//            FileWriter fileWriter =
-//                    new FileWriter("src/main/java/PostCommands/"+commandName+".java");
-//            BufferedWriter bufferedWriter =
-//                    new BufferedWriter(fileWriter);
-//            FileReader fileReader =
-//                    new FileReader(filePath);
-//            BufferedReader bufferedReader =
-//                    new BufferedReader(fileReader);
-//
-//            String line = null;
-//            while((line = bufferedReader.readLine()) != null) {
-//                bufferedWriter.write(line);
-//                bufferedWriter.newLine();
-//            }
-//            bufferedWriter.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }
