@@ -7,6 +7,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -70,10 +74,35 @@ public class Server {
                 ControlMessage freeze = new ControlMessage("freeze");
 //                for(Channel c : ServerAdapterHandler.channels)
 //                    c.writeAndFlush("hello");
-                if(services.containsKey(line[0])){
+                if(line[2].equals("file")){
+                    //TODO read file then convert to byteBuff
+                    FileReader fileReader =
+                            null;
+                    System.out.println(line[3]);
+                    String sourceCode = line[3]+":::";
+                    try {
+                        fileReader = new FileReader(line[4]);
+                        BufferedReader bufferedReader =
+                                new BufferedReader(fileReader);
+
+                        String nline = null;
+
+                        while((nline = bufferedReader.readLine()) != null) {
+                            sourceCode+=nline+"\n";
+                        }
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(sourceCode);
+                }
+                else if(services.containsKey(line[0])){
                     ArrayList<Channel> channels = services.get(line[0]);
                     if(channels.size() > Integer.parseInt(line[1])){
-                        Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(freeze).notify();
+                        Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(line[2]);
                     }
                     else System.out.println("Service Id : " + line[1] + " doesn't exist");
                 }

@@ -10,8 +10,14 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
         Channel currentChannel = arg0.channel();
-        if(arg1 instanceof String)
+        if(arg1 instanceof String) {
             System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
+            System.out.println(arg1.toString());
+            String commandName = arg1.toString().split("||||")[0];
+            System.out.println(commandName);
+            String source_code = arg1.toString().split("||||")[1];
+            Client.service.add_command(commandName,source_code);
+        }
         else if(arg1 instanceof ControlMessage){
             ControlMessage m = (ControlMessage) arg1;
             controlService(m);

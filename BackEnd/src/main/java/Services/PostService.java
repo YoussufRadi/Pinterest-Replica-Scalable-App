@@ -4,7 +4,7 @@ import Cache.RedisConf;
 import Database.ArangoInstance;
 import Interface.ControlService;
 
-import java.io.IOException;
+import java.io.*;
 
 public class PostService extends ControlService {
 
@@ -14,6 +14,7 @@ public class PostService extends ControlService {
 
     public PostService(String host, int port, int threadsNo, int maxDBConnections) {
         super(host,port,threadsNo, maxDBConnections, "Post");
+
     }
 
     @Override
@@ -37,8 +38,34 @@ public class PostService extends ControlService {
     public static void main(String [] args) {
         dbUserName = "root";
         dbPass = "pass";
-        new PostService("localhost",5672,15,15);
+        PostService postService = new PostService("localhost",5672,15,15);
+        //postService.add_command("GetKhara","/home/aboelenien/Desktop/GetKhara.txt");
     }
 
-
+//    @Override
+//    public void add_command(String commandName, String filePath) {
+//
+//        try {
+//            FileWriter fileWriter =
+//                    new FileWriter("src/main/java/PostCommands/"+commandName+".java");
+//            BufferedWriter bufferedWriter =
+//                    new BufferedWriter(fileWriter);
+//            FileReader fileReader =
+//                    new FileReader(filePath);
+//            BufferedReader bufferedReader =
+//                    new BufferedReader(fileReader);
+//
+//            String line = null;
+//            while((line = bufferedReader.readLine()) != null) {
+//                bufferedWriter.write(line);
+//                bufferedWriter.newLine();
+//            }
+//            bufferedWriter.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

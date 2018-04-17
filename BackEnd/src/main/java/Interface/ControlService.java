@@ -8,6 +8,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.redisson.api.RLiveObjectService;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
@@ -146,7 +148,19 @@ public abstract class ControlService {
     }
 
     //TODO
-    public void add_command(String commandName, String filePath){
+    public void add_command(String commandName, String source_code){
+        FileWriter fileWriter =
+                null;
+        try {
+            fileWriter = new FileWriter("src/main/java/"+RPC_QUEUE_NAME+"Commands/"+commandName+".java");
+            BufferedWriter bufferedWriter =
+                    new BufferedWriter(fileWriter);
+            String line = null;
+            bufferedWriter.write(source_code);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
