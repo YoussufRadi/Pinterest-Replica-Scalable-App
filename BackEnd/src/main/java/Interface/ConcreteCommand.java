@@ -6,7 +6,6 @@ import Models.Message;
 import com.google.gson.*;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Envelope;
 import org.redisson.api.RLiveObjectService;
 
 import java.util.TreeMap;
@@ -37,7 +36,7 @@ public abstract class ConcreteCommand extends Command {
             Channel channel = (Channel) parameters.get("channel");
             AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
             AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
-            Envelope envelope = (Envelope) parameters.get("envelope");
+//            Envelope envelope = (Envelope) parameters.get("envelope");
 
             jsonParser = new JsonParser();
             JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));

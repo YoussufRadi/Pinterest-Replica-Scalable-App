@@ -73,7 +73,7 @@ public class Server {
                 if(services.containsKey(line[0])){
                     ArrayList<Channel> channels = services.get(line[0]);
                     if(channels.size() > Integer.parseInt(line[1])){
-                        Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(freeze).notify();
+                        Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(freeze);
                     }
                     else System.out.println("Service Id : " + line[1] + " doesn't exist");
                 }
