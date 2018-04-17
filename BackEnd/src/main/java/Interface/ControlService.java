@@ -96,7 +96,7 @@ public abstract class ControlService {
                     }
                 }
             };
-            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
+            consumerTag = channel.basicConsume(RPC_QUEUE_NAME, true, consumer);
 
 
         } catch (IOException | TimeoutException e) {

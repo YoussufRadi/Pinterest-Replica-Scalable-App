@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 public class LoadBalancer {
-    private static final String HOST = "localhost";
-    private static final int PORT = 5672;
-    private static final String RPC_QUEUE_NAME = "load_balancer";
-    private static final String POST_QUEUE_NAME = "Post";
-    private static final String USER_QUEUE_NAME = "User";
-    private static final String CHAT_QUEUE_NAME = "Chat";
+    private final String HOST = "localhost";
+    private final int PORT = 5672;
+    private final String RPC_QUEUE_NAME = "load_balancer";
+    private final String POST_QUEUE_NAME = "Post-Load-Balancer";
+    private final String USER_QUEUE_NAME = "User-Load-Balancer";
+    private final String CHAT_QUEUE_NAME = "Chat-Load-Balancer";
 
 //    static ExecutorService executorService = Executors.newFixedThreadPool(15);
 
@@ -40,12 +40,12 @@ public class LoadBalancer {
 
 
                         String appName = (String) jsonRequest.get("application");
-                        Channel receiver = REQUEST_CHANNEL_MAP.get(appName);
+                        Channel receiver = REQUEST_CHANNEL_MAP.get(appName + "-Load-Balancer");
                         System.out.println("Request    :   " + message);
                         System.out.println("Application    :   " + appName);
                         System.out.println();
 
-                        receiver.basicPublish("", appName, properties, body);
+                        receiver.basicPublish("", appName + "-Load-Balancer", properties, body);
 
                     } catch (RuntimeException| IOException e) {
                         e.printStackTrace();
