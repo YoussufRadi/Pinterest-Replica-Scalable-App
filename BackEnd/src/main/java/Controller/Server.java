@@ -74,12 +74,13 @@ public class Server {
                 ControlMessage freeze = new ControlMessage("freeze");
 //                for(Channel c : ServerAdapterHandler.channels)
 //                    c.writeAndFlush("hello");
-                if(line[2].equals("file")){
+                if(line[2]!=null && line[2].equals("add")){
                     //TODO read file then convert to byteBuff
                     FileReader fileReader =
                             null;
-                    System.out.println(line[3]);
-                    String sourceCode = line[3]+":::";
+
+                    String commandName = line[3];
+                    String sourceCode  = "";
                     try {
                         fileReader = new FileReader(line[4]);
                         BufferedReader bufferedReader =
@@ -96,21 +97,26 @@ public class Server {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(sourceCode);
+                    System.out.println("hello");
+                    ControlMessage controlMessage =  new ControlMessage("add",commandName,sourceCode);
+                    sendToChannel(line[0],line[1],controlMessage);
                 }
-                else if(services.containsKey(line[0])){
-                    ArrayList<Channel> channels = services.get(line[0]);
-                    if(channels.size() > Integer.parseInt(line[1])){
-                        Server.services.get(line[0]).get(Integer.parseInt(line[1])).writeAndFlush(freeze);
-
-                    }
-                    else System.out.println("Service Id : " + line[1] + " doesn't exist");
-                }
-                else System.out.println("Service Name : " + line[0] + " doesn't exist");
             }
         });
         t.start();
     }
 
+    private void sendToChannel(String name, String id, ControlMessage m){
+        if(services.containsKey(name)){
+            ArrayList<Channel> channels = services.get(name);
+            if(channels.size() > Integer.parseInt(id)){
+                Server.services.get(name).get(Integer.parseInt(id)).writeAndFlush(m);
+
+            }
+            else System.out.println("Service Id : " + id + " doesn't exist");
+        }
+        else System.out.println("Service Name : " + name + " doesn't exist");
+    }
+    // Example
+    // post 0 add GetKhara /home/aboelenien/Desktop/GetKhara.txt
 }
