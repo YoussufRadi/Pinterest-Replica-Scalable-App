@@ -26,10 +26,10 @@ public abstract class ControlService {
     private  ThreadPoolExecutor executor;
 
     protected String RPC_QUEUE_NAME; //set by init
-    private String host = conf.getServiceQueueHost();
-    private int port = conf.getServiceQueuePort();
-    private String user = conf.getServiceQueueUserName();
-    private String pass = conf.getServiceQueuePass();
+    private String host = conf.getMqInstanceQueueHost();
+    private int port = conf.getMqInstanceQueuePort();
+    private String user = conf.getMqInstanceQueueUserName();
+    private String pass = conf.getMqInstanceQueuePass();
     private Channel channel;
     private String consumerTag;
     private Consumer consumer;
@@ -111,11 +111,18 @@ public abstract class ControlService {
         }
     }
 
-    public abstract void setMaxDBConnections(int connections);
+    public void setMaxDBConnections(int connections){
+        setDBConnections(connections);
+        conf.setProperty(Config.ConfigTypes.Service, "service.max.db", String.valueOf(connections));
+
+    }
+
+    protected abstract void setDBConnections(int connections);
 
     public void setMaxThreadsSize(int threads){
         threadsNo =threads;
         executor.setMaximumPoolSize(threads);
+        conf.setProperty(Config.ConfigTypes.Service, "service.max.thread", String.valueOf(threads));
     }
 
     public void resume() {

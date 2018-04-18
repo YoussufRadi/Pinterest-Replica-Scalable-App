@@ -30,13 +30,13 @@ public class Client {
 
     private void initService(ServicesTypes serviceName){
         switch (serviceName){
+            case user:
+            service = new UserService();
+            this.serviceName = conf.getMqInstanceUserQueue();
+            break;
             case post:
                 service = new PostService();
-                this.serviceName = conf.getServicePostQueue();
-                break;
-            case user:
-                service = new UserService();
-                this.serviceName = conf.getServiceUserQueue();
+                this.serviceName = conf.getMqInstancePostQueue();
                 break;
             //TODO Chat Service
         }

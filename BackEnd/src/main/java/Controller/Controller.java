@@ -30,9 +30,9 @@ public class Controller {
 
     private Controller(){
         services = new TreeMap<>();
-        services.put(conf.getServiceUserQueue(), new ArrayList<>());
-        services.put(conf.getServicePostQueue(), new ArrayList<>());
-        services.put(conf.getServiceChatQueue(), new ArrayList<>());
+        services.put(conf.getMqInstanceUserQueue(), new ArrayList<>());
+        services.put(conf.getMqInstancePostQueue(), new ArrayList<>());
+        services.put(conf.getMqInstanceChatQueue(), new ArrayList<>());
     }
 
     private void start() {

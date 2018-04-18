@@ -10,7 +10,7 @@ public class UserService extends ControlService {
 
     @Override
     public void init() {
-        RPC_QUEUE_NAME = conf.getServiceUserQueue();
+        RPC_QUEUE_NAME = conf.getMqInstanceUserQueue();
         try {
             userCacheController = new UserCacheController();
         } catch (IOException e) {
@@ -19,7 +19,7 @@ public class UserService extends ControlService {
     }
 
     @Override
-    public void setMaxDBConnections(int connections) {
+    public void setDBConnections(int connections) {
         // TODO @soudian
     }
 

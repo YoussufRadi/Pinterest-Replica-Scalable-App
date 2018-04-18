@@ -1,4 +1,4 @@
-package Server;
+package WebServer;
 
 import com.rabbitmq.client.*;
 import io.netty.buffer.ByteBuf;

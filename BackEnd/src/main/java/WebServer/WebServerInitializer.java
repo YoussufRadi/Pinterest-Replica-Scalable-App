@@ -1,4 +1,4 @@
-package Server;
+package WebServer;
 
 import Config.Config;
 import com.rabbitmq.client.*;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
 
 import static io.netty.buffer.Unpooled.copiedBuffer;
 
-public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
+public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private Config config = Config.getInstance();
     private HashMap<String, ChannelHandlerContext> uuid = new HashMap<String, ChannelHandlerContext>();
@@ -37,7 +37,7 @@ public class HTTPServerInitializer extends ChannelInitializer<SocketChannel> {
     private String serverPass = config.getServerQueuePass();
     private String RPC_QUEUE_REPLY_TO = config.getServerQueueName();
 
-    public HTTPServerInitializer(int port) {
+    public WebServerInitializer(int port) {
         establishLoadBalancerConnection();
         establishServerConnection();
         serverQueue();

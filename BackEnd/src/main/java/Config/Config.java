@@ -23,7 +23,7 @@ public class Config {
     private final String mqInstancePath = "./src/main/resources/mq.instance.conf";
     private final String postSqlPath = "./src/main/resources/post.gres.sql.conf";
     private final String servicePath = "./src/main/resources/service.conf";
-    private final String webServerpath = "./src/main/resources/web.server.conf";
+    private final String webServerPath = "./src/main/resources/web.server.conf";
 
     private Config() {
         loadConfig(arangoConfig, arangoPath);
@@ -33,7 +33,7 @@ public class Config {
         loadConfig(mqInstanceConfig, mqInstancePath);
         loadConfig(postSqlConf, postSqlPath);
         loadConfig(serviceConfig, servicePath);
-        loadConfig(webServerConfig, webServerpath);
+        loadConfig(webServerConfig, webServerPath);
     }
 
     private void loadConfig(Properties config, String path){
@@ -84,7 +84,7 @@ public class Config {
                 break;
             case WebServer:
                 props = webServerConfig;
-                path = webServerpath;
+                path = webServerPath;
                 break;
         }
         props.setProperty(key,val);
@@ -102,7 +102,7 @@ public class Config {
         }
     }
 
-    //Controller Configs
+    //Web WebServer Configs
 
     public int getWebServerPort() {
         return Integer.parseInt(webServerConfig.getProperty("server.port"));
@@ -211,7 +211,7 @@ public class Config {
     }
 
 
-    //Service Configs
+    //Controller Configs
 
     public String getControllerHost() {
         return controllerConfig.getProperty("controller.host");
@@ -224,35 +224,7 @@ public class Config {
 
     //Service Configs
 
-    public String getServiceQueueHost() {
-        return serviceConfig.getProperty("service.rabbitmq.host");
-    }
-
-    public int getServiceQueuePort() {
-        return Integer.parseInt(serviceConfig.getProperty("service.rabbitmq.port"));
-    }
-
-    public String getServiceUserQueue() {
-        return serviceConfig.getProperty("service.user.queue");
-    }
-
-    public String getServicePostQueue() {
-        return serviceConfig.getProperty("service.post.queue");
-    }
-
-    public String getServiceChatQueue() {
-        return serviceConfig.getProperty("service.chat.queue");
-    }
-
-    public String getServiceQueueUserName() {
-        return serviceConfig.getProperty("service.username");
-    }
-
-    public String getServiceQueuePass() {
-        return serviceConfig.getProperty("service.password");
-    }
-
-    public int getServiceMaxThreads() {
+   public int getServiceMaxThreads() {
         return Integer.parseInt(serviceConfig.getProperty("service.max.thread"));
     }
 
@@ -267,11 +239,11 @@ public class Config {
         return arangoConfig.getProperty("arango.username");
     }
 
-    public String getArangoPostDbName() {
-        return arangoConfig.getProperty("arango.post.db.name");
-    }
-
     public String getArangoQueuePass() {
         return arangoConfig.getProperty("arango.password");
+    }
+
+    public String getArangoPostDbName() {
+        return arangoConfig.getProperty("arango.post.db.name");
     }
 }

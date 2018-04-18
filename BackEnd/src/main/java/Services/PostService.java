@@ -12,7 +12,7 @@ public class PostService extends ControlService {
 
     @Override
     public void init() {
-        RPC_QUEUE_NAME = conf.getServicePostQueue();
+        RPC_QUEUE_NAME = conf.getMqInstancePostQueue();
         arangoInstance = new ArangoInstance(maxDBConnections);
         try {
             redisConf  = new RedisConf();
@@ -23,7 +23,7 @@ public class PostService extends ControlService {
     }
 
     @Override
-    public void setMaxDBConnections(int connections){
+    public void setDBConnections(int connections){
         this.maxDBConnections = connections;
         arangoInstance.setMaxDBConnections(maxDBConnections);
     }
