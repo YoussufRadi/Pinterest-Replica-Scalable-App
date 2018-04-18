@@ -17,26 +17,26 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
             controlService((ControlMessage) arg1);
         System.out.println("READ");
         System.out.println();
-        currentChannel.writeAndFlush("[Server] - Success" + "\r\n");
+        currentChannel.writeAndFlush("[Controller] - Success" + "\r\n");
     }
 
     private void controlService(ControlMessage m){
         switch (m.getControlCommand()){
-            case "db" : Client.service.setMaxDBConnections(Integer.parseInt(m.getParam()));
+            case maxDbConnections:  Client.service.setMaxDBConnections(Integer.parseInt(m.getParam()));
                 break;
-            case "thread" : Client.service.setMaxThreadsSize(Integer.parseInt(m.getParam()));
+            case maxThreadPool : Client.service.setMaxThreadsSize(Integer.parseInt(m.getParam()));
                 break;
-            case "resume" : Client.service.resume();
+            case resume : Client.service.resume();
                 break;
-            case "freeze" : Client.service.freeze();
+            case freeze : Client.service.freeze();
                 break;
-            case "add" : Client.service.add_command(m.getParam(), m.getPath());
+            case addCommand : Client.service.add_command(m.getParam(), m.getPath());
                 break;
-            case "delete" : Client.service.delete_command(m.getParam());
+            case deleteCommand : Client.service.delete_command(m.getParam());
                 break;
-            case "update" : Client.service.update_command(m.getParam(), m.getPath());
+            case updateCommand : Client.service.update_command(m.getParam(), m.getPath());
                 break;
-            case "error" : Client.service.set_error_reporting_level(Integer.parseInt(m.getParam()));
+            case errorReportingLevel : Client.service.set_error_reporting_level(Integer.parseInt(m.getParam()));
                 break;
         }
         System.out.println("ControlService is executing : " + m.getControlCommand());

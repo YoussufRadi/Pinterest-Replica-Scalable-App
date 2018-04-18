@@ -8,13 +8,9 @@ import java.io.IOException;
 
 public class UserService extends ControlService {
 
-
-    public UserService(String host, int port, int threadsNo, int maxDBConnections) {
-        super(host,port,threadsNo, maxDBConnections, "UserModel");
-    }
-
     @Override
     public void init() {
+        RPC_QUEUE_NAME = conf.getServiceUserQueue();
         try {
             userCacheController = new UserCacheController();
         } catch (IOException e) {
@@ -29,7 +25,7 @@ public class UserService extends ControlService {
 
 
     public static void main(String[] argv) {
-        new UserService("localhost",5672,15,15);
+        new UserService();
     }
 
 }

@@ -20,26 +20,26 @@ public class ControlMessage implements Serializable {
         return Objects.hash(controlCommand, param, path);
     }
 
-    private String controlCommand;
+    private ControlCommand controlCommand;
     private String param;
     private String path;
 
-    public ControlMessage(String controlCommand){
+    public ControlMessage(ControlCommand controlCommand){
         this.controlCommand = controlCommand;
     }
 
-    public ControlMessage(String controlCommand, String param){
+    public ControlMessage(ControlCommand controlCommand, String param){
         this.controlCommand = controlCommand;
         this.param = param;
     }
 
-    public ControlMessage(String controlCommand, String param, String path) {
+    public ControlMessage(ControlCommand controlCommand, String param, String path) {
         this.controlCommand = controlCommand;
         this.param = param;
         this.path = path;
     }
 
-    public String getControlCommand() {
+    public ControlCommand getControlCommand() {
         return controlCommand;
     }
 

@@ -8,13 +8,18 @@ import java.io.*;
 
 public class PostService extends ControlService {
 
-    private static RedisConf redisConf;
-    private static String dbUserName;
-    private static String dbPass;
+    private RedisConf redisConf;
 
-    public PostService(String host, int port, int threadsNo, int maxDBConnections) {
-        super(host,port,threadsNo, maxDBConnections, "Post");
-
+    @Override
+    public void init() {
+        RPC_QUEUE_NAME = conf.getServicePostQueue();
+        arangoInstance = new ArangoInstance(maxDBConnections);
+        try {
+            redisConf  = new RedisConf();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        liveObjectService = redisConf.getService();
     }
 
     @Override
@@ -24,21 +29,8 @@ public class PostService extends ControlService {
     }
 
 
-    @Override
-    public void init() {
-        arangoInstance = new ArangoInstance(dbUserName,dbPass,maxDBConnections);
-        try {
-            redisConf  = new RedisConf();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        liveObjectService = redisConf.getService();
-    }
-
-    public static void main(String [] args) {
-        dbUserName = "root";
-        dbPass = "pass";
-        PostService postService = new PostService("localhost",5672,15,15);
+    public static void main(String[] args) {
+        new PostService();
         //postService.add_command("GetKhara","/home/aboelenien/Desktop/GetKhara.txt");
     }
 }

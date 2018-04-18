@@ -8,7 +8,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-public class ServerAdapterHandler extends
+public class ControllerAdapterHandler extends
         ChannelInboundHandlerAdapter {
 
     public static final ChannelGroup channels = new DefaultChannelGroup(
@@ -35,9 +35,9 @@ public class ServerAdapterHandler extends
         if(arg1 instanceof ControlMessage){
             ControlMessage m = (ControlMessage) arg1;
             if(m.getControlCommand().equals("init"))
-                Server.services.get(m.getParam()).add(currentChannel);
+                Controller.Controller.services.get(m.getParam()).add(currentChannel);
 
-            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Server.services.get(m.getParam()).size()-1));
+            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Controller.Controller.services.get(m.getParam()).size()-1));
         }
 
         System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());

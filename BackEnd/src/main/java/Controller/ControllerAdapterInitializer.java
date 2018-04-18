@@ -7,17 +7,17 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
-public class ServerAdapterInitializer extends ChannelInitializer<SocketChannel> {
+public class ControllerAdapterInitializer extends ChannelInitializer<SocketChannel> {
 
 
     @Override
-    protected void initChannel(SocketChannel channel) throws Exception {
+    protected void initChannel(SocketChannel channel) {
         ChannelPipeline pipeline = channel.pipeline();
 
         pipeline.addLast("decoder", new ObjectDecoder(ClassResolvers
                 .cacheDisabled(getClass().getClassLoader())));
         pipeline.addLast("encoder", new ObjectEncoder());
-        pipeline.addLast("handler", new ServerAdapterHandler());
+        pipeline.addLast("handler", new ControllerAdapterHandler());
 
     }
 

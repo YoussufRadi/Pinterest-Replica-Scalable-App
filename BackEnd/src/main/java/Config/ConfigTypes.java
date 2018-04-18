@@ -6,6 +6,7 @@ public enum ConfigTypes {
     LoadBalancer,
     MediaServer,
     MqInstance,
+    PostSql,
     Service,
     WebServer
 }

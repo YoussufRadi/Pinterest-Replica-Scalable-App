@@ -1,5 +1,6 @@
 package MediaServer;
 
+import Config.Config;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -10,12 +11,12 @@ import io.netty.handler.logging.LoggingHandler;
 
 public final class MediaServer {
 
-    private int PORT;
-    private int THREADS;
+    Config conf = Config.getInstance();
 
-    private MediaServer(int port, int threads){
-        this.PORT = port;
-        this.THREADS = threads;
+    private int PORT = conf.getMediaServerPort();
+    private int THREADS = conf.getMediaServerThreads();
+
+    private MediaServer(){
         EventLoopGroup bossGroup = new NioEventLoopGroup(THREADS);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -39,7 +40,7 @@ public final class MediaServer {
     }
 
     public static void main(String[] args) {
-        new MediaServer(8080,5);
+        new MediaServer();
 
     }
 }

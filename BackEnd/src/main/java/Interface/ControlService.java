@@ -1,6 +1,7 @@
 package Interface;
 
 import Cache.UserCacheController;
+import Config.Config;
 import Database.ArangoInstance;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
@@ -18,25 +19,26 @@ import java.util.concurrent.TimeoutException;
 
 public abstract class ControlService {
 
-    private int threadsNo;
-    protected int maxDBConnections;
-    private String RPC_QUEUE_NAME;
-    private String host;
-    private int port;
+    protected Config conf = Config.getInstance();
+
+    private int threadsNo = conf.getServiceMaxThreads();
+    protected int maxDBConnections = conf.getServiceMaxDbConnections();
     private  ThreadPoolExecutor executor;
+
+    protected String RPC_QUEUE_NAME; //set by init
+    private String host = conf.getServiceQueueHost();
+    private int port = conf.getServiceQueuePort();
+    private String user = conf.getServiceQueueUserName();
+    private String pass = conf.getServiceQueuePass();
     private Channel channel;
     private String consumerTag;
     private Consumer consumer;
+
     protected RLiveObjectService liveObjectService; // For Post Only
     protected ArangoInstance arangoInstance; // For Post Only
     protected UserCacheController userCacheController; // For UserModel Only
 
-    public ControlService(String host, int port, int threadsNo, int maxDBConnections, String queue){
-        this.host = host;
-        this.port = port;
-        this.threadsNo = threadsNo;
-        this.maxDBConnections = maxDBConnections;
-        this.RPC_QUEUE_NAME = queue;
+    public ControlService(){
         this.executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
         init();
         start();
@@ -48,6 +50,8 @@ public abstract class ControlService {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(host);
         factory.setPort(port);
+        factory.setUsername(user);
+        factory.setPassword(pass);
         Connection connection = null;
         try {
             connection = factory.newConnection();
@@ -136,7 +140,7 @@ public abstract class ControlService {
     public void add_command(String commandName, String source_code){
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter("target/classes/"+RPC_QUEUE_NAME+"Commands/"+commandName+".class");
+            fileWriter = new FileWriter("/target/classes/"+RPC_QUEUE_NAME+"Commands/"+commandName+".class");
             BufferedWriter bufferedWriter =
                     new BufferedWriter(fileWriter);
             bufferedWriter.write(source_code);

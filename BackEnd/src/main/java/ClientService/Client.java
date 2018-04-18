@@ -1,7 +1,10 @@
 package ClientService;
 
+import Config.Config;
+import Models.ControlCommand;
 import Interface.ControlService;
 import Models.ControlMessage;
+import Models.ServicesTypes;
 import Services.PostService;
 import Services.UserService;
 import io.netty.bootstrap.Bootstrap;
@@ -16,31 +19,32 @@ import java.util.Scanner;
 
 public class Client {
 
-    private String server;
+    Config conf = Config.getInstance();
+
+    private String server = conf.getControllerHost();
+    private int port = conf.getControllerPort();
+
     private String serviceName;
-    private int port;
     protected static ControlService service;
     private static Channel channel;
 
-    private Client(String server, int port) {
-        this.server = server;
-        this.port = port;
-    }
-
-    private void initService(String serviceName, String host, int port, int threadNo, int dbConnections){
-        this.serviceName = serviceName;
-        switch (this.serviceName.toLowerCase()){
-            case "post": service = new PostService(host,port,threadNo,dbConnections); break;
-            case "user": service = new UserService(host,port,threadNo,dbConnections); break;
+    private void initService(ServicesTypes serviceName){
+        switch (serviceName){
+            case post:
+                service = new PostService();
+                this.serviceName = conf.getServicePostQueue();
+                break;
+            case user:
+                service = new UserService();
+                this.serviceName = conf.getServiceUserQueue();
+                break;
             //TODO Chat Service
         }
     }
 
     public static void main(String[] args) {
-        String server = "localhost";
-        int port = 5252;
-        Client c = new Client(server, port);
-        c.initService("post","localhost",5672,15,15);
+        Client c = new Client();
+        c.initService(ServicesTypes.post);
         c.start();
     }
 
@@ -66,7 +70,7 @@ public class Client {
             });
             t.start();
 
-            Client.channel.writeAndFlush(new ControlMessage("init", serviceName));
+            Client.channel.writeAndFlush(new ControlMessage(ControlCommand.initialize, serviceName));
 
             channelFuture.channel().closeFuture().sync();
 

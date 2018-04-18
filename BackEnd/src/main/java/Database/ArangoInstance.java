@@ -1,5 +1,6 @@
 package Database;
 
+import Config.Config;
 import Models.*;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
@@ -10,27 +11,23 @@ import java.util.HashMap;
 
 public class ArangoInstance {
 
+    private Config conf = Config.getInstance();
 
-    public ArangoDB arangoDB;
-    private String user;
-    private String pass;
+    private ArangoDB arangoDB;
+    private String dbUserName = conf.getArangoUserName();
+    private String dbPass = conf.getArangoQueuePass();
 
+    private String dbName = conf.getArangoPostDbName();
 
-
-    public ArangoInstance(String user, String password,int maxConnections){
-        arangoDB = new ArangoDB.Builder().user(user).password(password).maxConnections(maxConnections).build();
-        this.user = user;
-        pass = password;
-
+    public ArangoInstance(int maxConnections){
+        arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxConnections).build();
     }
 
 
     public void initializeDB(){
 
         try{
-
-            String dbName = "Post";
-            arangoDB.createDatabase("Post");
+            arangoDB.createDatabase(dbName);
             arangoDB.db(dbName).createCollection("posts");
             arangoDB.db(dbName).createCollection("comments");
             arangoDB.db(dbName).createCollection("categories");
@@ -45,31 +42,31 @@ public class ArangoInstance {
     public void dropDB(){
 
         try{
-            arangoDB.db("Post").drop();
+            arangoDB.db(dbName).drop();
             System.out.println("Database dropped: Post");
         } catch (ArangoDBException e) {
             System.err.println("Failed to drop database: Post");
         }
     }
     public void insertNewCategory(CategoryDBObject categoryDBObject){
-        arangoDB.db("Post").collection("categories").insertDocument(categoryDBObject);
+        arangoDB.db(dbName).collection("categories").insertDocument(categoryDBObject);
 
     }
     public CategoryDBObject getCategory(String id){
-       // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,Arango.CategoryDBObject.class));
-        CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+       // System.out.println(arangoDB.db(dbName).collection("categories").getDocument(id,Arango.CategoryDBObject.class));
+        CategoryDBObject category =arangoDB.db(dbName).collection("categories").getDocument(id, CategoryDBObject.class);
         return category;
     }
     public void updateCategory(String id, CategoryDBObject category){
         if(getCategory(id)!=null) {
-            arangoDB.db("Post").collection("categories").updateDocument(id, category);
+            arangoDB.db(dbName).collection("categories").updateDocument(id, category);
         }
 
     }
     public void addNewPostToCategory(String id,String postid){
         PostDBObject post= getPost(postid);
         if(post!=null){
-            CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+            CategoryDBObject category =arangoDB.db(dbName).collection("categories").getDocument(id, CategoryDBObject.class);
             ArrayList<String> posts=new ArrayList<String>();
            // System.out.println(category.getTitle());
             for(int i=0;i<category.getPosts_id().size();i++){
@@ -77,14 +74,14 @@ public class ArangoInstance {
             }
             posts.add(postid);
             category.setPosts_id(posts);
-            arangoDB.db("Post").collection("categories").updateDocument(id,category);
+            arangoDB.db(dbName).collection("categories").updateDocument(id,category);
 
         }
     }
     public void removePostToCategory(String id,String postid){
         PostDBObject post= getPost(postid);
         if(post!=null){
-            CategoryDBObject category =arangoDB.db("Post").collection("categories").getDocument(id, CategoryDBObject.class);
+            CategoryDBObject category =arangoDB.db(dbName).collection("categories").getDocument(id, CategoryDBObject.class);
             ArrayList<String> posts=new ArrayList<String>();
             // System.out.println(category.getTitle());
             for(int i=0;i<category.getPosts_id().size();i++){
@@ -92,24 +89,24 @@ public class ArangoInstance {
                 posts.add(category.getPosts_id().get(i));
             }
             category.setPosts_id(posts);
-            arangoDB.db("Post").collection("categories").updateDocument(id,category);
+            arangoDB.db(dbName).collection("categories").updateDocument(id,category);
 
         }
     }
     public void deleteCategory(String id){
-        arangoDB.db("Post").collection("categories").deleteDocument(id);
+        arangoDB.db(dbName).collection("categories").deleteDocument(id);
     }
     public void insertNewPost(PostDBObject postDBObject){
-        arangoDB.db("Post").collection("posts").insertDocument(postDBObject);
+        arangoDB.db(dbName).collection("posts").insertDocument(postDBObject);
     }
 
     public PostDBObject getPost(String id){
-        PostDBObject post =arangoDB.db("Post").collection("posts").getDocument(id, PostDBObject.class);
+        PostDBObject post =arangoDB.db(dbName).collection("posts").getDocument(id, PostDBObject.class);
         return post;
     }
 
     public ArrayList<PostDBObject> getPostsLimit(int skip, int limit){
-        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For post In posts Sort post.created_at Limit" +
+        ArangoCursor<PostDBObject> cursor =arangoDB.db(dbName).query("For post In posts Sort post.created_at Limit" +
                         " "+skip+", "+limit+" Return post",
                 null,null, PostDBObject.class);
         return new ArrayList<PostDBObject>(cursor.asListRemaining());
@@ -117,12 +114,12 @@ public class ArangoInstance {
 
     public void updatePost(String id, PostDBObject post){
         if(getPost(id)!=null) {
-            arangoDB.db("Post").collection("posts").updateDocument(id, post);
+            arangoDB.db(dbName).collection("posts").updateDocument(id, post);
         }
     }
 
     public void deletePost(String id){
-        arangoDB.db("Post").collection("posts").deleteDocument(id);
+        arangoDB.db(dbName).collection("posts").deleteDocument(id);
     }
 
 
@@ -146,7 +143,7 @@ public class ArangoInstance {
 
 
     public CommentDBObject getComment(String id){
-        CommentDBObject comment =arangoDB.db("Post").collection("comments").getDocument(id, CommentDBObject.class);
+        CommentDBObject comment =arangoDB.db(dbName).collection("comments").getDocument(id, CommentDBObject.class);
         return comment;
     }
 
@@ -155,31 +152,31 @@ public class ArangoInstance {
         for (int i =0; i<comment.getReplies_id().size();i++){
             deleteComment(comment.getReplies_id().get(i));
         }
-        arangoDB.db("Post").collection("comments").deleteDocument(id);
+        arangoDB.db(dbName).collection("comments").deleteDocument(id);
 
 
     }
 
     public void insertNewComment(CommentDBObject commentDBObject, String post_id){
-        arangoDB.db("Post").collection("comments").insertDocument(commentDBObject);
+        arangoDB.db(dbName).collection("comments").insertDocument(commentDBObject);
         PostDBObject post = getPost(post_id);
         post.addComment(commentDBObject.getId());
         updatePost(post.getId(),post);
     }
 
     public void insertNewReply(CommentDBObject commentDBObject, String comment_id){
-        arangoDB.db("Post").collection("comments").insertDocument(commentDBObject);
+        arangoDB.db(dbName).collection("comments").insertDocument(commentDBObject);
         CommentDBObject comment = getComment(comment_id);
         comment.addReply(commentDBObject.getId());
         updateComment(comment.getId(),comment);
     }
 
     public void updateComment(String id, CommentDBObject comment){
-        arangoDB.db("Post").collection("comments").updateDocument(id,comment);
+        arangoDB.db(dbName).collection("comments").updateDocument(id,comment);
     }
 
     public void insertNewTag(TagDBObject tagDBObject) {
-        arangoDB.db("Post").collection("posts_tags").insertDocument(tagDBObject);
+        arangoDB.db(dbName).collection("posts_tags").insertDocument(tagDBObject);
     }
 
     public ArrayList<PostDBObject> getPostsOfTagLimit(int skip, int limit, String tag_name){
@@ -187,7 +184,7 @@ public class ArangoInstance {
         bindVars.put("skip",skip);
         bindVars.put("limit",limit);
         bindVars.put("tag_name",tag_name);
-        ArangoCursor<PostDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags For p in posts Filter pt.tag_name == @tag_name "+
+        ArangoCursor<PostDBObject> cursor =arangoDB.db(dbName).query("For pt In posts_tags For p in posts Filter pt.tag_name == @tag_name "+
                         " Filter p._key == pt.post_id Limit @skip,@limit Return p",
                 bindVars,null, PostDBObject.class);
         return new ArrayList<PostDBObject>(cursor.asListRemaining());
@@ -198,26 +195,26 @@ public class ArangoInstance {
         bindVars.put("skip",skip);
         bindVars.put("limit",limit);
         bindVars.put("post_id",post_id);
-        ArangoCursor<TagDBObject> cursor =arangoDB.db("Post").query("For pt In posts_tags Filter pt.post_id == @post_id "+
+        ArangoCursor<TagDBObject> cursor =arangoDB.db(dbName).query("For pt In posts_tags Filter pt.post_id == @post_id "+
                         "  Limit @skip,@limit Return pt",
                 bindVars,null, TagDBObject.class);
         return new ArrayList<TagDBObject>(cursor.asListRemaining());
     }
 
     public void insertNewBoard(BoardDBObject boardDBObject){
-        arangoDB.db("Post").collection("boards").insertDocument(boardDBObject);
+        arangoDB.db(dbName).collection("boards").insertDocument(boardDBObject);
 
     }
     public BoardDBObject getBoard(String id){
-        // System.out.println(arangoDB.db("Post").collection("categories").getDocument(id,Arango.CategoryDBObject.class));
-        BoardDBObject board =arangoDB.db("Post").collection("boards").getDocument(id, BoardDBObject.class);
+        // System.out.println(arangoDB.db(dbName).collection("categories").getDocument(id,Arango.CategoryDBObject.class));
+        BoardDBObject board =arangoDB.db(dbName).collection("boards").getDocument(id, BoardDBObject.class);
         return board;
     }
     public void deleteBoard(String board_id){
-        arangoDB.db("Post").collection("boards").deleteDocument(board_id);
+        arangoDB.db(dbName).collection("boards").deleteDocument(board_id);
     }
     public void updateBoard(String id, BoardDBObject board){
-        arangoDB.db("Post").collection("boards").updateDocument(id,board);
+        arangoDB.db(dbName).collection("boards").updateDocument(id,board);
     }
 
     public void insertPostToBoard(String board_id, String post_id){
@@ -233,11 +230,11 @@ public class ArangoInstance {
     }
 
     public void setMaxDBConnections(int maxDBConnections){
-           arangoDB = new ArangoDB.Builder().user(user).password(pass).maxConnections(maxDBConnections).build();
+           arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxDBConnections).build();
     }
 
     public static void main(String[] args){
-        ArangoInstance arango = new ArangoInstance("root","pass",15);
+        ArangoInstance arango = new ArangoInstance(15);
 
         String s = "Post";
         //arango.arangoDB.db(s).createCollection("posts_tags");

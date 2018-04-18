@@ -12,6 +12,7 @@ public class Config {
     private final Properties loadBalancerConfig = new Properties();
     private final Properties mediaServerConfig = new Properties();
     private final Properties mqInstanceConfig = new Properties();
+    private final Properties postSqlConf = new Properties();
     private final Properties serviceConfig = new Properties();
     private final Properties webServerConfig = new Properties();
 
@@ -20,6 +21,7 @@ public class Config {
     private final String loadBalancerPath = "./src/main/resources/load.balancer.conf";
     private final String mediaServerPath = "./src/main/resources/media.server.conf";
     private final String mqInstancePath = "./src/main/resources/mq.instance.conf";
+    private final String postSqlPath = "./src/main/resources/post.gres.sql.conf";
     private final String servicePath = "./src/main/resources/service.conf";
     private final String webServerpath = "./src/main/resources/web.server.conf";
 
@@ -29,6 +31,7 @@ public class Config {
         loadConfig(loadBalancerConfig, loadBalancerPath);
         loadConfig(mediaServerConfig, mediaServerPath);
         loadConfig(mqInstanceConfig, mqInstancePath);
+        loadConfig(postSqlConf, postSqlPath);
         loadConfig(serviceConfig, servicePath);
         loadConfig(webServerConfig, webServerpath);
     }
@@ -71,6 +74,10 @@ public class Config {
                 props = mqInstanceConfig;
                 path = mqInstancePath;
                 break;
+            case PostSql:
+                props = postSqlConf;
+                path = postSqlPath;
+                break;
             case Service:
                 props = serviceConfig;
                 path = servicePath;
@@ -95,7 +102,7 @@ public class Config {
         }
     }
 
-    //Server Configs
+    //Controller Configs
 
     public int getWebServerPort() {
         return Integer.parseInt(webServerConfig.getProperty("server.port"));
@@ -163,6 +170,15 @@ public class Config {
         return mediaServerConfig.getProperty("media.server.file.path");
     }
 
+    public int getMediaServerPort() {
+        return Integer.parseInt(mediaServerConfig.getProperty("media.server.port"));
+    }
+
+    public int getMediaServerThreads() {
+        return Integer.parseInt(mediaServerConfig.getProperty("media.server.threads"));
+    }
+
+
 
     //MqInstance Configs
 
@@ -194,4 +210,68 @@ public class Config {
         return mqInstanceConfig.getProperty("mq.instance.rabbitmq.chat.queue");
     }
 
+
+    //Service Configs
+
+    public String getControllerHost() {
+        return controllerConfig.getProperty("controller.host");
+    }
+
+    public int getControllerPort() {
+        return Integer.parseInt(controllerConfig.getProperty("controller.port"));
+    }
+
+
+    //Service Configs
+
+    public String getServiceQueueHost() {
+        return serviceConfig.getProperty("service.rabbitmq.host");
+    }
+
+    public int getServiceQueuePort() {
+        return Integer.parseInt(serviceConfig.getProperty("service.rabbitmq.port"));
+    }
+
+    public String getServiceUserQueue() {
+        return serviceConfig.getProperty("service.user.queue");
+    }
+
+    public String getServicePostQueue() {
+        return serviceConfig.getProperty("service.post.queue");
+    }
+
+    public String getServiceChatQueue() {
+        return serviceConfig.getProperty("service.chat.queue");
+    }
+
+    public String getServiceQueueUserName() {
+        return serviceConfig.getProperty("service.username");
+    }
+
+    public String getServiceQueuePass() {
+        return serviceConfig.getProperty("service.password");
+    }
+
+    public int getServiceMaxThreads() {
+        return Integer.parseInt(serviceConfig.getProperty("service.max.thread"));
+    }
+
+    public int getServiceMaxDbConnections() {
+        return Integer.parseInt(serviceConfig.getProperty("service.max.db"));
+    }
+
+
+    //Arango Configs
+
+    public String getArangoUserName() {
+        return arangoConfig.getProperty("arango.username");
+    }
+
+    public String getArangoPostDbName() {
+        return arangoConfig.getProperty("arango.post.db.name");
+    }
+
+    public String getArangoQueuePass() {
+        return arangoConfig.getProperty("arango.password");
+    }
 }
