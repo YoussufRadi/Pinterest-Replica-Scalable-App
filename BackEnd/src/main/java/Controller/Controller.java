@@ -24,9 +24,9 @@ public class Controller {
     private int port = conf.getControllerPort();
     public static TreeMap<String,ArrayList<Channel>> services;
 
-    public static void main(String[] args) {
-        new Controller().start();
-    }
+//    public static void main(String[] args) {
+//        new Controller().start();
+//    }
 
     public Controller(){
         services = new TreeMap<>();

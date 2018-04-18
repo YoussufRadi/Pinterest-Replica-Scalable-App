@@ -46,12 +46,12 @@ public class Client {
         Client.service.start();
     }
 
-    public static void main(String[] args) {
-        Client c = new Client();
-        c.initService(ServicesType.post);
-        c.startService();
-        c.start();
-    }
+//    public static void main(String[] args) {
+//        Client c = new Client();
+//        c.initService(ServicesType.post);
+//        c.startService();
+//        c.start();
+//    }
 
     public void start() {
         EventLoopGroup group = new NioEventLoopGroup();
