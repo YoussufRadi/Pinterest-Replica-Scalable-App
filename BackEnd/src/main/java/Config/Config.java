@@ -102,6 +102,7 @@ public class Config {
         }
     }
 
+
     //Web WebServer Configs
 
     public int getWebServerPort() {
@@ -179,7 +180,6 @@ public class Config {
     }
 
 
-
     //MqInstance Configs
 
     public String getMqInstanceQueueHost() {
@@ -246,4 +246,5 @@ public class Config {
     public String getArangoPostDbName() {
         return arangoConfig.getProperty("arango.post.db.name");
     }
+
 }

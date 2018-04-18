@@ -16,9 +16,10 @@ public class LoadBalancer {
     private final String USER = config.getLoadBalancerQueueUserName();
     private final String PASS = config.getLoadBalancerQueuePass();
     private final String RPC_QUEUE_NAME = config.getLoadBalancerQueueName();
-    private final String USER_QUEUE_NAME = config.getLoadBalancerUserQueue();
-    private final String POST_QUEUE_NAME = config.getLoadBalancerPostQueue();
-    private final String CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue();
+    private final String LOAD_BALANCER_EXTENSION = "-" +config.getLoadBalancerQueueName();
+    private final String USER_QUEUE_NAME = config.getLoadBalancerUserQueue() + LOAD_BALANCER_EXTENSION;
+    private final String POST_QUEUE_NAME = config.getLoadBalancerPostQueue()+ LOAD_BALANCER_EXTENSION;
+    private final String CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue()+ LOAD_BALANCER_EXTENSION;
 
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<String, Channel>();
 
@@ -42,12 +43,12 @@ public class LoadBalancer {
 
 
                         String appName = (String) jsonRequest.get("application");
-                        Channel receiver = REQUEST_CHANNEL_MAP.get(appName + "-Load-Balancer");
+                        Channel receiver = REQUEST_CHANNEL_MAP.get(appName + LOAD_BALANCER_EXTENSION);
                         System.out.println("Request    :   " + message);
                         System.out.println("Application    :   " + appName);
                         System.out.println();
 
-                        receiver.basicPublish("", appName + "-Load-Balancer", properties, body);
+                        receiver.basicPublish("", appName + LOAD_BALANCER_EXTENSION, properties, body);
 
                     } catch (RuntimeException| IOException e) {
                         e.printStackTrace();

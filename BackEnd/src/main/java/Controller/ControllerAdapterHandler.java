@@ -1,5 +1,6 @@
 package Controller;
 
+import Models.ControlCommand;
 import Models.ControlMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -34,7 +35,7 @@ public class ControllerAdapterHandler extends
 
         if(arg1 instanceof ControlMessage){
             ControlMessage m = (ControlMessage) arg1;
-            if(m.getControlCommand().equals("init"))
+            if(m.getControlCommand().equals(ControlCommand.initialize))
                 Controller.Controller.services.get(m.getParam()).add(currentChannel);
 
             System.out.println("New Service connected : " + m.getParam() + ", id : " + (Controller.Controller.services.get(m.getParam()).size()-1));
