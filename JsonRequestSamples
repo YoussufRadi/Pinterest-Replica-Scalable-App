@@ -1,0 +1,67 @@
+{
+	"command" : "InsertCategory",
+	"application" : "Post",
+	"category_object":
+	{
+		"title":"Travel",
+		"posts_id":[]
+	}
+}
+///////////////////////////////////////////////////////
+{
+	"command" : "InsertPostToCategory",
+	"application" : "Post",
+	"post_id":"279779",
+	"category_id":"279541"
+}
+///////////////////////////////////////////////////////
+{
+	"command" : "InsertPost",
+	"application" : "Post",
+	"post_object":
+	{
+		"user_id":"5",
+		"likes_id":["4"],
+		"dislikes_id":["5"],
+		"comments_id":["4"],
+		"tags_id":[],
+		"image_id":"24",
+		"created_at":"24/10/2016"
+
+	}
+}
+///////////////////////////////////////////////////////
+{
+	"command" : "GetCategory",
+	"application" : "Post",
+	"category_id":"279541"
+}
+
+///////////////////////////////////////////////////////
+{
+	"command" : "GetPost",
+	"application" : "Post",
+	"post_id":"279779"
+}
+
+///////////////////////////////////////////////////////
+{
+	"command" : "InsertTag",
+	"application" : "Post",
+	"tag_object":
+	{
+		"tag_name":"Paris",
+		"post_id":"279580"
+	}
+}
+
+///////////////////////////////////////////////////////
+{
+	"command" : "GetPostsOfTag",
+	"application" : "Post",
+	"skip":0,
+	"limit":10,
+	"tag_name":"Paris"
+}
+
+
