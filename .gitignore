@@ -1,6 +1,7 @@
 # Maven Ignore
 
 target/
+BackEnd/src/main/resources
 BackEnd/target/
 */target/
 BackEnd/pom.xml.tag
