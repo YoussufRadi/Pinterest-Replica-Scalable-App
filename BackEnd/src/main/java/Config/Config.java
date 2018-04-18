@@ -144,10 +144,54 @@ public class Config {
         return loadBalancerConfig.getProperty("load.balancer.rabbitmq.queue");
     }
 
+    public String getLoadBalancerUserQueue() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.user.queue");
+    }
+
+    public String getLoadBalancerPostQueue() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.post.queue");
+    }
+
+    public String getLoadBalancerChatQueue() {
+        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.chat.queue");
+    }
+
 
     //MediaServer Configs
 
     public String getMediaServerPath() {
         return mediaServerConfig.getProperty("media.server.file.path");
     }
+
+
+    //MqInstance Configs
+
+    public String getMqInstanceQueueHost() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.host");
+    }
+
+    public int getMqInstanceQueuePort() {
+        return Integer.parseInt(mqInstanceConfig.getProperty("mq.instance.rabbitmq.port"));
+    }
+
+    public String getMqInstanceQueueUserName() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.username");
+    }
+
+    public String getMqInstanceQueuePass() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.password");
+    }
+
+    public String getMqInstanceUserQueue() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.user.queue");
+    }
+
+    public String getMqInstancePostQueue() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.post.queue");
+    }
+
+    public String getMqInstanceChatQueue() {
+        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.chat.queue");
+    }
+
 }

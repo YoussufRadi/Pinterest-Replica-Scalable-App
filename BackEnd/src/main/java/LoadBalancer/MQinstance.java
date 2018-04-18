@@ -1,5 +1,6 @@
 package LoadBalancer;
 
+import Config.Config;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -8,19 +9,26 @@ import java.util.concurrent.TimeoutException;
 
 public class MQinstance {
 
-    private final String HOST = "localhost";
-    private final int PORT = 5672;
-    private final String balancerHost = "localhost";
-    private final int balancerPort = 5672;
-    private final String POST_QUEUE_NAME = "Post";
-    private final String USER_QUEUE_NAME = "User";
-    private final String CHAT_QUEUE_NAME = "Chat";
-    private final String LOAD_POST_QUEUE_NAME = "Post-Load-Balancer";
-    private final String LOAD_USER_QUEUE_NAME = "User-Load-Balancer";
-    private final String LOAD_CHAT_QUEUE_NAME = "Chat-Load-Balancer";
+    private Config config = Config.getInstance();
+
+    private final String HOST = config.getMqInstanceQueueHost();
+    private final int PORT = config.getMqInstanceQueuePort();
+    private final String instanceUser = config.getMqInstanceQueueUserName();
+    private final String instancePassword = config.getMqInstanceQueuePass();
+    private final String USER_QUEUE_NAME = config.getMqInstanceUserQueue();
+    private final String POST_QUEUE_NAME = config.getMqInstancePostQueue();
+    private final String CHAT_QUEUE_NAME = config.getMqInstanceChatQueue();
+
+    private final String balancerHost = config.getLoadBalancerQueueHost();
+    private final int balancerPort = config.getLoadBalancerQueuePort();;
+    private final String balancerUser = config.getLoadBalancerQueueUserName();
+    private final String balancerPass = config.getLoadBalancerQueuePass();
+    private final String LOAD_USER_QUEUE_NAME = config.getLoadBalancerUserQueue();
+    private final String LOAD_POST_QUEUE_NAME = config.getLoadBalancerPostQueue();
+    private final String LOAD_CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue();
+
     private final HashMap<String, Channel> LOAD_CHANNEL_MAP = new HashMap<>();
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<>();
-
 
     private MQinstance() {
         establishConsumeConnections();
@@ -70,14 +78,12 @@ public class MQinstance {
         }
     }
 
-    public static void main(String[] argv) {
-        new MQinstance();
-    }
-
     private void establishConsumeConnections() {
         ConnectionFactory LoadFactory = new ConnectionFactory();
         LoadFactory.setHost(balancerHost);
         LoadFactory.setPort(balancerPort);
+        LoadFactory.setUsername(balancerUser);
+        LoadFactory.setPassword(balancerPass);
         Connection connection;
         try {
             connection = LoadFactory.newConnection();
@@ -100,11 +106,12 @@ public class MQinstance {
         }
     }
 
-
     private void establishProduceConnections() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(instanceUser);
+        factory.setPassword(instancePassword);
         Connection connection;
         try {
             connection = factory.newConnection();
@@ -122,5 +129,9 @@ public class MQinstance {
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] argv) {
+        new MQinstance();
     }
 }

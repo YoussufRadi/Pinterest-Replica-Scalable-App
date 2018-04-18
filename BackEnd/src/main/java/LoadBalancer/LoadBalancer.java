@@ -1,4 +1,5 @@
 package LoadBalancer;
+import Config.Config;
 import com.rabbitmq.client.*;
 import org.json.JSONObject;
 
@@ -7,17 +8,19 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 public class LoadBalancer {
-    private final String HOST = "localhost";
-    private final int PORT = 5672;
-    private final String RPC_QUEUE_NAME = "load_balancer";
-    private final String POST_QUEUE_NAME = "Post-Load-Balancer";
-    private final String USER_QUEUE_NAME = "User-Load-Balancer";
-    private final String CHAT_QUEUE_NAME = "Chat-Load-Balancer";
 
-//    static ExecutorService executorService = Executors.newFixedThreadPool(15);
+    private Config config = Config.getInstance();
+
+    private final String HOST = config.getLoadBalancerQueueHost();
+    private final int PORT = config.getLoadBalancerQueuePort();
+    private final String USER = config.getLoadBalancerQueueUserName();
+    private final String PASS = config.getLoadBalancerQueuePass();
+    private final String RPC_QUEUE_NAME = config.getLoadBalancerQueueName();
+    private final String USER_QUEUE_NAME = config.getLoadBalancerUserQueue();
+    private final String POST_QUEUE_NAME = config.getLoadBalancerPostQueue();
+    private final String CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue();
 
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<String, Channel>();
-
 
     private LoadBalancer() {
         establishConnections();
@@ -25,7 +28,6 @@ public class LoadBalancer {
     }
 
     private void start(){
-
         try {
             Channel balancer = REQUEST_CHANNEL_MAP.get(RPC_QUEUE_NAME);
             System.out.println(" [x] Awaiting RPC requests");
@@ -65,14 +67,12 @@ public class LoadBalancer {
         }
     }
 
-    public static void main(String[] argv) {
-        new LoadBalancer();
-    }
-
     private void establishConnections() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(USER);
+        factory.setPassword(PASS);
         Connection connection = null;
         try {
             connection = factory.newConnection();
@@ -96,4 +96,7 @@ public class LoadBalancer {
         }
     }
 
+    public static void main(String[] argv) {
+        new LoadBalancer();
+    }
 }
