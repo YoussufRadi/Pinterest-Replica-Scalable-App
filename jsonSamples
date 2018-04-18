@@ -1,0 +1,65 @@
+Category Object
+////////////////////
+{
+    "redisson_live_object": "1",
+    "posts_id": [
+        "279580",
+        "279779"
+    ],
+    "id": "categories/279541",
+    "title": "Travel"
+}
+//////////////////////
+
+--------------------------------------------------------------------------------------
+post Objects
+////////////////
+{
+    "redisson_live_object": "1",
+    "user_id": "5",
+    "likes_id": [
+        "4"
+    ],
+    "dislikes_id": [
+        "5"
+    ],
+    "created_at": "23/10/2016",
+    "comments_id": [
+        "4"
+    ],
+    "id": "posts/279580",
+    "tags_id": [],
+    "image_id": "23"
+}
+///////////////
+{
+    "redisson_live_object": "1",
+    "user_id": "5",
+    "likes_id": [
+        "4"
+    ],
+    "dislikes_id": [
+        "5"
+    ],
+    "categories_id": [],
+    "created_at": "24/10/2016",
+    "comments_id": [
+        "4"
+    ],
+    "id": "posts/279779",
+    "tags_id": [],
+    "image_id": "24"
+}
+
+/////////////////////////////
+---------------------------------------------------------------------------------------------
+Posts in Tag 
+
+[{"rev":"_Wrlxe-u--j","user_id":"5","likes_id":["4"],"dislikes_id":["5"],"comments_id":["4"],"created_at":"23/10/2016","tags_id":[],"id":"posts/279580","image_id":"23","key":"279580"},{"rev":"_Wrlxe-u-_d","user_id":"5","likes_id":["4"],"dislikes_id":["5"],"comments_id":["4"],"created_at":"24/10/2016","tags_id":[],"id":"posts/279779","image_id":"24","key":"279779"}]
+
+
+
+
+
+
+
