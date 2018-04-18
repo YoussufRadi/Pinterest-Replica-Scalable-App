@@ -92,7 +92,7 @@ public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
     }
 
     private void serverQueue() {
-        System.out.println(" [x] Awaiting RPC responses");
+        System.out.println(" [x] Awaiting RPC responses on Queue : " + RPC_QUEUE_REPLY_TO);
         try {
             Consumer consumer = new DefaultConsumer(receiverChannel) {
                 @Override
@@ -102,7 +102,7 @@ public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
                                 .Builder()
                                 .correlationId(properties.getCorrelationId())
                                 .build();
-                        System.out.println("Responding to corrID: " + properties.getCorrelationId());
+                        System.out.println("Responding to corrID: " + properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_REPLY_TO);
                         String responseMsg = new String(body, "UTF-8");
 
                         JSONObject responseJson = new JSONObject(responseMsg);

@@ -23,25 +23,24 @@ public class LoadBalancer {
 
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<String, Channel>();
 
-    private LoadBalancer() {
+    public LoadBalancer() {
         establishConnections();
-        start();
     }
 
-    private void start(){
+    public void start(){
         try {
             Channel balancer = REQUEST_CHANNEL_MAP.get(RPC_QUEUE_NAME);
-            System.out.println(" [x] Awaiting RPC requests");
+            System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
             Consumer consumer = new DefaultConsumer(balancer) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                     try {
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
-                        System.out.println(message);
                         JSONObject jsonRequest = new JSONObject(message);
 
-
+                        System.out.println("Responding to corrID: "+ properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME);
+                        System.out.println(message);
                         String appName = (String) jsonRequest.get("application");
                         Channel receiver = REQUEST_CHANNEL_MAP.get(appName + LOAD_BALANCER_EXTENSION);
                         System.out.println("Request    :   " + message);
@@ -97,7 +96,7 @@ public class LoadBalancer {
         }
     }
 
-    public static void main(String[] argv) {
-        new LoadBalancer();
-    }
+//    public static void main(String[] argv) {
+//        new LoadBalancer().start();
+//    }
 }

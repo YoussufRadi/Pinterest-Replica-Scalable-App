@@ -1,6 +1,6 @@
 package Models;
 
-public enum ServicesTypes {
+public enum ServicesType {
     user,
     post,
     chat

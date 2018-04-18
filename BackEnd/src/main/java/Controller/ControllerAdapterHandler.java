@@ -36,17 +36,19 @@ public class ControllerAdapterHandler extends
         if(arg1 instanceof ControlMessage){
             ControlMessage m = (ControlMessage) arg1;
             if(m.getControlCommand().equals(ControlCommand.initialize))
-                Controller.Controller.services.get(m.getParam()).add(currentChannel);
+                Controller.services.get(m.getParam()).add(currentChannel);
 
-            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Controller.Controller.services.get(m.getParam()).size()-1));
+            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Controller.services.get(m.getParam()).size()-1));
         }
 
         System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
+
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext arg0) {
         System.out.println("channelReadComplete");
+        System.out.println();
     }
 
     @Override

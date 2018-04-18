@@ -28,14 +28,14 @@ public class Controller {
         new Controller().start();
     }
 
-    private Controller(){
+    public Controller(){
         services = new TreeMap<>();
         services.put(conf.getMqInstanceUserQueue(), new ArrayList<>());
         services.put(conf.getMqInstancePostQueue(), new ArrayList<>());
         services.put(conf.getMqInstanceChatQueue(), new ArrayList<>());
     }
 
-    private void start() {
+    public void start() {
         EventLoopGroup producer = new NioEventLoopGroup();
         EventLoopGroup consumer = new NioEventLoopGroup();
 
@@ -45,8 +45,7 @@ public class Controller {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ControllerAdapterInitializer())
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-            System.out.println("Controller started");
-            System.out.println();
+            System.err.println("Controller is listening on http://127.0.0.1:" + port + '/');
 
             takeConsoleInput();
 
@@ -118,8 +117,8 @@ public class Controller {
         if(services.containsKey(name)){
             ArrayList<Channel> channels = services.get(name);
             if(channels.size() > Integer.parseInt(id)){
-                Controller.Controller.services.get(name).get(Integer.parseInt(id)).writeAndFlush(m);
-
+                Controller.services.get(name).get(Integer.parseInt(id)).writeAndFlush(m);
+                System.out.println("Send to Channel " + name + ", Command : " + m.getControlCommand());
             }
             else System.out.println("Service Id : " + id + " doesn't exist");
         }

@@ -39,8 +39,7 @@ public final class MediaServer {
         }
     }
 
-    public static void main(String[] args) {
-        new MediaServer();
-
-    }
+//    public static void main(String[] args) {
+//        new MediaServer();
+//    }
 }

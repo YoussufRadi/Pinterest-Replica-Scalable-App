@@ -9,13 +9,13 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
-        System.out.println("Client Reading Channel");
         Channel currentChannel = arg0.channel();
         if(arg1 instanceof String) {
             System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
         }
         else if(arg1 instanceof ControlMessage)
             controlService((ControlMessage) arg1);
+        System.out.println("READ");
         System.out.println();
         currentChannel.writeAndFlush("[Controller] - Success" + "\r\n");
     }

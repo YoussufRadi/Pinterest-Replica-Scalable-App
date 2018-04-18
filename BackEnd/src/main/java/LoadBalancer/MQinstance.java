@@ -19,24 +19,24 @@ public class MQinstance {
     private final String POST_QUEUE_NAME = config.getMqInstancePostQueue();
     private final String CHAT_QUEUE_NAME = config.getMqInstanceChatQueue();
 
+    private final String LOAD_BALANCER_EXTENSION = "-" +config.getLoadBalancerQueueName();
     private final String balancerHost = config.getLoadBalancerQueueHost();
-    private final int balancerPort = config.getLoadBalancerQueuePort();;
+    private final int balancerPort = config.getLoadBalancerQueuePort();
     private final String balancerUser = config.getLoadBalancerQueueUserName();
     private final String balancerPass = config.getLoadBalancerQueuePass();
-    private final String LOAD_USER_QUEUE_NAME = config.getLoadBalancerUserQueue();
-    private final String LOAD_POST_QUEUE_NAME = config.getLoadBalancerPostQueue();
-    private final String LOAD_CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue();
+    private final String LOAD_USER_QUEUE_NAME = config.getLoadBalancerUserQueue() + LOAD_BALANCER_EXTENSION;
+    private final String LOAD_POST_QUEUE_NAME = config.getLoadBalancerPostQueue() + LOAD_BALANCER_EXTENSION;
+    private final String LOAD_CHAT_QUEUE_NAME = config.getLoadBalancerChatQueue() + LOAD_BALANCER_EXTENSION;
 
     private final HashMap<String, Channel> LOAD_CHANNEL_MAP = new HashMap<>();
     private final HashMap<String, Channel> REQUEST_CHANNEL_MAP = new HashMap<>();
 
-    private MQinstance() {
+    public MQinstance() {
         establishConsumeConnections();
         establishProduceConnections();
-        start();
     }
 
-    private void start(){
+    public void start(){
         consumeFromQueue(LOAD_CHAT_QUEUE_NAME, CHAT_QUEUE_NAME);
         consumeFromQueue(LOAD_POST_QUEUE_NAME, POST_QUEUE_NAME);
         consumeFromQueue(LOAD_USER_QUEUE_NAME, USER_QUEUE_NAME);
@@ -46,7 +46,7 @@ public class MQinstance {
 
         try {
             Channel balancer = LOAD_CHANNEL_MAP.get(RPC_QUEUE_NAME);
-            System.out.println(" [x] Awaiting RPC requests ");
+            System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
             Consumer consumer = new DefaultConsumer(balancer) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -54,6 +54,7 @@ public class MQinstance {
                         //Using Reflection to convert a command String to its appropriate class
                         Channel receiver = REQUEST_CHANNEL_MAP.get(QUEUE_TO);
 
+                        System.out.println("Responding to corrID: "+ properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME);
                         System.out.println("Request    :   " + new String(body, "UTF-8"));
                         System.out.println("Application    :   " + QUEUE_TO);
                         System.out.println();
@@ -131,7 +132,7 @@ public class MQinstance {
         }
     }
 
-    public static void main(String[] argv) {
-        new MQinstance();
-    }
+//    public static void main(String[] argv) {
+//        new MQinstance().start();
+//    }
 }

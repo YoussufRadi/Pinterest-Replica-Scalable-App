@@ -24,9 +24,9 @@ public class UserService extends ControlService {
     }
 
 
-    public static void main(String[] argv) {
-        new UserService();
-    }
+//    public static void main(String[] argv) {
+//        new UserService();
+//    }
 
 }
 

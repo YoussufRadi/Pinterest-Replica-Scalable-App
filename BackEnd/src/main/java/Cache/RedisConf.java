@@ -33,9 +33,9 @@ public class RedisConf {
 
     }
 
-    public static void main(String[] argv) throws IOException {
-
-        RedisConf conf = new RedisConf();
+//    public static void main(String[] argv) throws IOException {
+//
+//        RedisConf conf = new RedisConf();
 //        DatabaseController cont = new DatabaseController();
 //        RLiveObjectService service = conf.client.getLiveObjectService();
 //
@@ -80,5 +80,5 @@ public class RedisConf {
         System.out.println(uloOut.getUser().getUserCat().toString());
 
 */
-    }
+//    }
 }

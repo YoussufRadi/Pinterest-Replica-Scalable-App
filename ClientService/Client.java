@@ -15,6 +15,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 public class Client {
 
@@ -49,7 +50,6 @@ public class Client {
     public static void main(String[] args) {
         Client c = new Client();
         c.initService(ServicesType.post);
-        c.startService();
         c.start();
     }
 
@@ -66,14 +66,14 @@ public class Client {
             ChannelFuture channelFuture = clientBootstrap.connect().sync();
             channel = channelFuture.channel();
 
-//            Thread t = new Thread(() -> {
-//                Scanner sc = new Scanner(System.in);
-//                while (true){
-//                    String line = sc.nextLine();
-//                    Client.channel.writeAndFlush(line + "\r\n");
-//                }
-//            });
-//            t.start();
+            Thread t = new Thread(() -> {
+                Scanner sc = new Scanner(System.in);
+                while (true){
+                    String line = sc.nextLine();
+                    Client.channel.writeAndFlush(line + "\r\n");
+                }
+            });
+            t.start();
 
             Client.channel.writeAndFlush(new ControlMessage(ControlCommand.initialize, serviceName));
 

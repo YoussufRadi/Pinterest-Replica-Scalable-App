@@ -233,12 +233,12 @@ public class ArangoInstance {
            arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxDBConnections).build();
     }
 
-    public static void main(String[] args){
-        ArangoInstance arango = new ArangoInstance(15);
-
-        String s = "Post";
-        //arango.arangoDB.db(s).createCollection("posts_tags");
-        System.out.println(arango.getPostsOfTagLimit(0,2,"cold"));
+//    public static void main(String[] args){
+//        ArangoInstance arango = new ArangoInstance(15);
+//
+//        String s = "Post";
+//        arango.arangoDB.db(s).createCollection("posts_tags");
+//        System.out.println(arango.getPostsOfTagLimit(0,2,"cold"));
         //arango.initializeDB();
 //        arango.dropDB();
        //arango.insertNewBoard(new BoardDBObject("1","horses"));
@@ -282,7 +282,7 @@ public class ArangoInstance {
 //        arango.InsertPostToBoard("192649","15");
 //        arango.RemovePostFromBoard("192649","15");
 //        System.out.println(arango.GetBoard("192649"));
-    }
+//    }
 
 
 }

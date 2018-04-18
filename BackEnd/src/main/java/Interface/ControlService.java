@@ -2,6 +2,7 @@ package Interface;
 
 import Cache.UserCacheController;
 import Config.Config;
+import Config.ConfigTypes;
 import Database.ArangoInstance;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
@@ -41,12 +42,11 @@ public abstract class ControlService {
     public ControlService(){
         this.executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
         init();
-        start();
     }
 
     public abstract void init();
 
-    private void start(){
+    public void start(){
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(host);
         factory.setPort(port);
@@ -59,7 +59,7 @@ public abstract class ControlService {
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
             channel.basicQos(threadsNo);
 
-            System.out.println(" [x] Awaiting RPC requests");
+            System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
 
             consumer = new DefaultConsumer(channel) {
                 @Override
@@ -69,7 +69,7 @@ public abstract class ControlService {
                             .correlationId(properties.getCorrelationId())
                             .build();
 
-                    System.out.println("Responding to corrID: " + properties.getCorrelationId());
+                    System.out.println("Responding to corrID: " + properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME);
 
                     try {
                         //Using Reflection to convert a command String to its appropriate class
@@ -91,7 +91,6 @@ public abstract class ControlService {
                         init.put("UserCacheController", userCacheController);
                         cmd.init(init);
                         executor.submit(cmd);
-
                     } catch (RuntimeException | ParseException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                         e.printStackTrace();
                         start();
@@ -113,7 +112,7 @@ public abstract class ControlService {
 
     public void setMaxDBConnections(int connections){
         setDBConnections(connections);
-        conf.setProperty(Config.ConfigTypes.Service, "service.max.db", String.valueOf(connections));
+        conf.setProperty(ConfigTypes.Service, "service.max.db", String.valueOf(connections));
 
     }
 
@@ -122,7 +121,7 @@ public abstract class ControlService {
     public void setMaxThreadsSize(int threads){
         threadsNo =threads;
         executor.setMaximumPoolSize(threads);
-        conf.setProperty(Config.ConfigTypes.Service, "service.max.thread", String.valueOf(threads));
+        conf.setProperty(ConfigTypes.Service, "service.max.thread", String.valueOf(threads));
     }
 
     public void resume() {

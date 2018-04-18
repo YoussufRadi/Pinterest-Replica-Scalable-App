@@ -31,7 +31,7 @@ public class UserService {
 
             channel.basicQos(threadCount);
 
-            System.out.println(" [x] Awaiting RPC requests");
+            System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
 
             Consumer consumer = new DefaultConsumer(channel) {
                 @Override
@@ -40,7 +40,7 @@ public class UserService {
                             .Builder()
                             .correlationId(properties.getCorrelationId())
                             .build();
-                    System.out.println("Responding to corrID: "+ properties.getCorrelationId());
+                    System.out.println("Responding to corrID: "+ properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME);
 
                     try {
                         //Using Reflection to convert a command String to its appropriate class

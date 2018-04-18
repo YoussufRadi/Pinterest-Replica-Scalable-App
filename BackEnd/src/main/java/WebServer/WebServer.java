@@ -9,12 +9,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class WebServer {
 
-    private int port;
+    Config c = Config.getInstance();
+    private int port = c.getWebServerPort();
 
-    private void start() {
+    public void start() {
 
-        Config c = Config.getInstance();
-        port = c.getWebServerPort();
         EventLoopGroup bossGroup = new NioEventLoopGroup(2);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -26,7 +25,7 @@ public class WebServer {
 //            b.option(ChannelOption.SO_KEEPALIVE, true);
             Channel ch = b.bind(port).sync().channel();
 
-            System.err.println("Controller is listening on http://127.0.0.1:" + port + '/');
+            System.err.println("Web Server is listening on http://127.0.0.1:" + port + '/');
 
             ch.closeFuture().sync();
 
@@ -39,9 +38,8 @@ public class WebServer {
         }
     }
 
-    public static void main(String[] args) {
-
-        WebServer s = new WebServer();
-        s.start();
-    }
+//    public static void main(String[] args) {
+//        WebServer s = new WebServer();
+//        s.start();
+//    }
 }
