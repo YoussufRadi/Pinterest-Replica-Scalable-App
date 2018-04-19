@@ -14,6 +14,7 @@ public class SignIn extends ConcreteCommand {
                 payload.getPassword());
 
         String response = new Gson().toJson(userLiveObject);
+        System.out.println(response+"SigInResonse");
         responseJson = jsonParser.parse(response);
         System.out.println(response+"SigInResonse");
     }

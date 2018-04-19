@@ -1,0 +1,44 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+   
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 16
+   
+  payload:
+    path: "test.csv"
+    fields:
+      - "email"  # Will create a local variable username to be used below
+      - "password" # Will create a local variable password to be used below
+      - "firstName"
+      - "lastName"
+      - "username"
+      - "age"
+      - "gender"
+
+     
+
+
+scenarios:
+  - name: "Search and buy"
+    flow: # Flow is an array of operations that a user may perform
+      - post:
+          url: "/"
+          json: 
+            command: "SignUp"
+            application: "User"
+            payload: 
+              email: "{{email}}"
+              password: "{{password}}"
+              firstName : "{{firstName}}"
+              lastName : "{{lastName}}" 
+              username: "{{username}}"
+              age: "{{age}}"
+              gender: "{{gender}}"
+              
+             
+                     
+      
+      - think: 3
+     

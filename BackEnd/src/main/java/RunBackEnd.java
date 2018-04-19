@@ -16,7 +16,11 @@ public class RunBackEnd {
         run("loadBalancer");
         run("mQinstance");
         type = ServicesType.post;
+        //run("client");
+//        Thread.sleep(200);
+        type = ServicesType.user;
         run("client");
+
     }
 
     private static void run(String instance) throws InterruptedException {
