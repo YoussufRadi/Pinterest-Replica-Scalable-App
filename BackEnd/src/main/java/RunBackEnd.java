@@ -12,20 +12,18 @@ public class RunBackEnd {
     public static void main(String[] args) throws InterruptedException {
 
         run("server");
-        Thread.sleep(200);
         run("controller");
-        Thread.sleep(200);
         run("loadBalancer");
-        Thread.sleep(200);
         run("mQinstance");
-        Thread.sleep(200);
         type = ServicesType.post;
+        //run("client");
+//        Thread.sleep(200);
+        type = ServicesType.user;
         run("client");
-        Thread.sleep(200);
 
     }
 
-    private static void run(String instance){
+    private static void run(String instance) throws InterruptedException {
         Thread t = new Thread(() -> {
             switch (instance.toLowerCase()){
                 case "server":
@@ -53,5 +51,6 @@ public class RunBackEnd {
             }
         });
         t.start();
+        Thread.sleep(200);
     }
 }

@@ -2,6 +2,8 @@ package UserCommands;
 
 import Interface.ConcreteCommand;
 import Models.User;
+import com.google.gson.JsonObject;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -15,8 +17,9 @@ public class SignUp extends ConcreteCommand {
                 payload.getLastName(), payload.getUsername(),
                 payload.getEmail(), payload.getPassword(), payload.isGender(), payload.getAge());
 
-        String response = id.toString();
-        responseJson = jsonParser.parse(response);
+        JSONObject response = new JSONObject();
+        response.put("id",id.toString());
+        responseJson = jsonParser.parse(response.toString());
         System.out.println(response);
     }
 }

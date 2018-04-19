@@ -27,8 +27,8 @@ public class RedisConf {
 
 
     public RedisConf() throws IOException {
-        client = Redisson.create();
         Config config = Config.fromJSON(new File("./src/main/resources/singleNodeConfig.json"));
+        client = Redisson.create(config);
         service = client.getLiveObjectService();
 
     }
