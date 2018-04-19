@@ -1,4 +1,4 @@
-FROM sgrio/java-oracle
+FROM sgrio/java-oracle:server_jre_8
 RUN apt-get update
 RUN apt-get install -y maven
 COPY pom.xml /usr/local/service/pom.xml
