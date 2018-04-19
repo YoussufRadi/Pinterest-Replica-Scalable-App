@@ -416,7 +416,6 @@ public class UserCacheController {
             return false;
         }
 
-        ;
         return flag;
 
     }

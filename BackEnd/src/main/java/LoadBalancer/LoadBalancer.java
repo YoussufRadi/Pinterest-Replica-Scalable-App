@@ -33,7 +33,7 @@ public class LoadBalancer {
             System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
             Consumer consumer = new DefaultConsumer(balancer) {
                 @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                     try {
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");

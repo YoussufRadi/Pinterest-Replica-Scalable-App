@@ -35,7 +35,7 @@ public class UserService {
 
             Consumer consumer = new DefaultConsumer(channel) {
                 @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                     AMQP.BasicProperties replyProps = new AMQP.BasicProperties
                             .Builder()
                             .correlationId(properties.getCorrelationId())
@@ -47,7 +47,7 @@ public class UserService {
                         String message = new String(body, "UTF-8");
                         JSONObject jsonRequest = new JSONObject(message);
 
-                        String className = "ServiceTest." + (String)jsonRequest.get("command");
+                        String className = "ServiceTest." + jsonRequest.get("command");
                         Class com = Class.forName(className);
                         Command cmd = (Command) com.newInstance();
                         TreeMap<String, Object> init = new TreeMap<>();

@@ -96,7 +96,7 @@ public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
         try {
             Consumer consumer = new DefaultConsumer(receiverChannel) {
                 @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                     try {
                         AMQP.BasicProperties replyProps = new AMQP.BasicProperties
                                 .Builder()

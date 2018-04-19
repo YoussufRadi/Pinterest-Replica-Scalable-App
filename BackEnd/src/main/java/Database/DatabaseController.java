@@ -14,7 +14,7 @@ public class DatabaseController {
 
     public DatabaseController() {
         ConfigurationInit conf = new ConfigurationInit();
-        this.factory = conf.getFactory();
+        factory = ConfigurationInit.getFactory();
 
     }
 
@@ -153,7 +153,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            user = (User)session.get(User.class, user_id);
+            user = session.get(User.class, user_id);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -195,7 +195,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.setFirstName( firstName );
             user.setLastName(lastname);
             user.setPassword(password);
@@ -220,7 +220,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserCat().add(categoryID);
             session.update(user);
             tx.commit();
@@ -243,7 +243,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<UUID> categories= user.getUserCat();
             tx.commit();
             return categories;
@@ -264,7 +264,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<UUID> boards= user.getBoards();
             tx.commit();
             return boards;
@@ -285,7 +285,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<User> following= user.getFollow();
 
             tx.commit();
@@ -307,7 +307,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<UUID> photos= user.getUserLikedPhotos();
 
             tx.commit();
@@ -329,7 +329,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<UUID> pins= user.getPinnedPosts();
 
             tx.commit();
@@ -356,7 +356,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             Set<User> followers= user.getFollowedBy();
 
             tx.commit();
@@ -379,7 +379,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserCat().remove(categoryID);
             session.update(user);
             tx.commit();
@@ -402,7 +402,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getBoards().add(boardID);
             session.update(user);
             tx.commit();
@@ -423,7 +423,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getBoards().remove(boardID);
             session.update(user);
             tx.commit();
@@ -444,7 +444,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getPinnedPosts().add(pinID);
             session.update(user);
             tx.commit();
@@ -464,7 +464,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getPinnedPosts().remove(pinID);
             session.update(user);
             tx.commit();
@@ -486,7 +486,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getHashtags().add(hashtagID);
             session.update(user);
             tx.commit();
@@ -506,7 +506,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getHashtags().remove(hashtagID);
             session.update(user);
             tx.commit();
@@ -528,7 +528,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserLikedPhotos().add(likedPhotoID);
             session.update(user);
             tx.commit();
@@ -549,7 +549,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserLikedPhotos().remove(unlikedPhotoID);
             session.update(user);
             tx.commit();
@@ -570,7 +570,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserDislikedPhotos().add(dislikedPhotoID);
             session.update(user);
             tx.commit();
@@ -591,7 +591,7 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
+            User user = session.get(User.class, userID);
             user.getUserDislikedPhotos().remove(undislikedPhotoID);
             session.update(user);
             tx.commit();
@@ -655,8 +655,8 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
-            User block = (User)session.get(User.class, blocked);
+            User user = session.get(User.class, userID);
+            User block = session.get(User.class, blocked);
 
             user.getBlock().add(block);
 
@@ -678,8 +678,8 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
-            User unblock = (User)session.get(User.class, unblocked);
+            User user = session.get(User.class, userID);
+            User unblock = session.get(User.class, unblocked);
 
             user.getBlock().remove(unblock);
 
@@ -702,8 +702,8 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
-            User following = (User)session.get(User.class,followingId );
+            User user = session.get(User.class, userID);
+            User following = session.get(User.class,followingId );
 
             following.getFollowedBy().add(user);
             user.getFollow().add(following);
@@ -731,8 +731,8 @@ public class DatabaseController {
 
         try {
             tx = session.beginTransaction();
-            User user = (User)session.get(User.class, userID);
-            User following = (User)session.get(User.class,followingId );
+            User user = session.get(User.class, userID);
+            User following = session.get(User.class,followingId );
             following.getFollowedBy().remove(user);
             user.getFollow().remove(following);
             session.update(user);
