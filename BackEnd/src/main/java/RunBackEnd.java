@@ -20,8 +20,11 @@ public class RunBackEnd {
         run("mQinstance");
         Thread.sleep(200);
         type = ServicesType.post;
+        //run("client");
+//        Thread.sleep(200);
+        type = ServicesType.user;
         run("client");
-        Thread.sleep(200);
+
 
     }
 
