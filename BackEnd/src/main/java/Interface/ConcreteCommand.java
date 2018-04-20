@@ -1,13 +1,18 @@
 package Interface;
 
 import Cache.UserCacheController;
+import ClientService.Client;
 import Database.ArangoInstance;
+import Models.ErrorLog;
 import Models.Message;
 import com.google.gson.*;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
+import io.netty.handler.logging.LogLevel;
 import org.redisson.api.RLiveObjectService;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.TreeMap;
 
 public abstract class ConcreteCommand extends Command {
@@ -45,13 +50,13 @@ public abstract class ConcreteCommand extends Command {
 
             doCommand();
 
-            System.out.println();
             jsonObject.add("response", responseJson);
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
 //            channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
     }
 
     protected abstract void doCommand();

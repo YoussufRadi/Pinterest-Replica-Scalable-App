@@ -12,12 +12,12 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4J2LoggerFactory;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -27,7 +27,7 @@ public class Controller {
     Config conf = Config.getInstance();
 
     private int port = conf.getControllerPort();
-    public static TreeMap<String,ArrayList<Channel>> services;
+    public static TreeMap<String,ArrayList<Channel>> services= new TreeMap<>();
     public static final Logger logger = LogManager.getLogger(Controller.class);
 
     public static void main(String[] args) {
@@ -38,7 +38,6 @@ public class Controller {
 
         InternalLoggerFactory.setDefaultFactory(Log4J2LoggerFactory.INSTANCE);
 
-        services = new TreeMap<>();
         services.put(conf.getMqInstanceUserQueue(), new ArrayList<>());
         services.put(conf.getMqInstancePostQueue(), new ArrayList<>());
         services.put(conf.getMqInstanceChatQueue(), new ArrayList<>());
@@ -56,14 +55,16 @@ public class Controller {
                     .handler(new LoggingHandler(LogLevel.DEBUG))
                     .childHandler(new ControllerAdapterInitializer());
 //                    .childOption(ChannelOption.SO_KEEPALIVE, true);
-            System.err.println("Controller is listening on http://127.0.0.1:" + port + '/');
+            logger.info("Controller is listening on http://127.0.0.1:" + port + '/');
 
             takeConsoleInput();
 
             bootstrap.bind(port).sync().channel().closeFuture().sync();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            logger.error(errors.toString());
         } finally {
             producer.shutdownGracefully();
             consumer.shutdownGracefully();
@@ -76,15 +77,24 @@ public class Controller {
             while (true){
                 String line[] = sc.nextLine().split(" ");
 
+                if(line.length < 2){
+                    logger.error("Parameters are not enough");
+                    continue;
+                }
+                if(line[0].equals("error")){
+                    setLoggerLevel(line[1]);
+                    continue;
+                }
+
                 if(line.length < 3){
-                    System.out.println("Parameters are not enough");
+                    logger.error("Control commands must be of length 3 at least");
                     continue;
                 }
 
                 ControlMessage controlMessage;
                 ControlCommand c = getCommand(line[2]);
                 if(c==null){
-                    System.out.println("Command is not valid");
+                    logger.error("Command is not valid");
                     continue;
                 }
                 if(line.length == 3)
@@ -109,7 +119,6 @@ public class Controller {
             case "add" : return ControlCommand.addCommand;
             case "delete" : return ControlCommand.deleteCommand;
             case "update" : return ControlCommand.updateCommand;
-            case "error" : return ControlCommand.errorReportingLevel;
         }
         return null;
     }
@@ -119,11 +128,11 @@ public class Controller {
             ArrayList<Channel> channels = services.get(name);
             if(channels.size() > Integer.parseInt(id)){
                 Controller.services.get(name).get(Integer.parseInt(id)).writeAndFlush(m);
-                System.out.println("Send to Channel " + name + ", Command : " + m.getControlCommand());
+                logger.info("Send to Channel " + name + ", Command : " + m.getControlCommand());
             }
-            else System.out.println("Service Id : " + id + " doesn't exist");
+            else logger.error("Service Id : " + id + " doesn't exist");
         }
-        else System.out.println("Service Name : " + name + " doesn't exist");
+        else logger.error("Service Name : " + name + " doesn't exist");
     }
 
     private String readFile(String path){
@@ -140,9 +149,35 @@ public class Controller {
             }
 
         } catch (IOException e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            logger.error(errors.toString());
             e.printStackTrace();
         }
         return sourceCode.toString();
+    }
+
+    private void setLoggerLevel(String loggerLevel) {
+        switch (loggerLevel.toLowerCase()){
+            case "trace":
+                Configurator.setRootLevel(Level.TRACE);
+                break;
+            case "debug":
+                Configurator.setRootLevel(Level.DEBUG);
+                break;
+            case "info":
+                Configurator.setRootLevel(Level.INFO);
+                break;
+            case "warn":
+                Configurator.setRootLevel(Level.WARN);
+                break;
+            case "error":
+                Configurator.setRootLevel(Level.ERROR);
+                break;
+            case "off":
+                Configurator.setRootLevel(Level.OFF);
+                break;
+        }
     }
     // Example
     // post 0 add GetKhara /home/aboelenien/Desktop/GetKhara.txt

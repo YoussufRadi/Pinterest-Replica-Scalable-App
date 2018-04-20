@@ -2,9 +2,11 @@ package ClientService;
 
 import Interface.ControlService;
 import Models.ControlMessage;
+import Models.ErrorLog;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.logging.LogLevel;
 
 public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
 
@@ -16,14 +18,13 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
-        System.out.println("Client Reading Channel");
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.DEBUG,"Client Reading Channel"));
         Channel currentChannel = arg0.channel();
         if(arg1 instanceof String) {
-            System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString()));
         }
         else if(arg1 instanceof ControlMessage)
             controlService((ControlMessage) arg1);
-        System.out.println();
         currentChannel.writeAndFlush("[Controller] - Success" + "\r\n");
     }
 
@@ -43,10 +44,8 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
                 break;
             case updateCommand : service.update_command(m.getParam(), m.getPath());
                 break;
-            case errorReportingLevel : service.set_error_reporting_level(Integer.parseInt(m.getParam()));
-                break;
         }
-        System.out.println("ControlService is executing : " + m.getControlCommand());
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.DEBUG,"ControlService is executing : " + m.getControlCommand()));
     }
 
     @Override

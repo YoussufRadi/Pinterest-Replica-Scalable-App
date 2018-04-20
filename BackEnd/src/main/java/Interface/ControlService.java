@@ -1,18 +1,19 @@
 package Interface;
 
 import Cache.UserCacheController;
+import ClientService.Client;
 import Config.Config;
 import Config.ConfigTypes;
 import Database.ArangoInstance;
+import Models.ErrorLog;
 import com.rabbitmq.client.*;
+import io.netty.handler.logging.LogLevel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.redisson.api.RLiveObjectService;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -53,14 +54,14 @@ public abstract class ControlService {
         factory.setUsername(user);
         factory.setPassword(pass);
         Connection connection = null;
+
         try {
             connection = factory.newConnection();
             channel = connection.createChannel();
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
             channel.basicQos(threadsNo);
 
-            System.out.println(" [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME);
-
+//            Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO," [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME));
             consumer = new DefaultConsumer(channel) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -68,8 +69,8 @@ public abstract class ControlService {
                             .Builder()
                             .correlationId(properties.getCorrelationId())
                             .build();
+                    Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Responding to corrID: " + properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME));
 
-                    System.out.println("Responding to corrID: " + properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME);
 
                     try {
                         //Using Reflection to convert a command String to its appropriate class
@@ -92,8 +93,9 @@ public abstract class ControlService {
                         cmd.init(init);
                         executor.submit(cmd);
                     } catch (RuntimeException | ParseException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                        e.printStackTrace();
-                        start();
+                        StringWriter errors = new StringWriter();
+                        e.printStackTrace(new PrintWriter(errors));
+                        Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));                        start();
                     } finally {
                         synchronized (this) {
                             this.notify();
@@ -105,7 +107,9 @@ public abstract class ControlService {
 
 
         } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             start();
         }
     }
@@ -128,21 +132,23 @@ public abstract class ControlService {
         try {
             consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Service Resumed");
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Service Resumed"));
     }
 
     public void freeze() {
         try {
             channel.basicCancel(consumerTag);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Service freezed");
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Service Freezed"));
     }
 
-    //TODO
+    //TODO CHECK IF FILE EXISTS FIRST IF THERE THEN LOG AN ERROR
     public void add_command(String commandName, String source_code){
         FileWriter fileWriter;
         try {
@@ -152,8 +158,9 @@ public abstract class ControlService {
             bufferedWriter.write(source_code);
             bufferedWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
 
     }
 
@@ -166,10 +173,4 @@ public abstract class ControlService {
         delete_command(commandName);
         add_command(commandName, filePath);
     }
-
-    //TODO
-    public void set_error_reporting_level(int level){
-
-    }
-    
 }

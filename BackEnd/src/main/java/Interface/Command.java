@@ -8,7 +8,6 @@ public abstract class Command implements Runnable {
 
     final public void init(TreeMap<String, Object> parameters) {
         this.data = parameters;
-        System.out.println(parameters);
     }
 
     protected abstract void execute();

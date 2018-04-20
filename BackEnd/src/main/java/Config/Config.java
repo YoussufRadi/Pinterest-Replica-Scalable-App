@@ -1,5 +1,7 @@
 package Config;
 
+import Controller.Controller;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -42,6 +44,9 @@ public class Config {
             config.load(file);
             file.close();
         } catch (IOException e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Controller.logger.error(errors);
             e.printStackTrace();
         }
     }
@@ -98,6 +103,9 @@ public class Config {
             config.store(out, "");
             out.close();
         } catch (IOException e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Controller.logger.error(errors);
             e.printStackTrace();
         }
     }

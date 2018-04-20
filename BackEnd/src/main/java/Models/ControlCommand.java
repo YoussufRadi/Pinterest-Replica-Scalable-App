@@ -8,6 +8,5 @@ public enum ControlCommand {
     addCommand,
     deleteCommand,
     updateCommand,
-    errorReportingLevel,
     initialize
 }

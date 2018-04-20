@@ -3,6 +3,7 @@
 target/
 BackEnd/src/main/resources/
 BackEnd/target/
+BackEnd/logs/
 */target/
 BackEnd/pom.xml.tag
 BackEnd/pom.xml.releaseBackup
@@ -63,10 +64,10 @@ $RECYCLE.BIN/
 react-app/node_modules
 
 # testing
-react-app//coverage
+react-app/coverage
 
 # production
-react-app//build
+react-app/build
 
 # misc
 react-app/.DS_Store

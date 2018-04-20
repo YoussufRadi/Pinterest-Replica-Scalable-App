@@ -16,26 +16,34 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.InetSocketAddress;
-import java.util.Scanner;
 
 public class Client {
 
+    public static Channel channel;
+    protected ControlService service;
     Config conf = Config.getInstance();
-
     private String server = conf.getControllerHost();
     private int port = conf.getControllerPort();
-
     private String serviceName;
-    protected ControlService service;
-    private static Channel channel;
 
-    public void initService(ServicesType serviceName){
-        switch (serviceName){
+//    public static void main(String[] args) {
+//        Client c = new Client();
+//        c.initService(ServicesType.post);
+//        new Thread(() -> {
+//            c.start();
+//        }).start();
+//        c.startService();
+//    }
+
+    public void initService(ServicesType serviceName) {
+        switch (serviceName) {
             case user:
-            service = new UserService();
-            this.serviceName = conf.getMqInstanceUserQueue();
-            break;
+                service = new UserService();
+                this.serviceName = conf.getMqInstanceUserQueue();
+                break;
             case post:
                 service = new PostService();
                 this.serviceName = conf.getMqInstancePostQueue();
@@ -44,22 +52,14 @@ public class Client {
         }
     }
 
-
     public void startService() {
         this.service.start();
-    }
-
-    public static void main(String[] args) {
-        Client c = new Client();
-        c.initService(ServicesType.post);
-        c.startService();
-        c.start();
     }
 
     public void start() {
 
         EventLoopGroup group = new NioEventLoopGroup();
-        try{
+        try {
             Bootstrap clientBootstrap = new Bootstrap();
 
             clientBootstrap.group(group);
@@ -70,20 +70,23 @@ public class Client {
             ChannelFuture channelFuture = clientBootstrap.connect().sync();
             Client.channel = channelFuture.channel();
 
-            Thread t = new Thread(() -> {
-                Scanner sc = new Scanner(System.in);
-                while (true){
-                    String line = sc.nextLine();
-                    ErrorLog l = new ErrorLog(LogLevel.ERROR, line);
-                    Client.channel.writeAndFlush(l);
-                }
-            });
-            t.start();
+//            Thread t = new Thread(() -> {
+//                Scanner sc = new Scanner(System.in);
+//                while (true){
+//                    String line = sc.nextLine();
+//                    ErrorLog l = new ErrorLog(LogLevel.ERROR, line);
+//                    Client.channel.writeAndFlush(l);
+//                }
+//            });
+//            t.start();
 
             Client.channel.writeAndFlush(new ControlMessage(ControlCommand.initialize, serviceName));
             channelFuture.channel().closeFuture().sync();
 
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
         } finally {
             group.shutdownGracefully();

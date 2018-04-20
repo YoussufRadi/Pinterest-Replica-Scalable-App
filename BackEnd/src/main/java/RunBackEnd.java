@@ -16,9 +16,6 @@ public class RunBackEnd {
         run("loadBalancer");
         run("mQinstance");
         type = ServicesType.post;
-        //run("client");
-//        Thread.sleep(200);
-        type = ServicesType.user;
         run("client");
 
     }
@@ -43,10 +40,12 @@ public class RunBackEnd {
                     mQinstance.start();
                     break;
                 case "client":
-                    Client client = new Client();
-                    client.initService(RunBackEnd.type);
-                    client.startService();
-                    client.start();
+                    Client c = new Client();
+                    c.initService(ServicesType.post);
+                    new Thread(() -> {
+                        c.start();
+                    }).start();
+                    c.startService();
                     break;
             }
         });

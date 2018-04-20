@@ -1,15 +1,19 @@
 package Cache;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import ClientService.Client;
+import Database.DatabaseController;
+import Models.ErrorLog;
 import Models.User;
 import Models.UserLiveObject;
-import Database.DatabaseController;
-import Cache.RedisConf;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.netty.handler.logging.LogLevel;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLiveObjectService;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +24,7 @@ public class UserCacheController {
     private RLiveObjectService service;
 
 
-    public  UserCacheController() throws IOException {
+    public UserCacheController() throws IOException {
 
         //initializations no big issue
         dbcont = new DatabaseController();
@@ -57,7 +61,11 @@ public class UserCacheController {
 
         } catch (Exception e) {
 
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
+
             return null;
 
         }
@@ -82,12 +90,14 @@ public class UserCacheController {
                 return dbcont.getBoards(userID);
 
             }
-        }
-        catch(Exception e) {
-                e.printStackTrace();
-                return null;
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
+            e.printStackTrace();
+            return null;
 
-            }
+        }
 
 
     }
@@ -104,8 +114,10 @@ public class UserCacheController {
                 return dbcont.getCategories(userID);
 
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return null;
 
@@ -126,8 +138,10 @@ public class UserCacheController {
                 return dbcont.getPins(userID);
 
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return null;
 
@@ -151,8 +165,10 @@ public class UserCacheController {
                 return dbcont.getFollowedUsers(userID);
 
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return null;
 
@@ -176,8 +192,10 @@ public class UserCacheController {
                 return dbcont.getFollowersUsers(userID);
 
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return null;
 
@@ -187,13 +205,12 @@ public class UserCacheController {
     }
 
 
-
     public boolean updateUser(UUID userID,
-                           String firstName, String lastname, String password,
-                           String username, int age, boolean gender) {
+                              String firstName, String lastname, String password,
+                              String username, int age, boolean gender) {
 
         //we update the user in the database easy
-       boolean res= dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
+        boolean res = dbcont.updateUser(userID, firstName, lastname, password, username, age, gender);
 
         //we check if the user is in the cache we update him
         try {
@@ -213,6 +230,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -239,6 +259,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -267,6 +290,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -297,6 +323,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -325,6 +354,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -353,6 +385,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -382,6 +417,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -412,6 +450,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -441,6 +482,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -471,6 +515,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -500,6 +547,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -529,6 +579,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -558,6 +611,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -588,6 +644,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -617,6 +676,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -629,8 +691,8 @@ public class UserCacheController {
     public boolean followUser(UUID userID, UUID followingId) {
 
         // add a board in the db by using the normal method
-            boolean flag = dbcont.followUser(userID, followingId);
-         System.out.println(flag +"Follow UserModel");
+        boolean flag = dbcont.followUser(userID, followingId);
+        System.out.println(flag + "Follow UserModel");
 
         // if the user is in the cache then update his boards also !!
         try {
@@ -653,6 +715,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -688,6 +753,9 @@ public class UserCacheController {
 
             }
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
             return false;
         }
@@ -705,6 +773,9 @@ public class UserCacheController {
 
             return user;
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
             e.printStackTrace();
 
         }
@@ -845,8 +916,6 @@ public class UserCacheController {
     }
 
 */
-
-
 
 
     // gets the user with all collections (Sets)

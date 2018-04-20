@@ -2,9 +2,14 @@ package Services;
 
 
 import Cache.UserCacheController;
+import ClientService.Client;
 import Interface.ControlService;
+import Models.ErrorLog;
+import io.netty.handler.logging.LogLevel;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class UserService extends ControlService {
 
@@ -14,8 +19,9 @@ public class UserService extends ControlService {
         try {
             userCacheController = new UserCacheController();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
     }
 
     @Override

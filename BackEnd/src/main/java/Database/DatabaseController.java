@@ -1,9 +1,14 @@
 package Database;
 
+import ClientService.Client;
+import Models.ErrorLog;
 import Models.User;
+import io.netty.handler.logging.LogLevel;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -21,41 +26,48 @@ public class DatabaseController {
 
     /* Method to CREATE an user in the database */
     public UUID addUser(String fname, String lname,
-                        String username, String email,String password,
-                        boolean gender, int age){
+                        String username, String email, String password,
+                        boolean gender, int age) {
         Session session = factory.openSession();
         Transaction tx = null;
         UUID userID = null;
 
         try {
             tx = session.beginTransaction();
-            User user = new User(fname, lname,username, email,password,gender, age);
+            User user = new User(fname, lname, username, email, password, gender, age);
             userID = (UUID) session.save(user);
             tx.commit();
             return userID;
         } catch (HibernateException e) {
-            if (tx!=null) {
+            if (tx != null) {
                 tx.rollback();
             }
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
+//            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Error"));
+
             System.out.println("EROOOOOORRR");
             return null;
 
         } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
-
+//            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Error"));
             System.out.println("EROOOOOORRR");
             return null;
 
-        }finally
-        {
+        } finally {
             session.close();
             return userID;
 
         }
     }
 
-    public UUID addUser(User user){
+    public UUID addUser(User user) {
         Session session = factory.openSession();
         Transaction tx = null;
         UUID userID = null;
@@ -66,7 +78,10 @@ public class DatabaseController {
             userID = (UUID) session.save(user);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         } finally {
             session.close();
@@ -77,9 +92,7 @@ public class DatabaseController {
     /* Method to  READ all the users */
 
 
-
-
-    public User signIn (String email, String password ){
+    public User signIn(String email, String password) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -91,11 +104,11 @@ public class DatabaseController {
         try {
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
-            user = (User) criteria.add(Restrictions.eq("email",email)).uniqueResult();
-            if (user==null){
+            user = (User) criteria.add(Restrictions.eq("email", email)).uniqueResult();
+            if (user == null) {
                 return null;
             }
-            if(user.getPassword().equals(password)){
+            if (user.getPassword().equals(password)) {
 
 
                 session.update(user);
@@ -110,7 +123,10 @@ public class DatabaseController {
             session.update(user);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
 
@@ -122,7 +138,7 @@ public class DatabaseController {
     }
 
 
-    public User getUserByEmail (String email ){
+    public User getUserByEmail(String email) {
         Session session = factory.openSession();
         Transaction tx = null;
         User user = null;
@@ -130,14 +146,17 @@ public class DatabaseController {
         try {
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
-            user = (User) criteria.add(Restrictions.eq("email",email)).uniqueResult();
-            if (user==null){
+            user = (User) criteria.add(Restrictions.eq("email", email)).uniqueResult();
+            if (user == null) {
                 return null;
             }
             session.update(user);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         } finally {
             session.close();
@@ -146,17 +165,20 @@ public class DatabaseController {
     }
 
 
-    public User getUser(UUID user_id){
+    public User getUser(UUID user_id) {
         Session session = factory.openSession();
         Transaction tx = null;
-        User user =null;
+        User user = null;
 
         try {
             tx = session.beginTransaction();
             user = session.get(User.class, user_id);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         } finally {
             session.close();
@@ -165,7 +187,7 @@ public class DatabaseController {
     }
 
     /* Method to  READ all the users */
-    public void listUsers( ){
+    public void listUsers() {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -173,7 +195,7 @@ public class DatabaseController {
             tx = session.beginTransaction();
 
             List userss = session.createQuery("FROM UserModel").list();
-            for (Iterator iterator = userss.iterator(); iterator.hasNext();){
+            for (Iterator iterator = userss.iterator(); iterator.hasNext(); ) {
                 User user = (User) iterator.next();
                 System.out.print("First Name: " + user.getFirstName());
                 System.out.print("  Last Name: " + user.getLastName());
@@ -181,7 +203,10 @@ public class DatabaseController {
             }
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         } finally {
             session.close();
@@ -189,14 +214,14 @@ public class DatabaseController {
     }
 
     /* Method to UPDATE firstName for an employee */
-    public boolean updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender ){
+    public boolean updateUser(UUID userID, String firstName, String lastname, String password, String username, int age, boolean gender) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            user.setFirstName( firstName );
+            user.setFirstName(firstName);
             user.setLastName(lastname);
             user.setPassword(password);
             user.setAge(age);
@@ -206,7 +231,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -214,7 +242,7 @@ public class DatabaseController {
         }
     }
 
-    public boolean followCategories(UUID userID, UUID categoryID ){
+    public boolean followCategories(UUID userID, UUID categoryID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -227,7 +255,10 @@ public class DatabaseController {
             return true;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -236,20 +267,22 @@ public class DatabaseController {
     }
 
 
-
-    public Set<UUID> getCategories(UUID userID ){
+    public Set<UUID> getCategories(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<UUID> categories= user.getUserCat();
+            Set<UUID> categories = user.getUserCat();
             tx.commit();
             return categories;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -258,19 +291,22 @@ public class DatabaseController {
     }
 
 
-    public Set<UUID> getBoards(UUID userID ){
+    public Set<UUID> getBoards(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<UUID> boards= user.getBoards();
+            Set<UUID> boards = user.getBoards();
             tx.commit();
             return boards;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -279,20 +315,23 @@ public class DatabaseController {
     }
 
 
-    public Set<User> getFollowedUsers(UUID userID ){
+    public Set<User> getFollowedUsers(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<User> following= user.getFollow();
+            Set<User> following = user.getFollow();
 
             tx.commit();
             return following;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -301,20 +340,23 @@ public class DatabaseController {
     }
 
 
-    public Set<UUID> getLikedPhotos(UUID userID ){
+    public Set<UUID> getLikedPhotos(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<UUID> photos= user.getUserLikedPhotos();
+            Set<UUID> photos = user.getUserLikedPhotos();
 
             tx.commit();
             return photos;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -323,20 +365,23 @@ public class DatabaseController {
     }
 
 
-    public Set<UUID> getPins(UUID userID ){
+    public Set<UUID> getPins(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<UUID> pins= user.getPinnedPosts();
+            Set<UUID> pins = user.getPinnedPosts();
 
             tx.commit();
             return pins;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -345,25 +390,23 @@ public class DatabaseController {
     }
 
 
-
-
-
-
-
-    public Set<User> getFollowersUsers(UUID userID ){
+    public Set<User> getFollowersUsers(UUID userID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            Set<User> followers= user.getFollowedBy();
+            Set<User> followers = user.getFollowedBy();
 
             tx.commit();
             return followers;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return null;
         } finally {
@@ -372,8 +415,7 @@ public class DatabaseController {
     }
 
 
-
-    public boolean unfollowCategories(UUID userID, UUID categoryID ){
+    public boolean unfollowCategories(UUID userID, UUID categoryID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -386,7 +428,10 @@ public class DatabaseController {
             return true;
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -395,8 +440,7 @@ public class DatabaseController {
     }
 
 
-
-    public boolean addBoard (UUID userID, UUID boardID ){
+    public boolean addBoard(UUID userID, UUID boardID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -408,7 +452,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -417,7 +464,7 @@ public class DatabaseController {
     }
 
 
-    public boolean removeBoard (UUID userID, UUID boardID ){
+    public boolean removeBoard(UUID userID, UUID boardID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -429,7 +476,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -438,7 +488,7 @@ public class DatabaseController {
     }
 
 
-    public boolean addPin (UUID userID, UUID pinID ){
+    public boolean addPin(UUID userID, UUID pinID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -450,7 +500,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -458,7 +511,7 @@ public class DatabaseController {
         }
     }
 
-    public boolean removePin (UUID userID, UUID pinID ){
+    public boolean removePin(UUID userID, UUID pinID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -470,7 +523,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -479,8 +535,7 @@ public class DatabaseController {
     }
 
 
-
-    public boolean followHashtag (UUID userID, UUID hashtagID ){
+    public boolean followHashtag(UUID userID, UUID hashtagID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -492,7 +547,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -500,7 +558,7 @@ public class DatabaseController {
         }
     }
 
-    public boolean unfollowHashtag (UUID userID, UUID hashtagID ){
+    public boolean unfollowHashtag(UUID userID, UUID hashtagID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -512,7 +570,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -521,8 +582,7 @@ public class DatabaseController {
     }
 
 
-
-    public boolean likePhotos(UUID userID, UUID likedPhotoID ){
+    public boolean likePhotos(UUID userID, UUID likedPhotoID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -534,7 +594,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -543,7 +606,7 @@ public class DatabaseController {
     }
 
 
-    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID ){
+    public boolean unlikePhotos(UUID userID, UUID unlikedPhotoID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -555,7 +618,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -564,7 +630,7 @@ public class DatabaseController {
     }
 
 
-    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID ){
+    public boolean dislikePhotos(UUID userID, UUID dislikedPhotoID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -576,7 +642,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -585,7 +654,7 @@ public class DatabaseController {
 
     }
 
-    public boolean undislikePhotos(UUID userID, UUID undislikedPhotoID ){
+    public boolean undislikePhotos(UUID userID, UUID undislikedPhotoID) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -597,7 +666,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -606,17 +678,7 @@ public class DatabaseController {
     }
 
 
-
-
-
-
-
-
-
-
-
-    public User getUserWithProfileById(UUID userId)
-    {
+    public User getUserWithProfileById(UUID userId) {
         Session session = factory.openSession();
         Transaction tx = null;
         User user = null;
@@ -634,13 +696,13 @@ public class DatabaseController {
             Hibernate.initialize(user.getFollowing());
 
 
-
-
-
             tx.commit();
 
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         } finally {
             session.close();
@@ -649,7 +711,7 @@ public class DatabaseController {
         return user;
     }
 
-    public boolean blockUser(UUID userID, UUID blocked ){
+    public boolean blockUser(UUID userID, UUID blocked) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -664,7 +726,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -672,7 +737,7 @@ public class DatabaseController {
         }
     }
 
-    public boolean unblockUser(UUID userID, UUID unblocked ){
+    public boolean unblockUser(UUID userID, UUID unblocked) {
         Session session = factory.openSession();
         Transaction tx = null;
 
@@ -687,7 +752,10 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -696,14 +764,14 @@ public class DatabaseController {
     }
 
 
-    public boolean followUser(UUID userID, UUID followingId ){
+    public boolean followUser(UUID userID, UUID followingId) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            User following = session.get(User.class,followingId );
+            User following = session.get(User.class, followingId);
 
             following.getFollowedBy().add(user);
             user.getFollow().add(following);
@@ -711,35 +779,43 @@ public class DatabaseController {
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
-            return false;}
-
-            catch (Exception e) {
-                if (tx!=null) tx.rollback();
-                e.printStackTrace();
-                return false;
+            return false;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+            e.printStackTrace();
+            return false;
         } finally {
             session.close();
         }
     }
 
 
-    public boolean unfollowUser(UUID userID, UUID followingId ){
+    public boolean unfollowUser(UUID userID, UUID followingId) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
-            User following = session.get(User.class,followingId );
+            User following = session.get(User.class, followingId);
             following.getFollowedBy().remove(user);
             user.getFollow().remove(following);
             session.update(user);
             tx.commit();
             return true;
         } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+            if (tx != null) tx.rollback();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
             return false;
         } finally {
@@ -762,7 +838,9 @@ public class DatabaseController {
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
-            e.printStackTrace();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
         } finally {
             session.close();
         }

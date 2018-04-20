@@ -10,6 +10,9 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class ControllerAdapterHandler extends
         ChannelInboundHandlerAdapter {
 
@@ -20,7 +23,7 @@ public class ControllerAdapterHandler extends
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("[START] New Container has been initialized " + ctx.channel().localAddress());
+        Controller.logger.info("[START] New Container has been initialized " + ctx.channel().localAddress());
         channels.add(ctx.channel());
 
         super.handlerAdded(ctx);
@@ -28,7 +31,7 @@ public class ControllerAdapterHandler extends
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("[END] A Container has been removed");
+        Controller.logger.info("[END] A Container has been removed");
         channels.remove(ctx.channel());
         super.handlerRemoved(ctx);
     }
@@ -40,14 +43,15 @@ public class ControllerAdapterHandler extends
         if(arg1 instanceof ControlMessage){
             ControlMessage m = (ControlMessage) arg1;
             if(m.getControlCommand().equals(ControlCommand.initialize))
-                Controller.services.get(m.getParam()).add(currentChannel);
+                Controller.services.
+                        get(m.getParam()).
+                        add(currentChannel);
 
-            System.out.println("New Service connected : " + m.getParam() + ", id : " + (Controller.services.get(m.getParam()).size()-1));
+            Controller.logger.info("New Service connected : " + m.getParam() + ", id : " + (Controller.services.get(m.getParam()).size()-1));
         } else if(arg1 instanceof ErrorLog){
             logError((ErrorLog)arg1);
-        }
-
-        System.out.println("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
+        } else
+            Controller.logger.info("[INFO] - " + currentChannel.remoteAddress() + " - " + arg1.toString());
 
     }
 
@@ -73,18 +77,19 @@ public class ControllerAdapterHandler extends
 
     @Override
     public void channelReadComplete(ChannelHandlerContext arg0) {
-        System.out.println("channelReadComplete" + arg0.channel().read());
-        System.out.println();
+        Controller.logger.debug("channelReadComplete" + arg0.channel().read());
     }
 
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext arg0) {
-        System.out.println("channelWritabilityChanged");
-        System.out.println();
+        Controller.logger.debug("channelWritabilityChanged");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        StringWriter errors = new StringWriter();
+        cause.printStackTrace(new PrintWriter(errors));
+        Controller.logger.error(errors.toString());
         cause.printStackTrace();
         super.exceptionCaught(ctx, cause);
     }
