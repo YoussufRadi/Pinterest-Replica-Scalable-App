@@ -14,6 +14,10 @@ import org.json.simple.parser.ParseException;
 import org.redisson.api.RLiveObjectService;
 
 import java.io.*;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,12 +26,13 @@ import java.util.concurrent.TimeoutException;
 public abstract class ControlService {
 
     protected Config conf = Config.getInstance();
-
-    private int threadsNo = conf.getServiceMaxThreads();
     protected int maxDBConnections = conf.getServiceMaxDbConnections();
-    private  ThreadPoolExecutor executor;
-
     protected String RPC_QUEUE_NAME; //set by init
+    protected RLiveObjectService liveObjectService; // For Post Only
+    protected ArangoInstance arangoInstance; // For Post Only
+    protected UserCacheController userCacheController; // For UserModel Only
+    private int threadsNo = conf.getServiceMaxThreads();
+    private ThreadPoolExecutor executor;
     private String host = conf.getMqInstanceQueueHost();
     private int port = conf.getMqInstanceQueuePort();
     private String user = conf.getMqInstanceQueueUserName();
@@ -36,18 +41,14 @@ public abstract class ControlService {
     private String consumerTag;
     private Consumer consumer;
 
-    protected RLiveObjectService liveObjectService; // For Post Only
-    protected ArangoInstance arangoInstance; // For Post Only
-    protected UserCacheController userCacheController; // For UserModel Only
-
-    public ControlService(){
-        this.executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
+    public ControlService() {
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threadsNo);
         init();
     }
 
     public abstract void init();
 
-    public void start(){
+    public void start() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(host);
         factory.setPort(port);
@@ -61,7 +62,7 @@ public abstract class ControlService {
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
             channel.basicQos(threadsNo);
 
-//            Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO," [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, " [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME));
             consumer = new DefaultConsumer(channel) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -69,7 +70,7 @@ public abstract class ControlService {
                             .Builder()
                             .correlationId(properties.getCorrelationId())
                             .build();
-                    Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Responding to corrID: " + properties.getCorrelationId() +  ", on Queue : " + RPC_QUEUE_NAME));
+                    Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Responding to corrID: " + properties.getCorrelationId() + ", on Queue : " + RPC_QUEUE_NAME));
 
 
                     try {
@@ -78,7 +79,7 @@ public abstract class ControlService {
                         JSONParser parser = new JSONParser();
                         JSONObject command = (JSONObject) parser.parse(message);
                         String className = (String) command.get("command");
-                        Class com = Class.forName(RPC_QUEUE_NAME+ "Commands." + className);
+                        Class com = Class.forName(RPC_QUEUE_NAME + "Commands." + className);
                         Command cmd = (Command) com.newInstance();
 
                         TreeMap<String, Object> init = new TreeMap<>();
@@ -93,9 +94,11 @@ public abstract class ControlService {
                         cmd.init(init);
                         executor.submit(cmd);
                     } catch (RuntimeException | ParseException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        e.printStackTrace();
                         StringWriter errors = new StringWriter();
                         e.printStackTrace(new PrintWriter(errors));
-                        Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));                        start();
+                        Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+                        start();
                     } finally {
                         synchronized (this) {
                             this.notify();
@@ -107,6 +110,7 @@ public abstract class ControlService {
 
 
         } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
@@ -114,7 +118,7 @@ public abstract class ControlService {
         }
     }
 
-    public void setMaxDBConnections(int connections){
+    public void setMaxDBConnections(int connections) {
         setDBConnections(connections);
         conf.setProperty(ConfigTypes.Service, "service.max.db", String.valueOf(connections));
 
@@ -122,8 +126,8 @@ public abstract class ControlService {
 
     protected abstract void setDBConnections(int connections);
 
-    public void setMaxThreadsSize(int threads){
-        threadsNo =threads;
+    public void setMaxThreadsSize(int threads) {
+        threadsNo = threads;
         executor.setMaximumPoolSize(threads);
         conf.setProperty(ConfigTypes.Service, "service.max.thread", String.valueOf(threads));
     }
@@ -132,45 +136,68 @@ public abstract class ControlService {
         try {
             consumerTag = channel.basicConsume(RPC_QUEUE_NAME, false, consumer);
         } catch (IOException e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
-        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Service Resumed"));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Service Resumed"));
     }
 
     public void freeze() {
         try {
             channel.basicCancel(consumerTag);
         } catch (IOException e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
-        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Service Freezed"));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Service Freezed"));
     }
 
     //TODO CHECK IF FILE EXISTS FIRST IF THERE THEN LOG AN ERROR
-    public void add_command(String commandName, String source_code){
+    public void add_command(String commandName, String source_code) {
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter("/target/classes/"+RPC_QUEUE_NAME+"Commands/"+commandName+".class");
+            File idea = new File("/target/classes/" + RPC_QUEUE_NAME + "Commands/" + commandName + ".class");
+            if (idea.exists()) {
+                Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, commandName + " Already exists please use update"));
+                return;
+            }
+            fileWriter = new FileWriter(idea);
             BufferedWriter bufferedWriter =
                     new BufferedWriter(fileWriter);
             bufferedWriter.write(source_code);
             bufferedWriter.close();
         } catch (IOException e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+        }
 
     }
 
-    //TODO
-    public void delete_command(String commandName){
-
+    public boolean delete_command(String commandName) {
+        try {
+            Files.deleteIfExists(Paths.get("/target/classes/" + RPC_QUEUE_NAME + "Commands/" + commandName + ".class"));
+        } catch (NoSuchFileException e) {
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, "No such file/directory exists"));
+            return false;
+        } catch (DirectoryNotEmptyException e) {
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, "Directory is not empty."));
+            return false;
+        } catch (IOException e) {
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, "Invalid permissions."));
+            return false;
+        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Deletion successful."));
+        return true;
     }
 
-    public void update_command(String commandName, String filePath){
-        delete_command(commandName);
-        add_command(commandName, filePath);
+    public void update_command(String commandName, String filePath) {
+        if(delete_command(commandName))
+            add_command(commandName, filePath);
     }
 }

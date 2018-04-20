@@ -1,8 +1,11 @@
 package Services;
 
 import Cache.RedisConf;
+import ClientService.Client;
 import Database.ArangoInstance;
 import Interface.ControlService;
+import Models.ErrorLog;
+import io.netty.handler.logging.LogLevel;
 
 import java.io.*;
 
@@ -17,6 +20,9 @@ public class PostService extends ControlService {
         try {
             redisConf  = new RedisConf();
         } catch (IOException e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
             e.printStackTrace();
         }
         liveObjectService = redisConf.getService();

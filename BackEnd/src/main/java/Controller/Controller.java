@@ -62,6 +62,7 @@ public class Controller {
             bootstrap.bind(port).sync().channel().closeFuture().sync();
 
         } catch (Exception e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             logger.error(errors.toString());

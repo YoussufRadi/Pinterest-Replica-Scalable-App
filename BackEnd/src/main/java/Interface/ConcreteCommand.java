@@ -54,9 +54,11 @@ public abstract class ConcreteCommand extends Command {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
 //            channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (Exception e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+        }
     }
 
     protected abstract void doCommand();

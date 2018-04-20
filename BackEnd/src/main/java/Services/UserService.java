@@ -21,7 +21,9 @@ public class UserService extends ControlService {
         } catch (IOException e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));        }
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+            e.printStackTrace();
+        }
     }
 
     @Override
