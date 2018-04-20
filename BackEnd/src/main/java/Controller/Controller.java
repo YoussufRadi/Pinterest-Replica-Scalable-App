@@ -5,10 +5,15 @@ import Models.ControlCommand;
 import Models.ControlMessage;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+import io.netty.util.internal.logging.Log4J2LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,12 +28,16 @@ public class Controller {
 
     private int port = conf.getControllerPort();
     public static TreeMap<String,ArrayList<Channel>> services;
+    public static final Logger logger = LogManager.getLogger(Controller.class);
 
-//    public static void main(String[] args) {
-//        new Controller().start();
-//    }
+    public static void main(String[] args) {
+        new Controller().start();
+    }
 
     public Controller(){
+
+        InternalLoggerFactory.setDefaultFactory(Log4J2LoggerFactory.INSTANCE);
+
         services = new TreeMap<>();
         services.put(conf.getMqInstanceUserQueue(), new ArrayList<>());
         services.put(conf.getMqInstancePostQueue(), new ArrayList<>());
@@ -36,6 +45,7 @@ public class Controller {
     }
 
     public void start() {
+
         EventLoopGroup producer = new NioEventLoopGroup();
         EventLoopGroup consumer = new NioEventLoopGroup();
 
@@ -43,8 +53,9 @@ public class Controller {
             ServerBootstrap bootstrap = new ServerBootstrap()
                     .group(producer, consumer)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ControllerAdapterInitializer())
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .handler(new LoggingHandler(LogLevel.DEBUG))
+                    .childHandler(new ControllerAdapterInitializer());
+//                    .childOption(ChannelOption.SO_KEEPALIVE, true);
             System.err.println("Controller is listening on http://127.0.0.1:" + port + '/');
 
             takeConsoleInput();
@@ -60,16 +71,6 @@ public class Controller {
     }
 
     private void takeConsoleInput(){
-
-//        ControlMessage dbThreads = new ControlMessage(ControlCommand.maxDbConnections,"10");
-//        ControlMessage exThreads = new ControlMessage(ControlCommand.maxThreadPool, "10");
-//        ControlMessage freeze = new ControlMessage(ControlCommand.freeze);
-//        ControlMessage resume = new ControlMessage(ControlCommand.resume);
-//        ControlMessage add = new ControlMessage(ControlCommand.addCommand, "newCommand", "/Command/path");
-//        ControlMessage delete = new ControlMessage(ControlCommand.deleteCommand, "newCommand");
-//        ControlMessage update = new ControlMessage(ControlCommand.updateCommand, "newCommand", "/Command/path");
-//        ControlMessage error = new ControlMessage(ControlCommand.errorReportingLevel, "1");
-
         Thread t = new Thread(() -> {
             Scanner sc = new Scanner(System.in);
             while (true){

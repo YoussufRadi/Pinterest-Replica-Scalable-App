@@ -1,11 +1,18 @@
 package ClientService;
 
+import Interface.ControlService;
 import Models.ControlMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
+
+    private final ControlService service;
+
+    public ClientAdapterHandler(ControlService service) {
+        this.service = service;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext arg0, Object arg1) {
@@ -22,21 +29,21 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
 
     private void controlService(ControlMessage m){
         switch (m.getControlCommand()){
-            case maxDbConnections:  Client.service.setMaxDBConnections(Integer.parseInt(m.getParam()));
+            case maxDbConnections:  service.setMaxDBConnections(Integer.parseInt(m.getParam()));
                 break;
-            case maxThreadPool : Client.service.setMaxThreadsSize(Integer.parseInt(m.getParam()));
+            case maxThreadPool : service.setMaxThreadsSize(Integer.parseInt(m.getParam()));
                 break;
-            case resume : Client.service.resume();
+            case resume : service.resume();
                 break;
-            case freeze : Client.service.freeze();
+            case freeze : service.freeze();
                 break;
-            case addCommand : Client.service.add_command(m.getParam(), m.getPath());
+            case addCommand : service.add_command(m.getParam(), m.getPath());
                 break;
-            case deleteCommand : Client.service.delete_command(m.getParam());
+            case deleteCommand : service.delete_command(m.getParam());
                 break;
-            case updateCommand : Client.service.update_command(m.getParam(), m.getPath());
+            case updateCommand : service.update_command(m.getParam(), m.getPath());
                 break;
-            case errorReportingLevel : Client.service.set_error_reporting_level(Integer.parseInt(m.getParam()));
+            case errorReportingLevel : service.set_error_reporting_level(Integer.parseInt(m.getParam()));
                 break;
         }
         System.out.println("ControlService is executing : " + m.getControlCommand());

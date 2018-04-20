@@ -6,6 +6,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 public class ControllerAdapterInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -17,6 +19,7 @@ public class ControllerAdapterInitializer extends ChannelInitializer<SocketChann
         pipeline.addLast("decoder", new ObjectDecoder(ClassResolvers
                 .cacheDisabled(getClass().getClassLoader())));
         pipeline.addLast("encoder", new ObjectEncoder());
+        pipeline.addLast(new LoggingHandler(LogLevel.DEBUG));
         pipeline.addLast("handler", new ControllerAdapterHandler());
 
     }
