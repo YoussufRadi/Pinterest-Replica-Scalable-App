@@ -1,4 +1,3 @@
-package Commands;
 
 import com.google.gson.JsonArray;
 import com.rabbitmq.client.*;
@@ -66,16 +65,14 @@ public class Test {
                 JSONObject jsonString = new JSONObject();
                 JSONObject jsonStringInner = new JSONObject();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("command", "UpdateCategory");
-                jsonStringInner.put("title", "dresses");
-                JsonArray posts_id = new JsonArray();
-                posts_id.add("2");
-                jsonStringInner.put("posts_id", posts_id);
+                jsonObject.put("command", "GetServer");
+                JSONObject server = new JSONObject();
+                server.put("ip", "10463632346743");
+                server.put("port", "59111231333235");
+                jsonObject.put("server_object",server);
 
-                jsonObject.put("category_object", jsonStringInner);
-                jsonObject.put("category_id", "61316");
-
-                response = rpcClient.call("{\"command\" : \"GetCategory\",\"category_id\" : \"61316\"}");
+                System.out.println(jsonObject);
+                response = rpcClient.call(jsonObject.toString());
                 System.out.println(" [.] Got '" + response + "'");
 
             } catch (Exception e) {

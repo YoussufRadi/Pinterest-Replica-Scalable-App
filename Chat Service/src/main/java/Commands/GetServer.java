@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class AddServer extends Command {
+public class GetServer extends Command {
 
     @Override
     protected void execute() {
@@ -40,9 +40,7 @@ public class AddServer extends Command {
 
         //TODO Add response
         Message message = gson.fromJson((String) jsonObject.toString(), Message.class);
-        System.out.println(message.getServer_object());
-        arangoInstance.addServer(message.getServer_object());
-        jsonObject.add("response",new JsonObject());
+      System.out.println(arangoInstance.getServer());
         try {
             channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
             channel.basicAck(envelope.getDeliveryTag(), false);

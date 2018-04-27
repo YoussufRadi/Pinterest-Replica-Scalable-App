@@ -1,7 +1,7 @@
 package Service;
 
-import Interface.Command;
-import Interface.ControlService;
+import Commands.Command;
+import Database.ArangoInstance;
 import com.rabbitmq.client.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 public class ChatService extends ControlService {
+    protected static ArangoInstance arangoInstance;
 
     private static final String RPC_QUEUE_NAME = "chat";
     public void setMaxDBConnections(int connections){
@@ -24,7 +25,10 @@ public class ChatService extends ControlService {
 
     @Override
     public void init(int thread, int connections) {
+
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(thread);
+        arangoInstance = new ArangoInstance("root","sinsin1234",connections);
+
     }
 
     public void start(){
@@ -57,10 +61,12 @@ public class ChatService extends ControlService {
 
                         //Using Reflection to convert a command String to its appropriate class
                         String message = new String(body, "UTF-8");
+                      //  System.out.println(message);
                         JSONParser parser = new JSONParser();
                         JSONObject command = (JSONObject) parser.parse(message);
+                        System.out.println(command);
                         String className = (String)command.get("command");
-                        System.out.println(className);
+                        //System.out.println(className);
                         Class com = Class.forName("Commands."+className);
                         Command cmd = (Command) com.newInstance();
 
@@ -70,6 +76,7 @@ public class ChatService extends ControlService {
                         init.put("replyProps", replyProps);
                         init.put("envelope", envelope);
                         init.put("body", message);
+                        init.put("ArangoInstance", arangoInstance);
                         cmd.init(init);
                         executor.submit(cmd);
 
