@@ -1,3 +1,5 @@
+package ChatServer;
+
 public class server {
     String ip;
     int port;

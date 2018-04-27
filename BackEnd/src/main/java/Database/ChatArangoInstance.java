@@ -1,37 +1,37 @@
 package Database;
 
+import Config.Config;
 import Models.ServerDBObject;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
-public class ArangoInstance {
+public class ChatArangoInstance {
 
 
-    public ArangoDB arangoDB;
-    private String user;
-    private String pass;
+    private Config conf = Config.getInstance();
 
+    private ArangoDB arangoDB;
+    private String dbUserName = conf.getArangoUserName();
+    private String dbPass = conf.getArangoQueuePass();
 
+    private String dbName = conf.getArangoChatDbName();
 
-    public ArangoInstance(String user, String password,int maxConnections){
-        arangoDB = new ArangoDB.Builder().user(user).password(password).maxConnections(maxConnections).build();
-        this.user = user;
-        pass = password;
-
+    public ChatArangoInstance(int maxConnections){
+        arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxConnections).build();
     }
 
+
+    public void setMaxDBConnections(int maxDBConnections){
+        arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxDBConnections).build();
+    }
 
     public void initializeDB(){
 
         try{
 
-            String dbName = "Chat";
             arangoDB.createDatabase("Chat");
             arangoDB.db(dbName).createCollection("Servers");
             System.out.println("Database created: " + dbName);
@@ -77,15 +77,15 @@ public class ArangoInstance {
     }
 
 
-    public static void main(String[] args){
-        ArangoInstance arango = new ArangoInstance("root","sinsin1234",15);
+//    public static void main(String[] args){
+//        ArangoInstance arango = new ArangoInstance("root","sinsin1234",15);
 
        // String s = "Post";
         //arango.arangoDB.db(s).createCollection("posts_tags");
        // System.out.println(arango.getPostsOfTagLimit(0,2,"cold"));
         //arango.initializeDB();
 //        arango.dropDB();
-        arango.arangoDB.db("Chat").createCollection("test");
+//        arango.arangoDB.db("Chat").createCollection("test");
 
         //arango.addServer(new ServerDBObject("1","1"));
 //        Arango.CategoryDBObject category = new Arango.CategoryDBObject("trial",new ArrayList<String>());
@@ -128,7 +128,7 @@ public class ArangoInstance {
 //        arango.InsertPostToBoard("192649","15");
 //        arango.RemovePostFromBoard("192649","15");
 //        System.out.println(arango.GetBoard("192649"));
-    }
+//    }
 
 
 }

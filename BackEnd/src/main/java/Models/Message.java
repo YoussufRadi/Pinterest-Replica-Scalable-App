@@ -48,8 +48,29 @@ public class Message {
     @SerializedName("tag_object")
     private TagDBObject tag_object;
 
+    @SerializedName("server_object")
+    private ServerDBObject server_object;
+
+    @SerializedName("server_id")
+    private String server_id;
 
 
+    public ServerDBObject getServer_object() {
+        return server_object;
+    }
+
+    public void setServer_object(ServerDBObject server_object) {
+        this.server_object = server_object;
+    }
+
+    public String getServer_id() {
+        return server_id;
+    }
+
+    public Message(String method, ServerDBObject server_object) {
+        this.method = method;
+        this.server_object = server_object;
+    }
 
     public String getCommand() {
         return command;

@@ -255,4 +255,8 @@ public class Config {
         return arangoConfig.getProperty("arango.post.db.name");
     }
 
+    public String getArangoChatDbName() {
+        return arangoConfig.getProperty("arango.chat.db.name");
+    }
+
 }

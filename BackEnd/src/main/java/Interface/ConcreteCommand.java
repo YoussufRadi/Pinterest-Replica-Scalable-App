@@ -3,6 +3,7 @@ package Interface;
 import Cache.UserCacheController;
 import ClientService.Client;
 import Database.ArangoInstance;
+import Database.ChatArangoInstance;
 import Models.ErrorLog;
 import Models.Message;
 import com.google.gson.*;
@@ -20,6 +21,7 @@ public abstract class ConcreteCommand extends Command {
 
     protected RLiveObjectService RLiveObjectService;
     protected ArangoInstance ArangoInstance;
+    protected ChatArangoInstance ChatArangoInstance;
     protected UserCacheController UserCacheController;
     protected Message message;
     protected JsonElement responseJson = new JsonObject();
@@ -37,6 +39,8 @@ public abstract class ConcreteCommand extends Command {
                     parameters.get("ArangoInstance");
             UserCacheController = (UserCacheController)
                     parameters.get("UserCacheController");
+            ChatArangoInstance = (ChatArangoInstance)
+                    parameters.get("ChatArangoInstance");
 
             Channel channel = (Channel) parameters.get("channel");
             AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");

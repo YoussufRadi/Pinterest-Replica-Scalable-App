@@ -1,7 +1,5 @@
 package Models;
 
-import java.util.ArrayList;
-
 public class ServerDBObject  extends com.arangodb.entity.DocumentEntity {
     private String ip;
     private String port;

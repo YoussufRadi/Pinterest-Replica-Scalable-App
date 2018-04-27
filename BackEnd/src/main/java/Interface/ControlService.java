@@ -1,6 +1,7 @@
 package Interface;
 
 import Cache.UserCacheController;
+import Database.ChatArangoInstance;
 import ClientService.Client;
 import Config.Config;
 import Config.ConfigTypes;
@@ -30,6 +31,7 @@ public abstract class ControlService {
     protected String RPC_QUEUE_NAME; //set by init
     protected RLiveObjectService liveObjectService; // For Post Only
     protected ArangoInstance arangoInstance; // For Post Only
+    protected ChatArangoInstance ChatArangoInstance; // For Post Only
     protected UserCacheController userCacheController; // For UserModel Only
     private int threadsNo = conf.getServiceMaxThreads();
     private ThreadPoolExecutor executor;
@@ -90,6 +92,7 @@ public abstract class ControlService {
                         init.put("body", message);
                         init.put("RLiveObjectService", liveObjectService);
                         init.put("ArangoInstance", arangoInstance);
+                        init.put("ChatArangoInstance", ChatArangoInstance);
                         init.put("UserCacheController", userCacheController);
                         cmd.init(init);
                         executor.submit(cmd);

@@ -1,3 +1,5 @@
+package ChatServer;
+
 import com.rabbitmq.client.*;
 import org.eclipse.jetty.websocket.api.*;
 import org.eclipse.jetty.websocket.api.annotations.*;
