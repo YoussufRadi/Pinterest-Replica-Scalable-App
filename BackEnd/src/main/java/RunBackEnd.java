@@ -41,10 +41,15 @@ public class RunBackEnd {
                     break;
                 case "client":
                     Client c = new Client();
-                    c.initService(ServicesType.post);
+                    c.initService(ServicesType.chat);
                     new Thread(() -> {
                         c.start();
                     }).start();
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     c.startService();
                     break;
             }

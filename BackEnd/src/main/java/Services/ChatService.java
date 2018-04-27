@@ -8,6 +8,7 @@ public class ChatService extends ControlService {
     @Override
     public void init() {
         RPC_QUEUE_NAME = conf.getMqInstanceChatQueue();
+        System.out.println(RPC_QUEUE_NAME);
         ChatArangoInstance = new ChatArangoInstance(maxDBConnections);
     }
 
@@ -17,4 +18,7 @@ public class ChatService extends ControlService {
         ChatArangoInstance.setMaxDBConnections(maxDBConnections);
     }
 
+    public static void main(String[] args) {
+        new ChatService().start();
+    }
 }

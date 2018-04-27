@@ -6,6 +6,7 @@ import Models.ControlCommand;
 import Models.ControlMessage;
 import Models.ErrorLog;
 import Models.ServicesType;
+import Services.ChatService;
 import Services.PostService;
 import Services.UserService;
 import io.netty.bootstrap.Bootstrap;
@@ -48,7 +49,11 @@ public class Client {
                 service = new PostService();
                 this.serviceName = conf.getMqInstancePostQueue();
                 break;
-            //TODO Chat Service
+            case chat:
+                service = new ChatService();
+                this.serviceName = conf.getMqInstanceChatQueue();
+                break;
+            // TODO ADD SERVICE
         }
     }
 
