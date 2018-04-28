@@ -6,6 +6,7 @@ import Models.*;
 import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
+import com.arangodb.entity.DocumentEntity;
 import io.netty.handler.logging.LogLevel;
 
 import java.util.ArrayList;
@@ -58,9 +59,9 @@ public class ArangoInstance {
             System.err.println("Failed to drop database: Post");
         }
     }
-    public void insertNewCategory(CategoryDBObject categoryDBObject){
-        arangoDB.db(dbName).collection("categories").insertDocument(categoryDBObject);
-
+    public String insertNewCategory(CategoryDBObject categoryDBObject){
+        DocumentEntity e = arangoDB.db(dbName).collection("categories").insertDocument(categoryDBObject);
+        return e.getKey();
     }
     public CategoryDBObject getCategory(String id){
        // System.out.println(arangoDB.db(dbName).collection("categories").getDocument(id,Arango.CategoryDBObject.class));
@@ -106,8 +107,9 @@ public class ArangoInstance {
     public void deleteCategory(String id){
         arangoDB.db(dbName).collection("categories").deleteDocument(id);
     }
-    public void insertNewPost(PostDBObject postDBObject){
-        arangoDB.db(dbName).collection("posts").insertDocument(postDBObject);
+    public String insertNewPost(PostDBObject postDBObject){
+        DocumentEntity e = arangoDB.db(dbName).collection("posts").insertDocument(postDBObject);
+        return e.getKey();
     }
 
     public PostDBObject getPost(String id){
@@ -211,9 +213,9 @@ public class ArangoInstance {
         return new ArrayList<TagDBObject>(cursor.asListRemaining());
     }
 
-    public void insertNewBoard(BoardDBObject boardDBObject){
-        arangoDB.db(dbName).collection("boards").insertDocument(boardDBObject);
-
+    public String insertNewBoard(BoardDBObject boardDBObject){
+        DocumentEntity e = arangoDB.db(dbName).collection("boards").insertDocument(boardDBObject);
+        return e.getKey();
     }
     public BoardDBObject getBoard(String id){
         // System.out.println(arangoDB.db(dbName).collection("categories").getDocument(id,Arango.CategoryDBObject.class));
