@@ -37,6 +37,6 @@ public class PostService extends ControlService {
 
 //    public static void main(String[] args) {
 //        new PostService();
-        //postService.add_command("GetKhara","/home/aboelenien/Desktop/GetKhara.txt");
+//        //postService.add_command("GetKhara","/home/aboelenien/Desktop/GetKhara.txt");
 //    }
 }

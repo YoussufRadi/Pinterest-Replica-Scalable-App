@@ -41,7 +41,7 @@ public class RunBackEnd {
                     break;
                 case "client":
                     Client c = new Client();
-                    c.initService(ServicesType.user);
+                    c.initService(type);
                     new Thread(() -> {
                         c.start();
                     }).start();
