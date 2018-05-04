@@ -5,6 +5,7 @@ import Models.ControlCommand;
 import Models.ControlMessage;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -53,8 +54,9 @@ public class Controller {
                     .group(producer, consumer)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.DEBUG))
-                    .childHandler(new ControllerAdapterInitializer());
-//                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .childHandler(new ControllerAdapterInitializer())
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+
             logger.info("Controller is listening on http://127.0.0.1:" + port + '/');
 
             takeConsoleInput();

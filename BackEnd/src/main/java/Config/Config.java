@@ -14,7 +14,6 @@ public class Config {
     private final Properties loadBalancerConfig = new Properties();
     private final Properties mediaServerConfig = new Properties();
     private final Properties mqInstanceConfig = new Properties();
-    private final Properties postSqlConf = new Properties();
     private final Properties serviceConfig = new Properties();
     private final Properties webServerConfig = new Properties();
 
@@ -23,7 +22,6 @@ public class Config {
     private final String loadBalancerPath = "./src/main/resources/load.balancer.conf";
     private final String mediaServerPath = "./src/main/resources/media.server.conf";
     private final String mqInstancePath = "./src/main/resources/mq.instance.conf";
-    private final String postSqlPath = "./src/main/resources/post.gres.sql.conf";
     private final String servicePath = "./src/main/resources/service.conf";
     private final String webServerPath = "./src/main/resources/web.server.conf";
 
@@ -33,10 +31,9 @@ public class Config {
         loadConfig(loadBalancerConfig, loadBalancerPath);
         loadConfig(mediaServerConfig, mediaServerPath);
         loadConfig(mqInstanceConfig, mqInstancePath);
-        loadConfig(postSqlConf, postSqlPath);
         loadConfig(serviceConfig, servicePath);
         loadConfig(webServerConfig, webServerPath);
-        readSystemVariables(loadBalancerConfig,"load_balancer_rabbitmq_host");
+//        readSystemVariables(loadBalancerConfig,"load_balancer_rabbitmq_host");
     }
 
     private void loadConfig(Properties config, String path){
@@ -87,8 +84,8 @@ public class Config {
                 path = mqInstancePath;
                 break;
             case PostSql:
-                props = postSqlConf;
-                path = postSqlPath;
+//                props = postSqlConf;
+//                path = postSqlPath;
                 break;
             case Service:
                 props = serviceConfig;
