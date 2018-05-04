@@ -1,0 +1,112 @@
+//sign up 
+{
+    "command":"SignUp",
+    "application": "User",
+    "payload":{
+        "email":"{{email}}",
+        "password":"pass",
+        "firstName":"FN",
+        "lastName":"LN",
+        "username":"username",
+        "age":"14",
+        "gender":"1"
+    }
+}
+
+
+//sign in
+{
+    "command":"SignIn",
+    "application": "User",
+    "payload":{
+        "email":"{{email}}",
+        "password":"pass"
+    }
+}
+
+
+//add board   delet board same but change "commad":"AddBoard" to "command":"RemoveBoard"
+{
+    "command":"AddBoard",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "boardId":"5"
+}
+
+
+
+//add pin  delet board same but change "commad":"AddPin" to "command":"RemovePin"
+{
+    "command":"AddPin",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "pinId":"5"
+}
+
+
+//update user
+{
+    "command":"UpdateUser",
+    "application": "User",
+    "payload":{
+        "id":"435345",
+        "password":"pass",
+        "firstName":"FN",
+        "lastName":"LN",
+        "username":"username",
+        "age":"14",
+        "gender":"1"
+    }
+}
+
+
+//block user same as "command":"FollowUser" same as "command":"UnFollowUser"
+//same as "command":"UnBlockUser"
+{
+    "command":"BlockUser",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "otherUserId":"54353"
+}
+
+
+//dislke photo same as "commad":"UnDislikePhoto" same as "command":"LikePhoto" same as "command":"UnlikePhoto"
+{
+    "command":"DislikePhoto",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "photoId":"54353"
+}
+
+
+//follow category
+{
+    "command":"FollowCategories",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "categoryId":"54353"
+}
+
+
+
+
+
+//follow hashtag   "command":"UnFollowHashtag"
+{
+    "command":"FollowHashtag",
+    "application": "User",
+    "payload":{
+        "id":"453252"
+    },
+    "hashtagId":"54353"
+}

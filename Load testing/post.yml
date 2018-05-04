@@ -1,0 +1,53 @@
+config: #configurations
+  target: "http://localhost:8080" # the path
+  phases:
+
+    - duration: 60 #duration of the test in seconds
+      arrivalRate: 5 # each second i will add 5
+      rampTo: 16 # maximum is 16 users
+
+  payload:
+    path: "post.csv" # the .csv file which contains the data that i will test
+    fields: # json fields that i will import from the .csv
+      - "user_id"
+      - "likes_id"
+      - "dislikes_id"
+      - "comments_id"
+      - "tags_id"
+      - "image_id"
+      - "created_at"
+
+
+scenarios:
+  - name: "Insert and get posts"
+    flow: # Flow is an array of operations that a user may perform
+      - post:
+          url: "/"
+          json: # the json
+            command: "InsertPost"
+            application: "Post"
+            post_object:
+              user_id: "{{user_id}}"
+              likes_id:
+                - "{{likes_id}}"
+              dislikes_id:
+                - "{{dislikes_id}}"
+              comments_id:
+                - "{{comments_id}}"
+              tags_id:
+                - "{{tags_id}}"
+              image_id: "{{image_id}}"
+              created_at: "{{created_at}}"
+          capture:
+            json: "$.id"
+            as: "id"
+      - think: 3 # take 3 seconds pause between each scenario
+      - post:
+          url: "/"
+          json:
+            command: "GetPost"
+            application: "Post"
+            post_id: "{{id}}"
+          match:
+            json: "$.user_id"
+            value: "{{ user_id }}"

@@ -8,7 +8,7 @@ public class InsertPost extends ConcreteCommand {
 
     @Override
     protected void doCommand() {
-        System.out.println("here");
+        System.out.println("Inside insert: "+message.getPost_object());
         String id = ArangoInstance.insertNewPost(message.getPost_object());
         JSONObject response = new JSONObject();
         response.put("id",id);

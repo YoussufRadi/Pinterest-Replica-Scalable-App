@@ -16,7 +16,6 @@ public class PostService extends ControlService {
     @Override
     public void init() {
         RPC_QUEUE_NAME = conf.getMqInstancePostQueue();
-        arangoInstance = new ArangoInstance(maxDBConnections);
         try {
             redisConf  = new RedisConf();
         } catch (IOException e) {
@@ -26,6 +25,11 @@ public class PostService extends ControlService {
             e.printStackTrace();
         }
         liveObjectService = redisConf.getService();
+    }
+
+    @Override
+    public void initDB() {
+        arangoInstance = new ArangoInstance(maxDBConnections);
     }
 
     @Override

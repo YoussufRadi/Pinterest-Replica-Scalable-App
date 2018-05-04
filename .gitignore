@@ -1,7 +1,6 @@
 # Maven Ignore
 
 target/
-BackEnd/src/main/resources/
 BackEnd/target/
 BackEnd/logs/
 */target/

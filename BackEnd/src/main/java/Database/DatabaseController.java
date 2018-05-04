@@ -91,6 +91,7 @@ public class DatabaseController {
 
     /* Method to  READ all the users */
 
+    
 
     public User signIn(String email, String password) {
         Session session = factory.openSession();
@@ -772,7 +773,7 @@ public class DatabaseController {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
             User following = session.get(User.class, followingId);
-
+            System.out.println(user);
             following.getFollowedBy().add(user);
             user.getFollow().add(following);
             session.update(user);

@@ -5,4 +5,4 @@ COPY pom.xml /usr/local/service/pom.xml
 COPY src /usr/local/service/src
 WORKDIR /usr/local/service
 RUN mvn package
-CMD ["java","-cp","target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar","RunBackEnd"]
+CMD ["java","-cp","target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar","RunBackEnd", "server"]

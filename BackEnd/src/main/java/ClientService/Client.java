@@ -39,6 +39,10 @@ public class Client {
 //        c.startService();
 //    }
 
+    public void initDB(){
+        service.initDB();
+    }
+
     public void initService(ServicesType serviceName) {
         switch (serviceName) {
             case user:

@@ -3,6 +3,7 @@ package WebServer;
 
 
 import Config.Config;
+import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -37,11 +38,11 @@ public class ImageWriter {
             return null;
         }
 
-       //BASE64Decoder decoder = new BASE64Decoder();
+       BASE64Decoder decoder = new BASE64Decoder();
         String name;
 
         try{
-            byte[] imageByte = null ;
+            byte[] imageByte = decoder.decodeBuffer(imageData) ;
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             BufferedImage image = ImageIO.read(bis);
             UUID uuid = UUID.randomUUID();
