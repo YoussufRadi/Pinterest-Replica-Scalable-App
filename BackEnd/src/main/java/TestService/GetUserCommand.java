@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 public class GetUserCommand extends Command {
 
-    public String execute() {
+    public void execute() {
 
 //        TreeMap<String, Object> parameters = data;
 //
@@ -36,7 +36,7 @@ public class GetUserCommand extends Command {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return null;
+
     }
 
     @Override

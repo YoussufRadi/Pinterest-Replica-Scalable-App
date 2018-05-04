@@ -102,7 +102,6 @@ public class ArangoInstance {
         arangoDB.db(dbName).collection("categories").deleteDocument(id);
     }
     public String insertNewPost(PostDBObject postDBObject){
-        System.out.println(arangoDB);
 
         DocumentEntity e = arangoDB.db(dbName).collection("posts").insertDocument(postDBObject);
         return e.getKey();
