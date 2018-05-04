@@ -41,9 +41,9 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
             String service = (String) body.get("application");
             jsonRequest.put("application", service);
 
-            if (body.has("Image")){
-                String imageName = ImageWriter.write((String) body.get("Image"));
-                body.remove("Image");
+            if (body.has("image")){
+                String imageName = ImageWriter.write((String) body.get("image"));
+                body.remove("image");
                 body.put("imageUrl", imageName);
 //                System.out.println("Image Name : " + imageName);
             }
