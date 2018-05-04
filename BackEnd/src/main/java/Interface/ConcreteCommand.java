@@ -29,7 +29,7 @@ public abstract class ConcreteCommand extends Command {
     protected JsonParser jsonParser;
 
     @Override
-    protected void execute() {
+    protected String execute() {
 
         try {
             TreeMap<String, Object> parameters = data;
@@ -41,10 +41,10 @@ public abstract class ConcreteCommand extends Command {
                     parameters.get("UserCacheController");
             ChatArangoInstance = (ChatArangoInstance)
                     parameters.get("ChatArangoInstance");
-
-            Channel channel = (Channel) parameters.get("channel");
-            AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
-            AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
+//
+//            Channel channel = (Channel) parameters.get("channel");
+//            AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
+//            AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
 //            Envelope envelope = (Envelope) parameters.get("envelope");
 
             jsonParser = new JsonParser();
@@ -55,14 +55,24 @@ public abstract class ConcreteCommand extends Command {
             doCommand();
 
             jsonObject.add("response", responseJson);
-            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
+            //channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
+            return jsonObject.toString();
 //            channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (Exception e) {
             e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
+            return null;
         }
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public Message getMessage() {
+        return message;
     }
 
     protected abstract void doCommand();

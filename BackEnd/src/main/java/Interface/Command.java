@@ -1,8 +1,11 @@
 package Interface;
 
-import java.util.TreeMap;
+import Models.Message;
 
-public abstract class Command implements Runnable {
+import java.util.TreeMap;
+import java.util.concurrent.Callable;
+
+public abstract class Command implements Callable {
 
     protected TreeMap<String, Object> data;
 
@@ -10,10 +13,12 @@ public abstract class Command implements Runnable {
         this.data = parameters;
     }
 
-    protected abstract void execute();
+    protected abstract String execute();
+    public abstract void setMessage(Message message);
+    public abstract Message getMessage();
 
-    final public void run() {
-        this.execute();
+    final public String call() {
+       return this.execute();
     }
 
 }

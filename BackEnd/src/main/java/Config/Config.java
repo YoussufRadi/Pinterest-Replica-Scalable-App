@@ -254,6 +254,14 @@ public class Config {
         return arangoConfig.getProperty("arango_username");
     }
 
+    public String getArangoHost() {
+        return arangoConfig.getProperty("arango.host");
+    }
+
+    public int getArangoPort() {
+        return Integer.parseInt(arangoConfig.getProperty("arango.port"));
+    }
+
     public String getArangoQueuePass() {
         return arangoConfig.getProperty("arango_password");
     }

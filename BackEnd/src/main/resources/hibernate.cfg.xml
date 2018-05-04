@@ -6,8 +6,10 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.username">youssuf</property>
-        <property name="hibernate.connection.password">Fosfos12</property>
+
+        <property name="hibernate.connection.username">kefa7y</property>
+        <property name="hibernate.connection.password">password</property>
+
         <property name="hibernate.hbm2ddl.auto">create</property>
 
 

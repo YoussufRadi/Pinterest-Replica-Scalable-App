@@ -1,5 +1,6 @@
 package Interface;
 
+import Cache.RedisConf;
 import Cache.UserCacheController;
 import Database.ChatArangoInstance;
 import ClientService.Client;
@@ -7,6 +8,9 @@ import Config.Config;
 import Config.ConfigTypes;
 import Database.ArangoInstance;
 import Models.ErrorLog;
+import Models.Message;
+import Models.PostDBObject;
+import Services.PostService;
 import com.rabbitmq.client.*;
 import io.netty.handler.logging.LogLevel;
 import org.json.simple.JSONObject;
@@ -20,18 +24,17 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.TreeMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 public abstract class ControlService {
 
     protected Config conf = Config.getInstance();
     protected int maxDBConnections = conf.getServiceMaxDbConnections();
     protected String RPC_QUEUE_NAME; //set by init
+    RedisConf redisConf ;
     protected RLiveObjectService liveObjectService; // For Post Only
     protected ArangoInstance arangoInstance; // For Post Only
-    protected ChatArangoInstance ChatArangoInstance; // For Post Only
+    protected ChatArangoInstance ChatArangoInstance;
     protected UserCacheController userCacheController; // For UserModel Only
     private int threadsNo = conf.getServiceMaxThreads();
     private ThreadPoolExecutor executor;
@@ -63,6 +66,8 @@ public abstract class ControlService {
             channel = connection.createChannel();
             channel.queueDeclare(RPC_QUEUE_NAME, true, false, false, null);
             channel.basicQos(threadsNo);
+            redisConf = new RedisConf();
+            liveObjectService = redisConf.getService();
 
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, " [x] Awaiting RPC requests on Queue : " + RPC_QUEUE_NAME));
             consumer = new DefaultConsumer(channel) {
@@ -81,6 +86,7 @@ public abstract class ControlService {
                         JSONParser parser = new JSONParser();
                         JSONObject command = (JSONObject) parser.parse(message);
                         String className = (String) command.get("command");
+                        System.out.println("className:"+className);
                         Class com = Class.forName(RPC_QUEUE_NAME + "Commands." + className);
                         Command cmd = (Command) com.newInstance();
 
@@ -95,13 +101,19 @@ public abstract class ControlService {
                         init.put("ChatArangoInstance", ChatArangoInstance);
                         init.put("UserCacheController", userCacheController);
                         cmd.init(init);
-                        executor.submit(cmd);
+                        Future<String> future = executor.submit(cmd);
+                        channel.basicPublish("", properties.getReplyTo(), replyProps, future.get().getBytes("UTF-8"));
+                       // executor.submit(cmd);
                     } catch (RuntimeException | ParseException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                         e.printStackTrace();
                         StringWriter errors = new StringWriter();
                         e.printStackTrace(new PrintWriter(errors));
                         Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
                         start();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
                     } finally {
                         synchronized (this) {
                             this.notify();
@@ -203,4 +215,60 @@ public abstract class ControlService {
         if(delete_command(commandName))
             add_command(commandName, filePath);
     }
+
+    public void setArangoInstance(ArangoInstance arangoInstance) {
+        this.arangoInstance = arangoInstance;
+    }
+
+    public void createPostDB(){
+
+        arangoInstance.initializeDB();
+    }
+
+    public void dropPostDB(){
+
+        arangoInstance.dropDB();
+    }
+
+
+    public void seedPostDB(){
+        Class aClass = null;
+        try {
+            aClass = Class.forName("PostCommands.InsertPost");
+            Command command= (Command)aClass.newInstance();
+            PostDBObject p = new PostDBObject();
+            p.setUser_id("dasdsads");
+            TreeMap<String, Object> init = new TreeMap<>();
+            init.put("channel", channel);
+            init.put("RLiveObjectService", liveObjectService);
+            init.put("ArangoInstance", arangoInstance);
+            init.put("ChatArangoInstance", ChatArangoInstance);
+            init.put("UserCacheController", userCacheController);
+            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject.put("command","InsertPost");
+            jsonObject1.put("body",jsonObject);
+            init.put("body", jsonObject1.toString());
+            command.init(init);
+            Message message = new Message();
+            message.setPost_object(p);
+            command.setMessage(message);
+            System.out.println(command.getMessage().getPost_object());
+            Future <String>future  = executor.submit(command);
+            System.out.println(future.get());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }

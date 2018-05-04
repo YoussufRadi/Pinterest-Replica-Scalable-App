@@ -120,6 +120,9 @@ public class Controller {
             case "add" : return ControlCommand.addCommand;
             case "delete" : return ControlCommand.deleteCommand;
             case "update" : return ControlCommand.updateCommand;
+            case "seedpostdb" : return ControlCommand.seedPostDB;
+            case "createpostdb" : return ControlCommand.createPostDB;
+            case "droppostdb" : return ControlCommand.dropPostDB;
         }
         return null;
     }
