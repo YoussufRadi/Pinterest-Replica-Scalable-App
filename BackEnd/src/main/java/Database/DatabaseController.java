@@ -773,7 +773,7 @@ public class DatabaseController {
             tx = session.beginTransaction();
             User user = session.get(User.class, userID);
             User following = session.get(User.class, followingId);
-
+            System.out.println(user);
             following.getFollowedBy().add(user);
             user.getFollow().add(following);
             session.update(user);

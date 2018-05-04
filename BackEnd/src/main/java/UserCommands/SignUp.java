@@ -19,7 +19,6 @@ public class SignUp extends ConcreteCommand {
 
         JSONObject response = new JSONObject();
         response.put("id",id.toString());
-        User user =  UserCacheController.ge
         responseJson = jsonParser.parse(response.toString());
         System.out.println(response);
     }

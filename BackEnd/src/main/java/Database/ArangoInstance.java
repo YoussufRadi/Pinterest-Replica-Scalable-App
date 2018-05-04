@@ -47,6 +47,7 @@ public class ArangoInstance {
             GraphEntity graphEntity = arangoDB.db(dbName).createGraph("suggestions",edgeDefinitions);
             //arangoDB.db(dbName).graph().edgeCollection().se
             arangoDB.db(dbName).createCollection("posts");
+            arangoDB.db(dbName).createCollection("notifications");
             arangoDB.db(dbName).createCollection("comments");
             arangoDB.db(dbName).createCollection("categories");
             arangoDB.db(dbName).createCollection("posts_tags");
@@ -178,6 +179,10 @@ public class ArangoInstance {
         arangoDB.db(dbName).collection("comments").deleteDocument(id);
 
 
+    }
+    public String insertNewNotification(NotificationDBObject notificationDBObject){
+        DocumentEntity e = arangoDB.db(dbName).collection("notifications").insertDocument(notificationDBObject);
+        return e.getKey();
     }
 
     public void insertNewComment(CommentDBObject commentDBObject, String post_id){

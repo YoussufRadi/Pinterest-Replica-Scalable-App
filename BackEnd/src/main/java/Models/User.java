@@ -45,7 +45,6 @@ public class User{
     @Column(name = "username",nullable = false)
     private String username;
 
-    private UserVertex userVertex;
     public int getAge() {
         return age;
     }
@@ -260,14 +259,6 @@ public class User{
         this.gender = gender;
     }
 
-    public UserVertex getUserVertex() {
-        return userVertex;
-    }
-
-    public void setUserVertex(UserVertex userVertex) {
-        this.userVertex = userVertex;
-    }
-
     public User(){
 
     }
@@ -281,6 +272,7 @@ public class User{
         this.age=age;
         this.password = password;
         this.gender = gender;
+
     }
 
 
