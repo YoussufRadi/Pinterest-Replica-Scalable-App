@@ -1,6 +1,7 @@
 package UserCommands;
 
 import Interface.ConcreteCommand;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -11,9 +12,10 @@ public class AddPin extends ConcreteCommand {
         boolean respBool =
                 UserCacheController.addPin(message.getPayload().getId(), UUID.fromString(message.getPinId()));
 
-        String response = respBool + "";
-
-        responseJson = jsonParser.parse(response);
+        String res = respBool + "";
+        JSONObject response  = new JSONObject();
+        response.put("success",res);
+        responseJson = jsonParser.parse(response.toString());
         System.out.println(response);
     }
 }

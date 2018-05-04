@@ -35,7 +35,7 @@ public class RunBackEnd {
             run("controller");
             run("loadBalancer");
             run("mQinstance");
-            type = ServicesType.user;
+            type = ServicesType.post;
             run("client");
         }
 

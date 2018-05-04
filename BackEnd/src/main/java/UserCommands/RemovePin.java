@@ -1,6 +1,7 @@
 package UserCommands;
 
 import Interface.ConcreteCommand;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -12,8 +13,9 @@ public class RemovePin extends ConcreteCommand {
         boolean respBool =
                 UserCacheController.removePin(message.getPayload().getId(), UUID.fromString(message.getPinId()));
 
-        String response = respBool + "";
-        responseJson = jsonParser.parse(response);
-        System.out.println(response);
+        String res = respBool + "";
+        JSONObject response  = new JSONObject();
+        response.put("success",res);
+        responseJson = jsonParser.parse(response.toString());
     }
 }

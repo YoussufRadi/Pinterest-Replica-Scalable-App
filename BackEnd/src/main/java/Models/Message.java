@@ -30,6 +30,9 @@ public class Message {
     @SerializedName("board_object")
     private BoardDBObject board_object;
 
+    @SerializedName("imageUrl")
+    private String imageUrl;
+
     @SerializedName("board_id")
     private String board_id;
 
@@ -217,7 +220,17 @@ public class Message {
         this.hashtagId = hashtagId;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setServer_id(String server_id) {
+        this.server_id = server_id;
+    }
 
     public String getPhotoId() {
         return photoId;

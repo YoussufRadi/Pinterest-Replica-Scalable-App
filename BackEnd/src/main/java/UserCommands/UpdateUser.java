@@ -2,6 +2,7 @@ package UserCommands;
 
 import Interface.ConcreteCommand;
 import Models.User;
+import org.json.JSONObject;
 
 public class UpdateUser extends ConcreteCommand {
 
@@ -15,8 +16,10 @@ public class UpdateUser extends ConcreteCommand {
                 payload.getLastName(), payload.getPassword(),
                 payload.getUsername(), payload.getAge(), payload.isGender());
 
-        String response = respBol + "";
-        responseJson = jsonParser.parse(response);
+        String res = respBol + "";
+        JSONObject response  = new JSONObject();
+        response.put("success",res);
+        responseJson = jsonParser.parse(response.toString());
     }
 
 }

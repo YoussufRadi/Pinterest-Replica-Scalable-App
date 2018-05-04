@@ -12,6 +12,7 @@ public class NotificationDBObject extends DocumentEntity {
         this.user_following_name = user_following_name;
         this.message = message;
     }
+    public NotificationDBObject(){}
 
     public String getUser_id() {
         return user_id;

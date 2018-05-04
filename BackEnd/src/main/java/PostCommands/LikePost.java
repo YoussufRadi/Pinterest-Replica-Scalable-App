@@ -24,8 +24,8 @@ public class LikePost extends ConcreteCommand {
             postLiveObject.setDislikes_id(arangoInstance.getPost(post_id).getDislikes_id());
         }
         PostDBObject postDBObject = arangoInstance.getPost(post_id);
-        String user_temp = UserCacheController.getUserNameByID(user_id);
-        NotificationDBObject notificationDBObject = new NotificationDBObject(postDBObject.getUser_id(),user_temp,user_temp+" likes your post");
+        NotificationDBObject notificationDBObject = new NotificationDBObject(postDBObject.getUser_id(),user_id,user_id+" likes your post");
+        arangoInstance.insertNewNotification(notificationDBObject);
         return arangoInstance.getPost(post_id);
     }
 }
