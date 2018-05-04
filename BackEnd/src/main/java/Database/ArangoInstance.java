@@ -38,13 +38,9 @@ public class ArangoInstance {
             arangoDB.db(dbName).createCollection("categories");
             arangoDB.db(dbName).createCollection("posts_tags");
             arangoDB.db(dbName).createCollection("boards");
-            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Database created: " + dbName));
-
-            System.out.println("Database created: " + dbName);
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database created: " + dbName));
         } catch (ArangoDBException e) {
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Failed to create database: " + dbName));
-
-            System.err.println("Failed to create database: Post");
         }
     }
 
@@ -53,12 +49,8 @@ public class ArangoInstance {
         try{
             arangoDB.db(dbName).drop();
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database dropped: " + dbName));
-
-            System.out.println("Database dropped: Post");
         } catch (ArangoDBException e) {
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Failed to drop database: " + dbName));
-
-            System.err.println("Failed to drop database: Post");
         }
     }
     public String insertNewCategory(CategoryDBObject categoryDBObject){
