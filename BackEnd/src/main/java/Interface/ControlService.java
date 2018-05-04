@@ -2,18 +2,15 @@ package Interface;
 
 import Cache.RedisConf;
 import Cache.UserCacheController;
-import Database.ChatArangoInstance;
 import ClientService.Client;
 import Config.Config;
 import Config.ConfigTypes;
 import Database.ArangoInstance;
+import Database.ChatArangoInstance;
+import Models.CategoryDBObject;
 import Models.ErrorLog;
 import Models.Message;
 import Models.PostDBObject;
-import Services.PostService;
-import com.arangodb.ArangoCursor;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.*;
 import io.netty.handler.logging.LogLevel;
 import org.json.simple.JSONObject;
@@ -26,6 +23,7 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.concurrent.*;
 
@@ -55,6 +53,8 @@ public abstract class ControlService {
     }
 
     public abstract void init();
+
+    public abstract void initDB();
 
     public void start() {
         ConnectionFactory factory = new ConnectionFactory();
@@ -104,19 +104,13 @@ public abstract class ControlService {
                         init.put("ChatArangoInstance", ChatArangoInstance);
                         init.put("UserCacheController", userCacheController);
                         cmd.init(init);
-                        Future<String> future = executor.submit(cmd);
-                        channel.basicPublish("", properties.getReplyTo(), replyProps, future.get().getBytes("UTF-8"));
-                       // executor.submit(cmd);
+                        executor.submit(cmd);
                     } catch (RuntimeException | ParseException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                         e.printStackTrace();
                         StringWriter errors = new StringWriter();
                         e.printStackTrace(new PrintWriter(errors));
                         Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
                         start();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
                     } finally {
                         synchronized (this) {
                             this.notify();
@@ -132,7 +126,7 @@ public abstract class ControlService {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
-            start();
+//            start();
         }
     }
 
@@ -160,45 +154,6 @@ public abstract class ControlService {
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
         }
         Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Service Resumed"));
-    }
-    public void seedPost(){
-        Class aClass = null;
-        try {
-            aClass = Class.forName("PostCommands.InsertPost");
-            Command command= (Command)aClass.newInstance();
-            PostDBObject p = new PostDBObject();
-            p.setUser_id("dasdsads");
-            TreeMap<String, Object> init = new TreeMap<>();
-            init.put("channel", channel);
-            init.put("RLiveObjectService", liveObjectService);
-            init.put("ArangoInstance", arangoInstance);
-            init.put("ChatArangoInstance", ChatArangoInstance);
-            init.put("UserCacheController", userCacheController);
-            JSONObject jsonObject = new JSONObject();
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject.put("command","InsertPost");
-            jsonObject1.put("body",jsonObject);
-            init.put("body", jsonObject1.toString());
-            command.init(init);
-            Message message = new Message();
-            message.setPost_object(p);
-            command.setMessage(message);
-            System.out.println(command.getMessage().getPost_object());
-            Future <String>future  = executor.submit(command);
-            System.out.println(future.get());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public void freeze() {
@@ -262,11 +217,33 @@ public abstract class ControlService {
         this.arangoInstance = arangoInstance;
     }
 
-    public static void main(String[] args) {
-        PostService post = new PostService();
-        Config config = Config.getInstance();
-        ArangoInstance arangoInstance = new ArangoInstance(15);
-        post.setArangoInstance(arangoInstance);
-        post.seedPost();
+    public void createPostDB(){
+
+        arangoInstance.initializeDB();
     }
+
+    public void dropPostDB(){
+
+        arangoInstance.dropDB();
+    }
+
+
+    public void seedPostDB(){
+        ArrayList<String> catid = new ArrayList<String>();
+        ArrayList<String> postid = new ArrayList<String>();
+        for(int i=0;i<2;i++){
+            CategoryDBObject cat = new CategoryDBObject("category"+i,new ArrayList<>());
+            arangoInstance.insertNewCategory(cat);
+            catid.add(cat.getId());
+        }
+        for(int i=0;i<10;i++){
+            PostDBObject post= new PostDBObject("Kefa7y"+i,new ArrayList<>(), new ArrayList<>(), "45b1f6ff-cc8a-43e7-bb6d-6f96d9b9f3a1.jpeg");
+            arangoInstance.insertNewPost(post);
+            arangoInstance.addNewPostToCategory(catid.get(i%2),post.getId());
+            postid.add(post.getId());
+        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database seeded: Post"));
+
+    }
+
 }

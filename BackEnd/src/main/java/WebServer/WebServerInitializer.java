@@ -139,7 +139,7 @@ public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
             receiverChannel.basicConsume(RPC_QUEUE_REPLY_TO, true, consumer);
         } catch (Exception e) {
             e.printStackTrace();
-            serverQueue();
+//            serverQueue();
         }
     }
 }

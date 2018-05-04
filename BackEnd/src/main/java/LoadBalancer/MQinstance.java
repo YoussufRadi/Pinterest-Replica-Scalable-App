@@ -75,7 +75,7 @@ public class MQinstance {
             // Wait and be prepared to consume the message from RPC client.
         } catch (Exception e) {
             e.printStackTrace();
-            consumeFromQueue(RPC_QUEUE_NAME,QUEUE_TO);
+//            consumeFromQueue(RPC_QUEUE_NAME,QUEUE_TO);
         }
     }
 

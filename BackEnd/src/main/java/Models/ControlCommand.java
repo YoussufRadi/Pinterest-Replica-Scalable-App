@@ -8,5 +8,8 @@ public enum ControlCommand {
     addCommand,
     deleteCommand,
     updateCommand,
-    initialize
+    initialize,
+    seedPostDB,
+    createPostDB,
+    dropPostDB
 }

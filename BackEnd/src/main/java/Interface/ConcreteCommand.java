@@ -9,6 +9,7 @@ import Models.Message;
 import com.google.gson.*;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Envelope;
 import io.netty.handler.logging.LogLevel;
 import org.redisson.api.RLiveObjectService;
 
@@ -29,7 +30,7 @@ public abstract class ConcreteCommand extends Command {
     protected JsonParser jsonParser;
 
     @Override
-    protected String execute() {
+    protected void execute() {
 
         try {
             TreeMap<String, Object> parameters = data;
@@ -41,11 +42,11 @@ public abstract class ConcreteCommand extends Command {
                     parameters.get("UserCacheController");
             ChatArangoInstance = (ChatArangoInstance)
                     parameters.get("ChatArangoInstance");
-//
-//            Channel channel = (Channel) parameters.get("channel");
-//            AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
-//            AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
-//            Envelope envelope = (Envelope) parameters.get("envelope");
+
+            Channel channel = (Channel) parameters.get("channel");
+            AMQP.BasicProperties properties = (AMQP.BasicProperties) parameters.get("properties");
+            AMQP.BasicProperties replyProps = (AMQP.BasicProperties) parameters.get("replyProps");
+            Envelope envelope = (Envelope) parameters.get("envelope");
 
             jsonParser = new JsonParser();
             JsonObject jsonObject = (JsonObject) jsonParser.parse((String) parameters.get("body"));
@@ -55,15 +56,13 @@ public abstract class ConcreteCommand extends Command {
             doCommand();
 
             jsonObject.add("response", responseJson);
-            //channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));
-            return jsonObject.toString();
+            channel.basicPublish("", properties.getReplyTo(), replyProps, jsonObject.toString().getBytes("UTF-8"));;
 //            channel.basicAck(envelope.getDeliveryTag(), false);
         } catch (Exception e) {
             e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
-            return null;
         }
     }
 
