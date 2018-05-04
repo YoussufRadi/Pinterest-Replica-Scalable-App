@@ -1,23 +1,27 @@
 package Models;
 
+import com.arangodb.entity.DocumentEntity;
+import com.arangodb.entity.VertexEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
+import com.arangodb.entity.DocumentField;
+import com.arangodb.entity.DocumentField.Type;
 
 import java.util.*;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User{
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name="uuid",
             strategy="org.hibernate.id.UUIDGenerator"
-
     )
     @Column( columnDefinition = "uuid", updatable = false,unique =true,nullable = false)
+    @DocumentField(Type.ID)
     private UUID id;
 
     @Column(name = "first_name",nullable = false)
@@ -88,21 +92,6 @@ public class User {
     public void setBlockedBy(Set<User> blockedBy) {
         this.blockedBy = blockedBy;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -221,6 +210,7 @@ public class User {
     public Set<UUID> getBoards() { return boards; }
     public void setBoards(Set<UUID> boards) { this.boards = boards;}
 
+
     public UUID getId() {
         return id;
     }
@@ -269,7 +259,6 @@ public class User {
         this.gender = gender;
     }
 
-   
     public User(){
 
     }
@@ -283,6 +272,7 @@ public class User {
         this.age=age;
         this.password = password;
         this.gender = gender;
+
     }
 
 

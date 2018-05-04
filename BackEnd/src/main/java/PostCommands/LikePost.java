@@ -2,6 +2,7 @@ package PostCommands;
 
 import Database.ArangoInstance;
 import Interface.ConcreteCommand;
+import Models.NotificationDBObject;
 import Models.PostDBObject;
 import Models.PostLiveObject;
 import org.redisson.api.RLiveObjectService;
@@ -22,6 +23,9 @@ public class LikePost extends ConcreteCommand {
             postLiveObject.setLikes_id(arangoInstance.getPost(post_id).getLikes_id());
             postLiveObject.setDislikes_id(arangoInstance.getPost(post_id).getDislikes_id());
         }
+        PostDBObject postDBObject = arangoInstance.getPost(post_id);
+        String user_temp = UserCacheController.getUserNameByID(user_id);
+        NotificationDBObject notificationDBObject = new NotificationDBObject(postDBObject.getUser_id(),user_temp,user_temp+" likes your post");
         return arangoInstance.getPost(post_id);
     }
 }

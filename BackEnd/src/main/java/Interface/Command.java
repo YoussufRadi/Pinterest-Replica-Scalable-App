@@ -5,7 +5,7 @@ import Models.Message;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
 
-public abstract class Command implements Callable {
+public abstract class Command implements Runnable {
 
     protected TreeMap<String, Object> data;
 
@@ -13,12 +13,12 @@ public abstract class Command implements Callable {
         this.data = parameters;
     }
 
-    protected abstract String execute();
+    protected abstract void execute();
     public abstract void setMessage(Message message);
     public abstract Message getMessage();
 
-    final public String call() {
-       return this.execute();
+    final public void run() {
+         this.execute();
     }
 
 }

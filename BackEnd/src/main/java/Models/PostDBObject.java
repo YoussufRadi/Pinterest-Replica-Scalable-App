@@ -31,7 +31,8 @@ public class PostDBObject extends DocumentEntity {
     @Override
     public String toString() {
         return "Arango.PostDBObject{" +
-                "user_id='" + user_id + '\'' +
+                "post_id='" + getId()+"'"+
+                ", user_id='" + user_id + '\'' +
                 ", likes_id=" + likes_id +
                 ", dislikes_id=" + dislikes_id +
                 ", comments_id=" + comments_id +
