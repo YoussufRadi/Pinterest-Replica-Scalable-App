@@ -2,15 +2,14 @@ package Interface;
 
 import Cache.RedisConf;
 import Cache.UserCacheController;
-import Database.ChatArangoInstance;
 import ClientService.Client;
 import Config.Config;
 import Config.ConfigTypes;
 import Database.ArangoInstance;
+import Database.ChatArangoInstance;
 import Models.ErrorLog;
 import Models.Message;
 import Models.PostDBObject;
-import Services.PostService;
 import com.rabbitmq.client.*;
 import io.netty.handler.logging.LogLevel;
 import org.json.simple.JSONObject;
@@ -52,6 +51,8 @@ public abstract class ControlService {
     }
 
     public abstract void init();
+
+    public abstract void initDB();
 
     public void start() {
         ConnectionFactory factory = new ConnectionFactory();
@@ -129,7 +130,7 @@ public abstract class ControlService {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR, errors.toString()));
-            start();
+//            start();
         }
     }
 

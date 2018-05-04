@@ -24,6 +24,8 @@ public class ArangoInstance {
 
     public ArangoInstance(int maxConnections){
         arangoDB = new ArangoDB.Builder().host(conf.getArangoHost(),conf.getArangoPort()).user(dbUserName).password(dbPass).maxConnections(maxConnections).build();
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database connected: POST"));
+
     }
 
 

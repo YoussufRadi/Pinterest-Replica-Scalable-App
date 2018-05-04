@@ -24,12 +24,12 @@ public class RunBackEnd {
             System.out.println("Running from args : " + args[0]);
             run(args[0]);
         } else {
-//            run("server");
-//            run("controller");
+            run("server");
+            run("controller");
             run("loadBalancer");
-//            run("mQinstance");
-//            type = ServicesType.user;
-//            run("client");
+            run("mQinstance");
+            type = ServicesType.post;
+            run("client");
         }
 
     }
@@ -64,6 +64,7 @@ public class RunBackEnd {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    c.initDB();
                     c.startService();
                     break;
             }

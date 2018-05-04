@@ -16,6 +16,11 @@ public class UserService extends ControlService {
     @Override
     public void init() {
         RPC_QUEUE_NAME = conf.getMqInstanceUserQueue();
+
+    }
+
+    @Override
+    public void initDB() {
         try {
             userCacheController = new UserCacheController();
         } catch (IOException e) {

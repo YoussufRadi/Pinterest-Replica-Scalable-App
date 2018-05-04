@@ -255,11 +255,11 @@ public class Config {
     }
 
     public String getArangoHost() {
-        return arangoConfig.getProperty("arango.host");
+        return arangoConfig.getProperty("arango_host");
     }
 
     public int getArangoPort() {
-        return Integer.parseInt(arangoConfig.getProperty("arango.port"));
+        return Integer.parseInt(arangoConfig.getProperty("arango_port"));
     }
 
     public String getArangoQueuePass() {
