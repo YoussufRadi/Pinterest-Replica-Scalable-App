@@ -1,10 +1,7 @@
 # Maven Ignore
 
-target/
-BackEnd/src/main/resources/
-BackEnd/target/
+Backend/target/
 BackEnd/logs/
-*/target/
 BackEnd/pom.xml.tag
 BackEnd/pom.xml.releaseBackup
 BackEnd/pom.xml.versionsBackup
@@ -18,11 +15,7 @@ BackEnd/.mvn/timing.properties
 !/BackEnd/.mvn/wrapper/maven-wrapper.jar
 
 # IntelliJ 
-.idea/
 BackEnd/.idea/
-*/.idea/
-*.iml
-*.iws
 BackEnd/*.iml
 BackEnd/*.iws
 
