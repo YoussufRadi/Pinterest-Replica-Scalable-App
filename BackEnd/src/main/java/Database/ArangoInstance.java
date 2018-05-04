@@ -7,10 +7,15 @@ import com.arangodb.ArangoCursor;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDBException;
 import com.arangodb.entity.DocumentEntity;
+import com.arangodb.entity.EdgeDefinition;
+import com.arangodb.entity.EdgeEntity;
+import com.arangodb.entity.GraphEntity;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import io.netty.handler.logging.LogLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ArangoInstance {
 
@@ -33,11 +38,23 @@ public class ArangoInstance {
 
         try{
             arangoDB.createDatabase(dbName);
+            List<EdgeDefinition> edgeDefinitions = new ArrayList<EdgeDefinition>();
+            EdgeDefinition edge_follow_definition = new EdgeDefinition();
+            edge_follow_definition.collection("follows");
+            edge_follow_definition.from("user_follower");
+            edge_follow_definition.to("user_followed");
+            edgeDefinitions.add(edge_follow_definition);
+            GraphEntity graphEntity = arangoDB.db(dbName).createGraph("suggestions",edgeDefinitions);
+            //arangoDB.db(dbName).graph().edgeCollection().se
             arangoDB.db(dbName).createCollection("posts");
+            arangoDB.db(dbName).createCollection("notifications");
             arangoDB.db(dbName).createCollection("comments");
             arangoDB.db(dbName).createCollection("categories");
             arangoDB.db(dbName).createCollection("posts_tags");
             arangoDB.db(dbName).createCollection("boards");
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Database created: " + dbName));
+
+            System.out.println("Database created: " + dbName);
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database created: " + dbName));
         } catch (ArangoDBException e) {
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,"Failed to create database: " + dbName));
@@ -163,6 +180,10 @@ public class ArangoInstance {
 
 
     }
+    public String insertNewNotification(NotificationDBObject notificationDBObject){
+        DocumentEntity e = arangoDB.db(dbName).collection("notifications").insertDocument(notificationDBObject);
+        return e.getKey();
+    }
 
     public void insertNewComment(CommentDBObject commentDBObject, String post_id){
         arangoDB.db(dbName).collection("comments").insertDocument(commentDBObject);
@@ -236,8 +257,17 @@ public class ArangoInstance {
         updateBoard(board_id,board);
     }
 
+
+
     public void setMaxDBConnections(int maxDBConnections){
            arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxDBConnections).build();
+    }
+
+
+    public static void main(String[] args) {
+//        ArangoInstance arangoInstance  = new ArangoInstance(15);
+        //arangoInstance.dropDB();
+        //arangoInstance.initializeDB();
     }
 
 //    public static void main(String[] args){

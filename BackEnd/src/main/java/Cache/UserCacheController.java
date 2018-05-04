@@ -764,6 +764,20 @@ public class UserCacheController {
 
 
     }
+    public String getUserNameByID(String user_id){
+        try {
+            User user = dbcont.getUser(UUID.fromString(user_id));
+            return user.getUsername();
+
+        } catch (Exception e) {
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
+            e.printStackTrace();
+
+        }
+        return null;
+    }
 
     public User signIn(String email, String password) {
 

@@ -11,6 +11,13 @@ public class RunBackEnd {
 
     public static void main(String[] args) throws InterruptedException {
 
+//        run("server");
+//        run("controller");
+//        run("loadBalancer");
+//        run("mQinstance");
+//        type = ServicesType.user;
+//        run("client");
+
 
         if(args.length > 1) {
             if (args[1].toLowerCase().equals("post"))
@@ -28,7 +35,7 @@ public class RunBackEnd {
             run("controller");
             run("loadBalancer");
             run("mQinstance");
-            type = ServicesType.post;
+            type = ServicesType.user;
             run("client");
         }
 
