@@ -11,12 +11,26 @@ public class RunBackEnd {
 
     public static void main(String[] args) throws InterruptedException {
 
-        run("server");
-        run("controller");
-        run("loadBalancer");
-        run("mQinstance");
-        type = ServicesType.post;
-        run("client");
+
+        if(args.length > 1) {
+            if (args[1].toLowerCase().equals("post"))
+                type = ServicesType.post;
+            if (args[1].toLowerCase().equals("user"))
+                type = ServicesType.user;
+            if (args[1].toLowerCase().equals("chat"))
+                type = ServicesType.chat;
+        }
+        if(args.length > 0){
+            System.out.println("Running from args : " + args[0]);
+            run(args[0]);
+        } else {
+//            run("server");
+//            run("controller");
+            run("loadBalancer");
+//            run("mQinstance");
+//            type = ServicesType.user;
+//            run("client");
+        }
 
     }
 
@@ -41,7 +55,7 @@ public class RunBackEnd {
                     break;
                 case "client":
                     Client c = new Client();
-                    c.initService(ServicesType.user);
+                    c.initService(type);
                     new Thread(() -> {
                         c.start();
                     }).start();

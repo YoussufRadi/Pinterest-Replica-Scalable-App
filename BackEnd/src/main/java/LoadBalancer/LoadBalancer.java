@@ -63,7 +63,7 @@ public class LoadBalancer {
             // Wait and be prepared to consume the message from RPC client.
         } catch (Exception e) {
             e.printStackTrace();
-            start();
+//            start();
         }
     }
 

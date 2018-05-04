@@ -36,6 +36,7 @@ public class Config {
         loadConfig(postSqlConf, postSqlPath);
         loadConfig(serviceConfig, servicePath);
         loadConfig(webServerConfig, webServerPath);
+        readSystemVariables(loadBalancerConfig,"load_balancer_rabbitmq_host");
     }
 
     private void loadConfig(Properties config, String path){
@@ -49,6 +50,12 @@ public class Config {
             Controller.logger.error(errors);
             e.printStackTrace();
         }
+    }
+
+    public static void readSystemVariables(Properties conf, String param){
+        System.out.println(System.getenv(param));
+        if(System.getenv(param) != null)
+            conf.setProperty(param, System.getenv(param));
     }
 
     public static Config getInstance(){
@@ -114,149 +121,149 @@ public class Config {
     //Web WebServer Configs
 
     public int getWebServerPort() {
-        return Integer.parseInt(webServerConfig.getProperty("server.port"));
+        return Integer.parseInt(webServerConfig.getProperty("server_port"));
     }
 
     public String getServerQueueHost() {
-        return webServerConfig.getProperty("server.rabbitmq.host");
+        return webServerConfig.getProperty("server_rabbitmq_host");
     }
 
     public int getServerQueuePort() {
-        return Integer.parseInt(webServerConfig.getProperty("server.rabbitmq.port"));
+        return Integer.parseInt(webServerConfig.getProperty("server_rabbitmq_port"));
     }
 
     public String getServerQueueUserName() {
-        return webServerConfig.getProperty("server.rabbitmq.username");
+        return webServerConfig.getProperty("server_rabbitmq_username");
     }
 
     public String getServerQueuePass() {
-        return webServerConfig.getProperty("server.rabbitmq.password");
+        return webServerConfig.getProperty("server_rabbitmq_password");
     }
 
     public String getServerQueueName() {
-        return webServerConfig.getProperty("server.rabbitmq.queue");
+        return webServerConfig.getProperty("server_rabbitmq_queue");
     }
 
 
     //LoadBalancer Configs
 
     public String getLoadBalancerQueueHost() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.host");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_host");
     }
 
     public int getLoadBalancerQueuePort() {
-        return Integer.parseInt(loadBalancerConfig.getProperty("load.balancer.rabbitmq.port"));
+        return Integer.parseInt(loadBalancerConfig.getProperty("load_balancer_rabbitmq_port"));
     }
 
     public String getLoadBalancerQueueUserName() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.username");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_username");
     }
 
     public String getLoadBalancerQueuePass() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.password");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_password");
     }
 
     public String getLoadBalancerQueueName() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.queue");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_queue");
     }
 
     public String getLoadBalancerUserQueue() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.user.queue");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_user_queue");
     }
 
     public String getLoadBalancerPostQueue() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.post.queue");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_post_queue");
     }
 
     public String getLoadBalancerChatQueue() {
-        return loadBalancerConfig.getProperty("load.balancer.rabbitmq.chat.queue");
+        return loadBalancerConfig.getProperty("load_balancer_rabbitmq_chat_queue");
     }
 
 
     //MediaServer Configs
 
     public String getMediaServerPath() {
-        return mediaServerConfig.getProperty("media.server.file.path");
+        return mediaServerConfig.getProperty("media_server_file_path");
     }
 
     public int getMediaServerPort() {
-        return Integer.parseInt(mediaServerConfig.getProperty("media.server.port"));
+        return Integer.parseInt(mediaServerConfig.getProperty("media_server_port"));
     }
 
     public int getMediaServerThreads() {
-        return Integer.parseInt(mediaServerConfig.getProperty("media.server.threads"));
+        return Integer.parseInt(mediaServerConfig.getProperty("media_server_threads"));
     }
 
 
     //MqInstance Configs
 
     public String getMqInstanceQueueHost() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.host");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_host");
     }
 
     public int getMqInstanceQueuePort() {
-        return Integer.parseInt(mqInstanceConfig.getProperty("mq.instance.rabbitmq.port"));
+        return Integer.parseInt(mqInstanceConfig.getProperty("mq_instance_rabbitmq_port"));
     }
 
     public String getMqInstanceQueueUserName() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.username");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_username");
     }
 
     public String getMqInstanceQueuePass() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.password");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_password");
     }
 
     public String getMqInstanceUserQueue() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.user.queue");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_user_queue");
     }
 
     public String getMqInstancePostQueue() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.post.queue");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_post_queue");
     }
 
     public String getMqInstanceChatQueue() {
-        return mqInstanceConfig.getProperty("mq.instance.rabbitmq.chat.queue");
+        return mqInstanceConfig.getProperty("mq_instance_rabbitmq_chat_queue");
     }
 
 
     //Controller Configs
 
     public String getControllerHost() {
-        return controllerConfig.getProperty("controller.host");
+        return controllerConfig.getProperty("controller_host");
     }
 
     public int getControllerPort() {
-        return Integer.parseInt(controllerConfig.getProperty("controller.port"));
+        return Integer.parseInt(controllerConfig.getProperty("controller_port"));
     }
 
 
     //Service Configs
 
    public int getServiceMaxThreads() {
-        return Integer.parseInt(serviceConfig.getProperty("service.max.thread"));
+        return Integer.parseInt(serviceConfig.getProperty("service_max_thread"));
     }
 
     public int getServiceMaxDbConnections() {
-        return Integer.parseInt(serviceConfig.getProperty("service.max.db"));
+        return Integer.parseInt(serviceConfig.getProperty("service_max_db"));
     }
 
 
     //Arango Configs
 
     public String getArangoUserName() {
-        return arangoConfig.getProperty("arango.username");
+        return arangoConfig.getProperty("arango_username");
     }
 
     public String getArangoQueuePass() {
-        return arangoConfig.getProperty("arango.password");
+        return arangoConfig.getProperty("arango_password");
     }
 
     public String getArangoPostDbName() {
-        return arangoConfig.getProperty("arango.post.db.name");
+        return arangoConfig.getProperty("arango_post_db_name");
     }
 
     public String getArangoChatDbName() {
-        return arangoConfig.getProperty("arango.chat.db.name");
+        return arangoConfig.getProperty("arango_chat_db_name");
     }
 
 }

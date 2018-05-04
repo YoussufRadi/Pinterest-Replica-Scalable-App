@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:alpine
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "BLABLABLA"
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+  user_service:
+    image: hazemelagaty/user-service:1.0
+    links:
+        - "rabbitmq:mq"
+    command:  bash -c "sleep 10; java -jar ./target/WebServer-1.0-SNAPSHOT-jar-with-dependencies.jar;"
+    depends_on:
+      - redis
+    ports:
+      - 1235:3000
+    networks:
+      - redis-net
+
+  postgres:
+    image: sameersbn/postgresql:9.6-2
+    ports:
+      - "5432:5432"
+
+  arango:
+      image: arangodb/arangodb
+
+  redis:
+    image: redis:4.0.5-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    networks:
+      - redis-net
+    volumes:
+      - redis-data:/data
+
+networks:
+  redis-net:
+
+volumes:
+  redis-data:
