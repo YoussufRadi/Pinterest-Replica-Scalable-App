@@ -12,6 +12,9 @@ public class FollowUser extends ConcreteCommand {
                 UserCacheController.followUser(message.getPayload().getId(), UUID.fromString(message.getOtherUserId()));
 
         String response = respBool + "";
+        if(respBool){
+
+        }
         responseJson = jsonParser.parse(response);
         System.out.println(response);
     }
