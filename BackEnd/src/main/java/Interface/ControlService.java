@@ -7,6 +7,7 @@ import Config.Config;
 import Config.ConfigTypes;
 import Database.ArangoInstance;
 import Database.ChatArangoInstance;
+import Models.CategoryDBObject;
 import Models.ErrorLog;
 import Models.Message;
 import Models.PostDBObject;
@@ -228,41 +229,20 @@ public abstract class ControlService {
 
 
     public void seedPostDB(){
-//        Class aClass = null;
-//        try {
-//            aClass = Class.forName("PostCommands.InsertPost");
-//            Command command= (Command)aClass.newInstance();
-//            PostDBObject p = new PostDBObject("12", new ArrayList<>(), new ArrayList<>() ,"image");
-//            TreeMap<String, Object> init = new TreeMap<>();
-//            init.put("channel", channel);
-//            init.put("RLiveObjectService", liveObjectService);
-//            init.put("ArangoInstance", arangoInstance);
-//            init.put("ChatArangoInstance", ChatArangoInstance);
-//            init.put("UserCacheController", userCacheController);
-//            JSONObject jsonObject = new JSONObject();
-//            JSONObject jsonObject1 = new JSONObject();
-//            jsonObject.put("command","InsertPost");
-//            jsonObject1.put("body",jsonObject);
-//            init.put("body", jsonObject1.toString());
-//            command.init(init);
-//            Message message = new Message();
-//            message.setPost_object(p);
-//            command.setMessage(message);;
-//            System.out.println(command.getMessage().getPost_object());
-//            Future <String>future  = executor.submit(command);
-//            System.out.println(future.get());
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-
+        ArrayList<String> catid = new ArrayList<String>();
+        ArrayList<String> postid = new ArrayList<String>();
+        for(int i=0;i<2;i++){
+            CategoryDBObject cat = new CategoryDBObject("category"+i,new ArrayList<>());
+            arangoInstance.insertNewCategory(cat);
+            catid.add(cat.getId());
+        }
+        for(int i=0;i<10;i++){
+            PostDBObject post= new PostDBObject("Kefa7y"+i,new ArrayList<>(), new ArrayList<>(), "45b1f6ff-cc8a-43e7-bb6d-6f96d9b9f3a1.jpeg");
+            arangoInstance.insertNewPost(post);
+            arangoInstance.addNewPostToCategory(catid.get(i%2),post.getId());
+            postid.add(post.getId());
+        }
+        Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO,"Database seeded: Post"));
 
     }
 
