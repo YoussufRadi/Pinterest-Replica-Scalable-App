@@ -29,6 +29,8 @@ public class RunBackEnd {
         }
         if(args.length > 0){
             System.out.println("Running from args : " + args[0]);
+            if(args.length > 1)
+                System.out.println("Running from args : " + args[1]);
             run(args[0]);
         } else {
             run("server");

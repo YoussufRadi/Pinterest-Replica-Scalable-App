@@ -1,0 +1,44 @@
+config: #configurations
+  target: "http://localhost:8080" # the path
+  phases: 
+   
+    - duration: 60 #duration of the test in seconds
+      arrivalRate: 5 # each second i will add 5 
+      rampTo: 16 # maximum is 16 users
+   
+  payload:
+    path: "test.csv" # the .csv file which contains the data that i will test
+    fields: # json fields that i will import from the .csv
+      - "email"  # Will create a local variable username to be used below
+      - "password" # Will create a local variable password to be used below
+      - "firstName"
+      - "lastName"
+      - "username"
+      - "age"
+      - "gender"
+
+     
+
+
+scenarios:
+  - name: "Search and buy"
+    flow: # Flow is an array of operations that a user may perform
+      - post:
+          url: "/"
+          json: # the json 
+            command: "SignUp"
+            application: "User"
+            payload: 
+              email: "{{email}}"
+              password: "{{password}}"
+              firstName : "{{firstName}}"
+              lastName : "{{lastName}}" 
+              username: "{{username}}"
+              age: "{{age}}"
+              gender: "{{gender}}"
+              
+             
+                     
+      
+      - think: 3 # take 3 seconds pause between each scenario
+     
