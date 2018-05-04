@@ -44,6 +44,13 @@ public class ClientAdapterHandler extends ChannelInboundHandlerAdapter {
                 break;
             case updateCommand : service.update_command(m.getParam(), m.getPath());
                 break;
+            case dropPostDB: service.dropPostDB();
+                break;
+            case createPostDB: service.createPostDB();
+                break;
+            case seedPostDB: service.seedPostDB();
+                break;
+
         }
         Client.channel.writeAndFlush(new ErrorLog(LogLevel.DEBUG,"ControlService is executing : " + m.getControlCommand()));
     }

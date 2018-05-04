@@ -23,7 +23,7 @@ public class ArangoInstance {
     private String dbName = conf.getArangoPostDbName();
 
     public ArangoInstance(int maxConnections){
-        arangoDB = new ArangoDB.Builder().user(dbUserName).password(dbPass).maxConnections(maxConnections).build();
+        arangoDB = new ArangoDB.Builder().host(conf.getArangoHost(),conf.getArangoPort()).user(dbUserName).password(dbPass).maxConnections(maxConnections).build();
     }
 
 
@@ -109,6 +109,7 @@ public class ArangoInstance {
     }
     public String insertNewPost(PostDBObject postDBObject){
         System.out.println(arangoDB);
+
         DocumentEntity e = arangoDB.db(dbName).collection("posts").insertDocument(postDBObject);
         return e.getKey();
     }

@@ -11,9 +11,6 @@ import Models.ErrorLog;
 import Models.Message;
 import Models.PostDBObject;
 import Services.PostService;
-import com.arangodb.ArangoCursor;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.*;
 import io.netty.handler.logging.LogLevel;
 import org.json.simple.JSONObject;
@@ -161,45 +158,6 @@ public abstract class ControlService {
         }
         Client.channel.writeAndFlush(new ErrorLog(LogLevel.INFO, "Service Resumed"));
     }
-    public void seedPost(){
-        Class aClass = null;
-        try {
-            aClass = Class.forName("PostCommands.InsertPost");
-            Command command= (Command)aClass.newInstance();
-            PostDBObject p = new PostDBObject();
-            p.setUser_id("dasdsads");
-            TreeMap<String, Object> init = new TreeMap<>();
-            init.put("channel", channel);
-            init.put("RLiveObjectService", liveObjectService);
-            init.put("ArangoInstance", arangoInstance);
-            init.put("ChatArangoInstance", ChatArangoInstance);
-            init.put("UserCacheController", userCacheController);
-            JSONObject jsonObject = new JSONObject();
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject.put("command","InsertPost");
-            jsonObject1.put("body",jsonObject);
-            init.put("body", jsonObject1.toString());
-            command.init(init);
-            Message message = new Message();
-            message.setPost_object(p);
-            command.setMessage(message);
-            System.out.println(command.getMessage().getPost_object());
-            Future <String>future  = executor.submit(command);
-            System.out.println(future.get());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     public void freeze() {
         try {
@@ -262,11 +220,55 @@ public abstract class ControlService {
         this.arangoInstance = arangoInstance;
     }
 
-    public static void main(String[] args) {
-        PostService post = new PostService();
-        Config config = Config.getInstance();
-        ArangoInstance arangoInstance = new ArangoInstance(15);
-        post.setArangoInstance(arangoInstance);
-        post.seedPost();
+    public void createPostDB(){
+
+        arangoInstance.initializeDB();
     }
+
+    public void dropPostDB(){
+
+        arangoInstance.dropDB();
+    }
+
+
+    public void seedPostDB(){
+        Class aClass = null;
+        try {
+            aClass = Class.forName("PostCommands.InsertPost");
+            Command command= (Command)aClass.newInstance();
+            PostDBObject p = new PostDBObject();
+            p.setUser_id("dasdsads");
+            TreeMap<String, Object> init = new TreeMap<>();
+            init.put("channel", channel);
+            init.put("RLiveObjectService", liveObjectService);
+            init.put("ArangoInstance", arangoInstance);
+            init.put("ChatArangoInstance", ChatArangoInstance);
+            init.put("UserCacheController", userCacheController);
+            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject.put("command","InsertPost");
+            jsonObject1.put("body",jsonObject);
+            init.put("body", jsonObject1.toString());
+            command.init(init);
+            Message message = new Message();
+            message.setPost_object(p);
+            command.setMessage(message);
+            System.out.println(command.getMessage().getPost_object());
+            Future <String>future  = executor.submit(command);
+            System.out.println(future.get());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
