@@ -59,7 +59,7 @@ public class Controller {
 
             logger.info("Controller is listening on http://127.0.0.1:" + port + '/');
 
-            takeConsoleInput();
+//            takeConsoleInput();
 
             bootstrap.bind(port).sync().channel().closeFuture().sync();
 

@@ -15,6 +15,8 @@ services:
 
   arango:
       image: arangodb/arangodb
+      environment:
+        ARANGO_ROOT_PASSWORD: pass
 
   redis:
     image: redis:4.0.5-alpine
@@ -23,74 +25,76 @@ services:
     volumes:
       - redis-data:/data
 
-#  web_server:
-#    build: .
-#    links:
-#        - "rabbitmq"
-#        - "redis:redisDocker"
-#        - "arango"
-#        - "postgresdb"
-#    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd server"
-#    depends_on:
-#      - rabbitmq
-#      - postgresdb
-#      - arango
-#      - redis
-#    ports:
-#      - "8080:8080"
-#
-#  controller:
-#    build: .
-#    links:
-#        - "rabbitmq"
-#        - "redis:redisDocker"
-#        - "arango"
-#        - "postgresdb"
-#    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd controller"
-#    depends_on:
-#      - rabbitmq
-#      - postgresdb
-#      - arango
-#      - redis
-#
-#
-#  load_balancer:
-#    build: .
-#    links:
-#        - "rabbitmq"
-#        - "redis:redisDocker"
-#        - "arango"
-#        - "postgresdb"
-#    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd loadBalancer"
-#    depends_on:
-#      - rabbitmq
-#      - postgresdb
-#      - arango
-#      - redis
-#
-#  mq_instance:
-#    build: .
-#    links:
-#        - "rabbitmq"
-#        - "redis:redisDocker"
-#        - "arango"
-#        - "postgresdb"
-#    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd mQinstance"
-#    depends_on:
-#      - rabbitmq
-#      - postgresdb
-#      - arango
-#      - redis
-
-  service:
+  web_server:
     build: .
     links:
         - "rabbitmq"
         - "redis:redisDocker"
         - "arango"
         - "postgresdb"
+    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd server"
+    depends_on:
+      - rabbitmq
+      - postgresdb
+      - arango
+      - redis
+    ports:
+      - "8080:8080"
+
+  controller:
+    build: .
+    links:
+        - "rabbitmq"
+        - "redis:redisDocker"
+        - "arango"
+        - "postgresdb"
+    command:  bash -c "java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd controller"
+    depends_on:
+      - rabbitmq
+      - postgresdb
+      - arango
+      - redis
+
+
+  load_balancer:
+    build: .
+    links:
+        - "rabbitmq"
+        - "redis:redisDocker"
+        - "arango"
+        - "postgresdb"
+    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd loadBalancer"
+    depends_on:
+      - rabbitmq
+      - postgresdb
+      - arango
+      - redis
+
+  mq_instance:
+    build: .
+    links:
+        - "rabbitmq"
+        - "redis:redisDocker"
+        - "arango"
+        - "postgresdb"
+    command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd mQinstance"
+    depends_on:
+      - rabbitmq
+      - postgresdb
+      - arango
+      - redis
+
+  service:
+    build: .
+    links:
+        - "controller"
+        - "rabbitmq"
+        - "redis:redisDocker"
+        - "arango"
+        - "postgresdb"
     command:  bash -c "sleep 10; java -cp target/Pinterest-1.0-SNAPSHOT-jar-with-dependencies.jar RunBackEnd client post"
     depends_on:
+      - controller
       - rabbitmq
       - postgresdb
       - arango

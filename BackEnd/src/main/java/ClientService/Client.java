@@ -93,13 +93,13 @@ public class Client {
             channelFuture.channel().closeFuture().sync();
 
         } catch (Exception e) {
+            e.printStackTrace();
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             Client.channel.writeAndFlush(new ErrorLog(LogLevel.ERROR,errors.toString()));
-            e.printStackTrace();
         } finally {
             group.shutdownGracefully();
-            System.exit(0);
+//            System.exit(0);
         }
     }
 }
