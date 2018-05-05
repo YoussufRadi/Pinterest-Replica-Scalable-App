@@ -10,12 +10,14 @@ import com.arangodb.entity.DocumentEntity;
 import com.arangodb.entity.EdgeDefinition;
 import com.arangodb.entity.EdgeEntity;
 import com.arangodb.entity.GraphEntity;
+import com.arangodb.util.MapBuilder;
 import com.sun.corba.se.impl.orbutil.graph.Graph;
 import io.netty.handler.logging.LogLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ArangoInstance {
 
@@ -184,6 +186,12 @@ public class ArangoInstance {
         DocumentEntity e = arangoDB.db(dbName).collection("notifications").insertDocument(notificationDBObject);
         return e.getKey();
     }
+    public ArrayList<NotificationDBObject> getUserNotifications(String user_id){
+        Map<String, Object> bindVars = new MapBuilder().put("user_id", user_id).get();
+        ArangoCursor<NotificationDBObject> notificationDBObjects = arangoDB.db(dbName)
+                .query("For n In notifications Filter n.user_id == @user_id "+"Return n",bindVars,null,NotificationDBObject.class);
+        return new ArrayList<NotificationDBObject>(notificationDBObjects.asListRemaining());
+    }
 
     public void insertNewComment(CommentDBObject commentDBObject, String post_id){
         arangoDB.db(dbName).collection("comments").insertDocument(commentDBObject);
@@ -265,7 +273,8 @@ public class ArangoInstance {
 
 
     public static void main(String[] args) {
-//        ArangoInstance arangoInstance  = new ArangoInstance(15);
+        ArangoInstance arangoInstance  = new ArangoInstance(15);
+        arangoInstance.arangoDB.db("Post").createCollection("notifications");
         //arangoInstance.dropDB();
         //arangoInstance.initializeDB();
     }

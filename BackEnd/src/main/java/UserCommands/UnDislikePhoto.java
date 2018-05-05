@@ -1,6 +1,7 @@
 package UserCommands;
 
 import Interface.ConcreteCommand;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -11,8 +12,9 @@ public class UnDislikePhoto extends ConcreteCommand {
         boolean respBool =
                 UserCacheController.undislikePhotos(message.getPayload().getId(), UUID.fromString(message.getPhotoId()));
 
-        String response = respBool + "";
-        responseJson = jsonParser.parse(response);
-        System.out.println(response);
+        String res = respBool + "";
+        JSONObject response  = new JSONObject();
+        response.put("success",res);
+        responseJson = jsonParser.parse(response.toString());
     }
 }
