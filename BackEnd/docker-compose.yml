@@ -6,6 +6,8 @@ services:
     environment:
       RABBITMQ_ERLANG_COOKIE: "BLABLABLA"
       RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "5676:5672"
 
   postgresdb:
     image: postgres

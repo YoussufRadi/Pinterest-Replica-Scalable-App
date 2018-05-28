@@ -33,12 +33,12 @@ public class RunBackEnd {
                 System.out.println("Running from args : " + args[1]);
             run(args[0]);
         } else {
-            run("server");
-            run("controller");
-            run("loadBalancer");
+//            run("server");
+//            run("controller");
+//            run("loadBalancer");
             run("mQinstance");
-            type = ServicesType.post;
-            run("client");
+//            type = ServicesType.post;
+//            run("client");
         }
 
     }

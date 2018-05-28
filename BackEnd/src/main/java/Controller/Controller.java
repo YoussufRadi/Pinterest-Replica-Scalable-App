@@ -20,7 +20,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Controller {
@@ -72,45 +71,6 @@ public class Controller {
             producer.shutdownGracefully();
             consumer.shutdownGracefully();
         }
-    }
-
-    private void takeConsoleInput(){
-        Thread t = new Thread(() -> {
-            Scanner sc = new Scanner(System.in);
-            while (true){
-                String line[] = sc.nextLine().split(" ");
-
-                if(line.length < 2){
-                    logger.error("Parameters are not enough");
-                    continue;
-                }
-                if(line[0].equals("error")){
-                    setLoggerLevel(line[1]);
-                    continue;
-                }
-
-                if(line.length < 3){
-                    logger.error("Control commands must be of length 3 at least");
-                    continue;
-                }
-
-                ControlMessage controlMessage;
-                ControlCommand c = getCommand(line[2]);
-                if(c==null){
-                    logger.error("Command is not valid");
-                    continue;
-                }
-                if(line.length == 3)
-                    controlMessage =  new ControlMessage(c);
-                else if(line.length == 4)
-                    controlMessage =  new ControlMessage(c, line[3]);
-                else
-                    controlMessage =  new ControlMessage(c,line[3],readFile(line[4]));
-
-                sendToChannel(line[0],line[1],controlMessage);
-            }
-        });
-        t.start();
     }
 
     private ControlCommand getCommand(String c){
